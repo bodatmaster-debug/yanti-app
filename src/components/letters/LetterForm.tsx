@@ -82,10 +82,10 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
             name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Jenis Surat</FormLabel>
+                <FormLabel className="text-[10px] font-semibold tracking-wide text-muted-foreground">Jenis Surat</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="h-10 bg-slate-50/50">
+                    <SelectTrigger className="h-10 bg-slate-50/50 shadow-none">
                       <SelectValue placeholder="Pilih jenis" />
                     </SelectTrigger>
                   </FormControl>
@@ -104,14 +104,14 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Tanggal Surat</FormLabel>
+                <FormLabel className="text-[10px] font-semibold tracking-wide text-muted-foreground mb-2">Tanggal Surat</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "h-10 w-full pl-3 text-left font-normal bg-slate-50/50",
+                          "h-10 w-full pl-3 text-left font-normal bg-slate-50/50 shadow-none border-border",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -124,7 +124,7 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 shadow-none border-border" align="start">
                     <Calendar
                       mode="single"
                       selected={new Date(field.value)}
@@ -147,9 +147,9 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
           name="refNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Nomor Surat</FormLabel>
+              <FormLabel className="text-[10px] font-semibold tracking-wide text-muted-foreground">Nomor Surat</FormLabel>
               <FormControl>
-                <Input placeholder="Contoh: 400/12/SK/2023" {...field} className="h-10 bg-slate-50/50" />
+                <Input placeholder="Contoh: 400/12/SK/2023" {...field} className="h-10 bg-slate-50/50 shadow-none border-border" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -162,9 +162,9 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
             name="sender"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Pengirim</FormLabel>
+                <FormLabel className="text-[10px] font-semibold tracking-wide text-muted-foreground">Pengirim</FormLabel>
                 <FormControl>
-                  <Input placeholder="Nama instansi atau orang" {...field} className="h-10 bg-slate-50/50" />
+                  <Input placeholder="Nama instansi atau orang" {...field} className="h-10 bg-slate-50/50 shadow-none border-border" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -175,9 +175,9 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
             name="recipient"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Penerima</FormLabel>
+                <FormLabel className="text-[10px] font-semibold tracking-wide text-muted-foreground">Penerima</FormLabel>
                 <FormControl>
-                  <Input placeholder="Nama instansi atau orang" {...field} className="h-10 bg-slate-50/50" />
+                  <Input placeholder="Nama instansi atau orang" {...field} className="h-10 bg-slate-50/50 shadow-none border-border" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -190,9 +190,9 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
           name="subject"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Perihal</FormLabel>
+              <FormLabel className="text-[10px] font-semibold tracking-wide text-muted-foreground">Perihal</FormLabel>
               <FormControl>
-                <Input placeholder="Ringkasan tujuan surat" {...field} className="h-10 bg-slate-50/50" />
+                <Input placeholder="Ringkasan tujuan surat" {...field} className="h-10 bg-slate-50/50 shadow-none border-border" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -200,9 +200,9 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
         />
 
         <div className="space-y-2">
-          <FormLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Lampiran Dokumen (Opsional)</FormLabel>
+          <FormLabel className="text-[10px] font-semibold tracking-wide text-muted-foreground">Lampiran Dokumen (Opsional)</FormLabel>
           <div className={cn(
-            "border border-dashed rounded-lg p-6 flex flex-col items-center justify-center transition-all bg-slate-50/30",
+            "border border-dashed rounded-lg p-6 flex flex-col items-center justify-center transition-all bg-slate-50/30 shadow-none",
             fileName ? "border-sky-500/50 bg-sky-50/20" : "hover:border-primary/30"
           )}>
             {fileName ? (
@@ -215,7 +215,7 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
                   <button 
                     type="button" 
                     onClick={() => setFileName(undefined)}
-                    className="text-[10px] text-destructive hover:underline text-left font-bold uppercase tracking-wider mt-0.5"
+                    className="text-[10px] text-destructive hover:underline text-left font-bold tracking-wide mt-0.5"
                   >
                     Ganti file
                   </button>
@@ -231,7 +231,7 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
                   type="button" 
                   variant="outline" 
                   size="sm" 
-                  className="h-8 text-xs"
+                  className="h-8 text-xs shadow-none border-border"
                   onClick={() => document.getElementById('file-upload')?.click()}
                 >
                   Pilih Dokumen
@@ -250,10 +250,10 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
 
         <div className="flex justify-end gap-3 pt-6 border-t mt-4">
           <Button type="button" variant="ghost" onClick={onCancel} className="text-xs font-semibold">
-            BATAL
+            Batal
           </Button>
-          <Button type="submit" className="min-w-[120px] shadow-sm">
-            SIMPAN ARSIP
+          <Button type="submit" className="min-w-[120px] shadow-none">
+            Simpan Arsip
           </Button>
         </div>
       </form>

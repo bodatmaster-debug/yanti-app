@@ -77,14 +77,14 @@ export function AppSidebar() {
           <Mail className="size-4" />
         </div>
         <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
-          <span className="font-bold text-sm tracking-tight uppercase">Surat Digital</span>
-          <span className="text-[10px] font-medium text-muted-foreground tracking-widest uppercase">Arsip Modern</span>
+          <span className="font-bold text-sm tracking-tight">Surat Digital</span>
+          <span className="text-[10px] font-medium text-muted-foreground tracking-wide">Arsip Modern</span>
         </div>
       </SidebarHeader>
 
       <SidebarContent className="bg-white">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-widest group-data-[collapsible=icon]:hidden">Menu Utama</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[11px] font-bold tracking-wide group-data-[collapsible=icon]:hidden">Menu Utama</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
@@ -96,7 +96,7 @@ export function AppSidebar() {
                     </a>
                   </SidebarMenuButton>
                   {item.badge && (
-                    <SidebarMenuBadge className="group-data-[collapsible=icon]:hidden font-mono bg-muted border border-border">
+                    <SidebarMenuBadge className="group-data-[collapsible=icon]:hidden font-mono bg-muted border border-border shadow-none">
                       {item.badge}
                     </SidebarMenuBadge>
                   )}
@@ -107,7 +107,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup className="mt-auto">
-          <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-widest group-data-[collapsible=icon]:hidden">Lainnya</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[11px] font-bold tracking-wide group-data-[collapsible=icon]:hidden">Lainnya</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {settingsItems.map((item) => (
@@ -135,11 +135,11 @@ export function AppSidebar() {
                   className="data-[state=open]:bg-muted rounded"
                 >
                   <Avatar className="h-8 w-8 rounded border border-border">
-                    <AvatarFallback className="rounded bg-muted text-xs font-bold uppercase">AD</AvatarFallback>
+                    <AvatarFallback className="rounded bg-muted text-xs font-bold">AD</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                     <span className="truncate font-bold">Admin</span>
-                    <span className="truncate text-[10px] text-muted-foreground uppercase tracking-tight">admin@surat.digital</span>
+                    <span className="truncate text-[10px] text-muted-foreground tracking-tight">admin@surat.digital</span>
                   </div>
                   <ChevronRight className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>

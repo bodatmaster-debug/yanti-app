@@ -142,7 +142,7 @@ export default function Dashboard() {
         <div className="flex items-center gap-4">
           <SidebarTrigger />
           <div className="h-6 w-px bg-border hidden md:block" />
-          <h2 className="font-semibold text-xs uppercase tracking-widest text-muted-foreground hidden md:block">Manajemen Arsip</h2>
+          <h2 className="font-semibold text-xs tracking-wide text-muted-foreground hidden md:block">Manajemen Arsip</h2>
         </div>
         
         <div className="flex items-center gap-2">
@@ -162,7 +162,7 @@ export default function Dashboard() {
                 Arsip Baru
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl border-2">
+            <DialogContent className="max-w-2xl border-2 shadow-none">
               <DialogHeader>
                 <DialogTitle>Tambah Arsip Surat</DialogTitle>
               </DialogHeader>
@@ -196,21 +196,21 @@ export default function Dashboard() {
           />
         </div>
 
-        <Card className="border border-border bg-white rounded-lg overflow-hidden">
+        <Card className="border border-border bg-white rounded-lg overflow-hidden shadow-none">
           <CardContent className="p-0">
             <div className="p-4 border-b flex flex-col md:flex-row gap-4 items-center justify-between bg-white">
               <div className="relative w-full md:max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input 
                   placeholder="Cari nomor atau subjek..." 
-                  className="pl-9 bg-white border-border"
+                  className="pl-9 bg-white border-border shadow-none"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-                  <SelectTrigger className="w-full md:w-[160px] bg-white border-border">
+                  <SelectTrigger className="w-full md:w-[160px] bg-white border-border shadow-none">
                     <SelectValue placeholder="Semua Tipe" />
                   </SelectTrigger>
                   <SelectContent>
@@ -269,10 +269,10 @@ export default function Dashboard() {
 
 function StatsCard({ label, value, icon }: { label: string, value: number, icon: React.ReactNode }) {
   return (
-    <Card className="border border-border bg-white transition-colors hover:border-primary/50">
+    <Card className="border border-border bg-white shadow-none transition-colors hover:border-primary/50">
       <CardContent className="p-5 flex items-center justify-between">
         <div className="space-y-1">
-          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{label}</p>
+          <p className="text-[11px] font-bold text-muted-foreground tracking-wide">{label}</p>
           <h4 className="text-2xl font-bold">{value}</h4>
         </div>
         <div className="h-10 w-10 rounded border border-border flex items-center justify-center text-muted-foreground bg-white">

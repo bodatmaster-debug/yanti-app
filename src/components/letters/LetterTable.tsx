@@ -67,10 +67,10 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
         <Table>
           <TableHeader className="bg-muted/30">
             <TableRow className="border-b border-border">
-              <TableHead className="w-[200px] text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Nomor Surat</TableHead>
-              <TableHead className="w-[100px] text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Jenis</TableHead>
-              <TableHead className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Perihal & Instansi</TableHead>
-              <TableHead className="w-[150px] text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Tanggal</TableHead>
+              <TableHead className="w-[200px] text-[11px] font-bold tracking-wide text-muted-foreground">Nomor Surat</TableHead>
+              <TableHead className="w-[100px] text-[11px] font-bold tracking-wide text-muted-foreground">Jenis</TableHead>
+              <TableHead className="text-[11px] font-bold tracking-wide text-muted-foreground">Perihal & Instansi</TableHead>
+              <TableHead className="w-[150px] text-[11px] font-bold tracking-wide text-muted-foreground">Tanggal</TableHead>
               <TableHead className="w-[80px] text-right"></TableHead>
             </TableRow>
           </TableHeader>
@@ -83,7 +83,7 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
                 <TableCell>
                   <Badge 
                     variant="outline" 
-                    className={`font-bold text-[9px] px-2 py-0.5 rounded uppercase tracking-wider ${
+                    className={`font-bold text-[10px] px-2 py-0.5 rounded tracking-wide ${
                       letter.type === 'Masuk' 
                         ? 'border-emerald-500 text-emerald-700' 
                         : 'border-sky-500 text-sky-700'
@@ -95,7 +95,7 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
                 <TableCell>
                   <div className="flex flex-col gap-0.5">
                     <span className="font-bold text-sm line-clamp-1 text-slate-900">{letter.subject}</span>
-                    <div className="flex items-center gap-1.5 text-[10px] font-medium text-muted-foreground uppercase tracking-tight">
+                    <div className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground tracking-tight">
                       <User className="h-3 w-3" />
                       <span className="truncate max-w-[200px]">
                         {letter.type === 'Masuk' ? letter.sender : letter.recipient}
@@ -112,23 +112,23 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded border border-transparent hover:border-border">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded border border-transparent hover:border-border shadow-none">
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-[180px] border border-border shadow-none rounded">
                       <DropdownMenuItem onClick={() => handleOpenDetail(letter)} className="font-medium text-xs">
-                        <Eye className="mr-2 h-4 w-4" /> DETAIL ARSIP
+                        <Eye className="mr-2 h-4 w-4" /> Detail Arsip
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => handleOpenEdit(letter)} className="font-medium text-xs">
-                        <Edit className="mr-2 h-4 w-4" /> EDIT METADATA
+                        <Edit className="mr-2 h-4 w-4" /> Edit Metadata
                       </DropdownMenuItem>
-                      <DropdownMenuSeparator />
+                      <DropdownMenuSeparator className="bg-border shadow-none" />
                       <DropdownMenuItem 
                         onClick={() => onDelete(letter.id)}
                         className="text-destructive focus:text-destructive font-bold text-xs"
                       >
-                        <Trash2 className="mr-2 h-4 w-4" /> HAPUS PERMANEN
+                        <Trash2 className="mr-2 h-4 w-4" /> Hapus Permanen
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -140,18 +140,18 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
       </div>
 
       <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <DialogContent className="max-w-3xl border-2 rounded-lg">
+        <DialogContent className="max-w-3xl border-2 rounded-lg shadow-none border-border">
           <DialogHeader>
-            <DialogTitle className="text-sm font-bold uppercase tracking-widest">Rincian Arsip Surat</DialogTitle>
+            <DialogTitle className="text-sm font-bold tracking-wide">Rincian Arsip Surat</DialogTitle>
           </DialogHeader>
           {selectedLetter && <LetterDetail letter={selectedLetter} />}
         </DialogContent>
       </Dialog>
 
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="max-w-2xl border-2 rounded-lg">
+        <DialogContent className="max-w-2xl border-2 rounded-lg shadow-none border-border">
           <DialogHeader>
-            <DialogTitle className="text-sm font-bold uppercase tracking-widest">Ubah Informasi Surat</DialogTitle>
+            <DialogTitle className="text-sm font-bold tracking-wide">Ubah Informasi Surat</DialogTitle>
           </DialogHeader>
           {editingLetter && (
             <LetterForm 
