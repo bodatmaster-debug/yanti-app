@@ -93,7 +93,7 @@ export default function LetterForm({
         {/* SECTION 1: HEADER */}
         <div className="px-6 py-5 border-b border-slate-300 bg-white flex items-center justify-between shrink-0">
           <div className="space-y-0.5">
-            <h2 className="text-lg font-semibold tracking-tight text-slate-900 leading-none">Tambah Arsip Surat</h2>
+            <h2 className="text-lg font-medium tracking-tight text-slate-900 leading-none">Tambah Arsip Surat</h2>
             <p className="text-[11px] font-medium text-slate-400 tracking-tight">Kelola metadata surat untuk kearsipan digital.</p>
           </div>
           
@@ -116,7 +116,7 @@ export default function LetterForm({
                 </TooltipTrigger>
                 <TooltipContent side="bottom" align="end" className="p-3">
                   <div className="space-y-2 text-left">
-                    <p className="text-[10px] font-semibold border-b border-slate-600 pb-1 mb-1">Arsip Terakhir</p>
+                    <p className="text-[10px] font-medium border-b border-slate-600 pb-1 mb-1">Arsip Terakhir</p>
                     {lastLetter ? (
                       <div className="space-y-1 text-[10px]">
                         <p>No. Agenda: {lastLetter.id}</p>
@@ -145,7 +145,7 @@ export default function LetterForm({
                   render={({ field }) => (
                     <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Jenis Surat</FieldLabel>
+                        <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none">Jenis Surat</FieldLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight">
@@ -169,7 +169,7 @@ export default function LetterForm({
                   render={({ field }) => (
                     <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Tanggal Surat</FieldLabel>
+                        <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none">Tanggal Surat</FieldLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
@@ -214,7 +214,7 @@ export default function LetterForm({
                   render={({ field }) => (
                     <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Nomor Surat</FieldLabel>
+                        <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none">Nomor Surat</FieldLabel>
                         <FormControl>
                           <Input 
                             autoFocus
@@ -235,7 +235,7 @@ export default function LetterForm({
                   render={({ field }) => (
                     <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Perihal / Hal</FieldLabel>
+                        <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none">Perihal / Hal</FieldLabel>
                         <FormControl>
                           <Input 
                             placeholder="Ringkasan perihal dokumen..." 
@@ -256,7 +256,7 @@ export default function LetterForm({
                     render={({ field }) => (
                       <FormItem className="space-y-1">
                         <Field>
-                          <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Pengirim</FieldLabel>
+                          <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none">Pengirim</FieldLabel>
                           <FormControl>
                             <Input 
                               placeholder="Nama atau instansi" 
@@ -275,7 +275,7 @@ export default function LetterForm({
                     render={({ field }) => (
                       <FormItem className="space-y-1">
                         <Field>
-                          <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Penerima</FieldLabel>
+                          <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none">Penerima</FieldLabel>
                           <FormControl>
                             <Input 
                               placeholder="Nama atau instansi" 

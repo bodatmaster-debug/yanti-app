@@ -271,7 +271,7 @@ export default function Dashboard() {
                   className="py-32 text-center"
                 >
                   <Mail className="h-10 w-10 text-slate-100 mx-auto mb-4" />
-                  <h3 className="typography-h3 text-slate-900">Arsip Tidak Ditemukan</h3>
+                  <h3 className="typography-h3 text-slate-900 font-medium">Arsip Tidak Ditemukan</h3>
                   <p className="typography-muted font-medium">Sesuaikan kata kunci atau filter pencarian Anda.</p>
                 </motion.div>
               )}
@@ -288,7 +288,7 @@ function StatsCard({ label, value, icon }: { label: string, value: number, icon:
     <div className="border border-slate-300 bg-white p-6 flex items-center justify-between rounded-lg hover:border-slate-400 transition-colors">
       <div className="space-y-1">
         <p className="text-[11px] font-medium text-slate-400 mb-1">{label}</p>
-        <h4 className="text-2xl font-semibold tracking-tight text-slate-900">{value}</h4>
+        <h4 className="text-2xl font-medium tracking-tight text-slate-900">{value}</h4>
       </div>
       <div className="h-12 w-12 rounded border border-slate-100 flex items-center justify-center text-slate-400 bg-slate-50/50 transition-colors">
         {icon}

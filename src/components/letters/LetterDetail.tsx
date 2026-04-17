@@ -30,43 +30,43 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
         <div>
           <Badge 
             variant="outline" 
-            className={`mb-2 font-semibold text-[10px] tracking-wide ${
+            className={`mb-2 font-medium text-[10px] tracking-tight ${
               letter.type === 'Masuk' 
-                ? 'border-emerald-500 text-emerald-700' 
-                : 'border-sky-500 text-sky-700'
+                ? 'border-emerald-300 text-emerald-700' 
+                : 'border-sky-300 text-sky-700'
             }`}
           >
             {letter.type === 'Masuk' ? <ArrowDownLeft className="h-3 w-3 mr-1" /> : <ArrowUpRight className="h-3 w-3 mr-1" />}
             Surat {letter.type}
           </Badge>
-          <h2 className="text-xl font-semibold leading-tight tracking-tight text-slate-900">{letter.subject}</h2>
+          <h2 className="text-xl font-medium leading-tight tracking-tight text-slate-900">{letter.subject}</h2>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
           <DetailItem 
-            icon={<Hash className="h-3.5 w-3.5" />} 
+            icon={<Hash className="h-3.5 w-3.5 text-slate-400" />} 
             label="Nomor Surat" 
             value={letter.refNumber} 
           />
           <DetailItem 
-            icon={<Calendar className="h-3.5 w-3.5" />} 
+            icon={<Calendar className="h-3.5 w-3.5 text-slate-400" />} 
             label="Tanggal Surat" 
             value={format(new Date(letter.date), 'dd MMMM yyyy', { locale: id })} 
           />
-          <Separator className="bg-border shadow-none" />
+          <Separator className="bg-slate-200 shadow-none" />
           <DetailItem 
-            icon={<User className="h-3.5 w-3.5" />} 
+            icon={<User className="h-3.5 w-3.5 text-slate-400" />} 
             label="Pengirim" 
             value={letter.sender} 
           />
           <DetailItem 
-            icon={<User className="h-3.5 w-3.5" />} 
+            icon={<User className="h-3.5 w-3.5 text-slate-400" />} 
             label="Penerima" 
             value={letter.recipient} 
           />
-          <Separator className="bg-border shadow-none" />
+          <Separator className="bg-slate-200 shadow-none" />
           <DetailItem 
-            icon={<Clock className="h-3.5 w-3.5" />} 
+            icon={<Clock className="h-3.5 w-3.5 text-slate-400" />} 
             label="Diarsipkan Pada" 
             value={format(new Date(letter.createdAt), 'dd/MM/yyyy HH:mm')} 
           />
@@ -74,7 +74,7 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
 
         {letter.fileName && (
           <div className="pt-4">
-            <Button variant="outline" className="w-full border border-primary text-primary hover:bg-primary hover:text-white transition-colors font-semibold text-xs tracking-tight">
+            <Button variant="outline" className="w-full border border-primary text-primary hover:bg-primary hover:text-white transition-colors font-medium text-xs tracking-tight">
               <Download className="mr-2 h-4 w-4" /> Unduh Dokumen
             </Button>
           </div>
@@ -83,20 +83,21 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
 
       {/* Right Column: Integrated Preview */}
       <div className="space-y-4">
-        <h3 className="text-xs font-semibold tracking-tight text-muted-foreground">Pratinjau Dokumen</h3>
-        <div className="aspect-[3/4] border border-border rounded bg-white flex flex-col items-center justify-center relative overflow-hidden group">
+        <h3 className="text-[10px] font-medium tracking-tight text-slate-400 uppercase hidden">Pratinjau Dokumen</h3>
+        <h3 className="text-[11px] font-medium tracking-tight text-slate-400">Pratinjau Dokumen</h3>
+        <div className="aspect-[3/4] border border-slate-300 rounded bg-white flex flex-col items-center justify-center relative overflow-hidden group">
           {letter.fileName ? (
             <div className="p-8 text-center">
-              <div className="w-16 h-20 bg-white border border-border rounded mx-auto mb-4 flex items-center justify-center">
-                <FileText className="h-8 w-8 text-muted-foreground/50" />
+              <div className="w-16 h-20 bg-white border border-slate-200 rounded mx-auto mb-4 flex items-center justify-center">
+                <FileText className="h-8 w-8 text-slate-200" />
               </div>
-              <p className="font-semibold text-xs mb-1 tracking-tight">{letter.fileName}</p>
-              <p className="text-[10px] text-muted-foreground font-medium">Pratinjau digital terintegrasi</p>
+              <p className="font-medium text-xs mb-1 tracking-tight text-slate-900">{letter.fileName}</p>
+              <p className="text-[10px] text-slate-400 font-medium">Pratinjau digital terintegrasi</p>
             </div>
           ) : (
-            <div className="p-8 text-center text-muted-foreground">
+            <div className="p-8 text-center text-slate-400">
               <FileText className="h-10 w-10 mx-auto mb-4 opacity-20" />
-              <p className="text-xs font-semibold tracking-tight">Tidak Ada Lampiran</p>
+              <p className="text-xs font-medium tracking-tight">Tidak Ada Lampiran</p>
             </div>
           )}
         </div>
@@ -108,12 +109,12 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
 function DetailItem({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="mt-0.5 p-1.5 rounded border border-border bg-white">
+      <div className="mt-0.5 p-1.5 rounded border border-slate-100 bg-white">
         {icon}
       </div>
       <div>
-        <p className="text-xs font-medium text-muted-foreground tracking-tight leading-none mb-1.5">{label}</p>
-        <p className="font-semibold text-sm tracking-tight">{value}</p>
+        <p className="text-[11px] font-medium text-slate-400 tracking-tight leading-none mb-1.5">{label}</p>
+        <p className="font-medium text-sm tracking-tight text-slate-900">{value}</p>
       </div>
     </div>
   );
