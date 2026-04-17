@@ -21,7 +21,6 @@ import {
   SelectTrigger, 
   SelectValue 
 } from '@/components/ui/select';
-import { Separator } from "@/components/ui/separator"
 import { 
   Tooltip,
   TooltipContent,
@@ -42,7 +41,7 @@ import { format } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
-import { Item, ItemContent, ItemMedia, ItemTitle, ItemDescription } from '@/components/ui/item';
+import { Item, ItemContent, ItemMedia } from '@/components/ui/item';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 const formSchema = z.object({
@@ -100,16 +99,16 @@ export default function LetterForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full max-h-[85vh]">
-        {/* Section 1: Top Info (Agenda Number) */}
-        <div className="px-6 py-4 flex items-center justify-between gap-3 bg-white border-b border-slate-50">
-          <Item variant="outline" size="sm" className="flex-1 bg-slate-50/20 border-slate-100 rounded-sm py-1.5 px-3">
-            <ItemMedia variant="icon" className="bg-white text-slate-400 border-slate-100 size-6">
-              <Hash className="h-3 w-3" />
+      <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full max-h-[85vh] bg-white">
+        {/* SECTION 1: HEADER & AGENDA INFO */}
+        <div className="px-6 py-5 flex items-center justify-between border-b border-slate-100">
+          <Item variant="outline" size="sm" className="flex-1 bg-white border-slate-100 rounded-md py-2 px-3">
+            <ItemMedia variant="icon" className="bg-slate-50 text-slate-400 border-slate-100 size-7">
+              <Hash className="h-3.5 w-3.5" />
             </ItemMedia>
-            <ItemContent className="gap-0">
-              <p className="text-[10px] text-slate-400 font-medium tracking-wide">Nomor Agenda Berikutnya</p>
-              <p className="text-sm font-bold text-slate-800 tracking-tight leading-none">
+            <ItemContent className="gap-0 ml-1">
+              <p className="text-[10px] text-slate-400 font-medium tracking-tight">Agenda Berikutnya</p>
+              <p className="text-sm font-bold text-slate-900 tracking-tight leading-none">
                 {nextAgendaNumber}
               </p>
             </ItemContent>
@@ -118,22 +117,25 @@ export default function LetterForm({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" size="icon" className="h-8 w-8 border-slate-100 text-slate-300 hover:text-primary shrink-0">
-                  <AlertCircle className="h-3.5 w-3.5" />
+                <Button variant="outline" size="icon" className="h-9 w-9 border-slate-100 text-slate-300 hover:text-primary transition-all rounded-md shrink-0 ml-3">
+                  <AlertCircle className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="left" className="bg-white border-slate-100 p-3 shadow-none w-72">
-                <div className="space-y-2">
-                  <p className="text-[10px] font-semibold text-slate-400 tracking-wider border-b border-slate-50 pb-1">Detail Arsip Terakhir</p>
+              <TooltipContent side="left" className="bg-white border border-slate-100 p-4 shadow-none w-80 rounded-md">
+                <div className="space-y-3">
+                  <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase pb-1 border-b border-slate-50">Arsip Terakhir</p>
                   {lastLetter ? (
-                    <div className="space-y-1.5 text-xs font-medium text-slate-600">
-                      <div className="flex justify-between"><span>No. Agenda:</span> <span className="font-mono text-slate-900">{lastLetter.id}</span></div>
-                      <div className="flex justify-between"><span>No. Surat:</span> <span className="font-mono text-slate-900">{lastLetter.refNumber}</span></div>
-                      <div className="flex justify-between"><span>Tanggal:</span> <span className="text-slate-900">{lastLetter.date}</span></div>
-                      <div className="flex justify-between"><span>Perihal:</span> <span className="truncate max-w-[140px] text-slate-900">{lastLetter.subject}</span></div>
+                    <div className="space-y-2 text-xs text-slate-600">
+                      <div className="flex justify-between"><span>No. Agenda:</span> <span className="font-semibold text-slate-900">{lastLetter.id}</span></div>
+                      <div className="flex justify-between"><span>No. Surat:</span> <span className="font-semibold text-slate-900">{lastLetter.refNumber}</span></div>
+                      <div className="flex justify-between"><span>Tanggal:</span> <span className="text-slate-900 font-medium">{format(new Date(lastLetter.date), 'dd MMM yyyy')}</span></div>
+                      <div className="flex flex-col gap-1 mt-1">
+                        <span className="text-slate-400">Perihal:</span>
+                        <span className="text-slate-900 font-semibold leading-relaxed">{lastLetter.subject}</span>
+                      </div>
                     </div>
                   ) : (
-                    <p className="text-xs text-slate-400 italic">Belum Ada Data Sebelumnya.</p>
+                    <p className="text-xs text-slate-400 italic">Belum Ada Data Tersimpan.</p>
                   )}
                 </div>
               </TooltipContent>
@@ -141,9 +143,9 @@ export default function LetterForm({
           </TooltipProvider>
         </div>
 
-        {/* Section 2: Input Area (Scrollable) */}
-        <ScrollArea className="flex-1 px-6 py-5">
-          <div className="space-y-5 pb-4">
+        {/* SECTION 2: INPUT AREA (SCROLLABLE) */}
+        <ScrollArea className="flex-1">
+          <div className="px-6 py-6 space-y-6">
             <div className="grid grid-cols-2 gap-5">
               <FormField
                 control={form.control}
@@ -153,13 +155,13 @@ export default function LetterForm({
                     <FormLabel className="text-sm font-medium text-slate-900 tracking-tight">Jenis Surat</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="h-10 bg-white border-slate-100 text-sm tracking-tight">
+                        <SelectTrigger className="h-10 border-slate-100 bg-white text-sm">
                           <SelectValue placeholder="Pilih Jenis" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="bg-white border-slate-100">
-                        <SelectItem value="Masuk">Surat Masuk</SelectItem>
-                        <SelectItem value="Keluar">Surat Keluar</SelectItem>
+                        <SelectItem value="Masuk" className="text-sm">Surat Masuk</SelectItem>
+                        <SelectItem value="Keluar" className="text-sm">Surat Keluar</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage className="text-[10px]" />
@@ -177,14 +179,14 @@ export default function LetterForm({
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant={"outline"}
+                            variant="outline"
                             className={cn(
-                              "h-10 w-full pl-3 text-left font-normal bg-white border-slate-100 text-sm tracking-tight",
+                              "h-10 w-full pl-3 text-left font-normal border-slate-100 bg-white text-sm",
                               !field.value && "text-slate-400"
                             )}
                           >
                             {field.value ? format(new Date(field.value), "dd MMM yyyy") : <span>Pilih Tanggal</span>}
-                            <CalendarIcon className="ml-auto h-3.5 w-3.5 opacity-30" />
+                            <CalendarIcon className="ml-auto h-4 w-4 text-slate-300" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
@@ -211,12 +213,12 @@ export default function LetterForm({
                 <FormItem>
                   <FormLabel className="text-sm font-medium text-slate-900 tracking-tight">Nomor Surat</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
+                    <div className="relative group">
+                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 group-focus-within:text-primary transition-colors" />
                       <Input 
                         placeholder="Ketik Nomor Surat..." 
                         {...field} 
-                        className="pl-9 h-10 bg-white border-slate-100 text-sm tracking-tight placeholder:text-slate-400" 
+                        className="pl-9 h-10 border-slate-100 bg-white text-sm placeholder:text-slate-300" 
                       />
                     </div>
                   </FormControl>
@@ -232,12 +234,12 @@ export default function LetterForm({
                 <FormItem>
                   <FormLabel className="text-sm font-medium text-slate-900 tracking-tight">Perihal</FormLabel>
                   <FormControl>
-                    <div className="relative">
-                      <FileText className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
+                    <div className="relative group">
+                      <FileText className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 group-focus-within:text-primary transition-colors" />
                       <Input 
                         placeholder="Ringkasan Isi Surat..." 
                         {...field} 
-                        className="pl-9 h-10 bg-white border-slate-100 text-sm tracking-tight placeholder:text-slate-400" 
+                        className="pl-9 h-10 border-slate-100 bg-white text-sm placeholder:text-slate-300" 
                       />
                     </div>
                   </FormControl>
@@ -254,12 +256,12 @@ export default function LetterForm({
                   <FormItem>
                     <FormLabel className="text-sm font-medium text-slate-900 tracking-tight">Pengirim</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
+                      <div className="relative group">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 group-focus-within:text-primary transition-colors" />
                         <Input 
                           placeholder="Nama / Instansi" 
                           {...field} 
-                          className="pl-9 h-10 bg-white border-slate-100 text-sm tracking-tight placeholder:text-slate-400" 
+                          className="pl-9 h-10 border-slate-100 bg-white text-sm placeholder:text-slate-300" 
                         />
                       </div>
                     </FormControl>
@@ -274,12 +276,12 @@ export default function LetterForm({
                   <FormItem>
                     <FormLabel className="text-sm font-medium text-slate-900 tracking-tight">Penerima</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
+                      <div className="relative group">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 group-focus-within:text-primary transition-colors" />
                         <Input 
                           placeholder="Nama / Instansi" 
                           {...field} 
-                          className="pl-9 h-10 bg-white border-slate-100 text-sm tracking-tight placeholder:text-slate-400" 
+                          className="pl-9 h-10 border-slate-100 bg-white text-sm placeholder:text-slate-300" 
                         />
                       </div>
                     </FormControl>
@@ -289,52 +291,50 @@ export default function LetterForm({
               />
             </div>
 
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-slate-900 tracking-tight">Unggah Digital Scan</p>
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-slate-900 tracking-tight">Digital Scan</p>
               <div 
                 className={cn(
-                  "border border-dashed rounded-md p-4 flex flex-col items-center justify-center transition-all bg-white cursor-pointer hover:bg-slate-50",
-                  fileName ? "border-emerald-200 bg-emerald-50/10" : "border-slate-100"
+                  "border border-dashed rounded-lg p-5 flex flex-col items-center justify-center transition-all bg-white cursor-pointer hover:bg-slate-50",
+                  fileName ? "border-emerald-100 bg-emerald-50/20" : "border-slate-100"
                 )} 
                 onClick={() => document.getElementById('file-upload')?.click()}
               >
                 {fileName ? (
                   <div className="flex items-center gap-3 w-full">
-                    <div className="bg-white p-1.5 rounded-sm border border-emerald-100">
+                    <div className="bg-white p-2 rounded-md border border-emerald-100">
                       <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                     </div>
                     <div className="flex-1 overflow-hidden">
-                      <p className="text-xs font-semibold text-slate-700 truncate">{fileName}</p>
-                      <p className="text-[10px] text-slate-400 font-medium tracking-tight">Klik Untuk Mengganti</p>
+                      <p className="text-xs font-bold text-slate-700 truncate">{fileName}</p>
+                      <p className="text-[10px] text-slate-400 font-medium">Klik Untuk Mengganti File</p>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-3">
-                    <Upload className="h-4 w-4 text-slate-300" />
-                    <p className="text-sm font-medium text-slate-400 tracking-tight">Pilih File Digital (Maks. 5MB)</p>
+                  <div className="flex flex-col items-center gap-2">
+                    <Upload className="h-5 w-5 text-slate-300 mb-1" />
+                    <p className="text-xs font-medium text-slate-400">Pilih Dokumen PDF (Maks. 5MB)</p>
                   </div>
                 )}
-                <input id="file-upload" type="file" className="hidden" onChange={handleFileUpload} accept=".pdf,.doc,.docx" />
+                <input id="file-upload" type="file" className="hidden" onChange={handleFileUpload} accept=".pdf" />
               </div>
             </div>
           </div>
         </ScrollArea>
 
-        {/* Section 3: Footer (Buttons) */}
-        <div className="px-6 py-4 border-t border-slate-50 flex justify-end gap-3 bg-white">
+        {/* SECTION 3: FOOTER ACTIONS */}
+        <div className="px-6 py-5 border-t border-slate-100 flex items-center justify-end gap-3 bg-white">
           <Button 
             type="button" 
             variant="ghost" 
-            size="sm" 
             onClick={onCancel} 
-            className="text-xs font-semibold text-slate-400 hover:text-slate-600 hover:bg-slate-50 px-4"
+            className="text-xs font-semibold text-slate-500 hover:bg-slate-50 h-10 px-6 rounded-md transition-all"
           >
             Batal
           </Button>
           <Button 
             type="submit" 
-            size="sm" 
-            className="min-w-[120px] bg-primary text-primary-foreground text-xs font-bold tracking-tight h-10"
+            className="min-w-[140px] bg-primary text-primary-foreground text-xs font-bold tracking-tight h-10 rounded-md shadow-none hover:bg-primary/90 transition-all"
           >
             Simpan Arsip
           </Button>
