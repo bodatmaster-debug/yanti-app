@@ -30,10 +30,11 @@ import {
   DialogDescription,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Sheet } from '@/components/ui/sheet';
 import { Letter, LetterType } from '@/lib/types';
-import { exportLettersToExcel } from '@/lib/utils/excel';
 import LetterTable from '@/components/letters/LetterTable';
 import LetterForm from '@/components/letters/LetterForm';
+import ExportSheet from '@/components/letters/ExportSheet';
 import { useToast } from '@/hooks/use-toast';
 import { SidebarTrigger } from "@/components/ui/sidebar"
 
@@ -70,6 +71,7 @@ export default function Dashboard() {
   const [typeFilter, setTypeFilter] = useState<'All' | LetterType>('All');
   const [isLoading, setIsLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isExportOpen, setIsExportOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -140,18 +142,6 @@ export default function Dashboard() {
     });
   };
 
-  const handleExport = async () => {
-    try {
-      await exportLettersToExcel(filteredLetters);
-    } catch (err) {
-      toast({
-        title: "Gagal ekspor",
-        description: "Terjadi kesalahan saat mengekspor data ke Excel.",
-        variant: "destructive"
-      });
-    }
-  };
-
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <header className="h-16 border-b border-slate-300 bg-white flex items-center justify-between px-6 sticky top-0 z-20 shadow-none">
@@ -165,7 +155,7 @@ export default function Dashboard() {
           <Button 
             variant="ghost" 
             size="sm"
-            onClick={handleExport}
+            onClick={() => setIsExportOpen(true)}
             className="hidden sm:flex h-9 text-xs font-medium text-slate-600 hover:bg-slate-50 border border-transparent hover:border-slate-200 shadow-none"
           >
             <FileSpreadsheet className="mr-2 h-4 w-4 text-emerald-600" />
@@ -288,6 +278,14 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Export Sheet */}
+      <Sheet open={isExportOpen} onOpenChange={setIsExportOpen}>
+        <ExportSheet 
+          letters={letters} 
+          onClose={() => setIsExportOpen(false)} 
+        />
+      </Sheet>
     </div>
   );
 }
