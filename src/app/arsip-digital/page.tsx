@@ -151,13 +151,17 @@ export default function ArsipDigitalPage() {
         </div>
       </header>
 
-      <div className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
+      <motion.div 
+        className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
         <div className="space-y-1">
           <h1 className="typography-h1 font-semibold text-slate-900 dark:text-slate-100 tracking-tight">Arsip Digital</h1>
           <p className="typography-muted text-sm font-medium">Koleksi lengkap seluruh dokumen surat masuk, keluar, dan berita acara.</p>
         </div>
 
-        <div className="border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 rounded-lg overflow-hidden">
+        <div className="border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 rounded-lg overflow-hidden shadow-sm">
           <div className="p-4 border-b border-slate-300 dark:border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50/10">
             <div className="relative w-full md:max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -186,11 +190,22 @@ export default function ArsipDigitalPage() {
           <div className="relative min-h-[480px]">
             <AnimatePresence mode="wait">
               {isLoading ? (
-                <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 flex items-center justify-center">
+                <motion.div 
+                  key="loading" 
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 1 }} 
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
                   <Loader2 className="h-8 w-8 animate-spin text-slate-200" />
                 </motion.div>
               ) : filteredLetters.length > 0 ? (
-                <motion.div key="content" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                <motion.div 
+                  key="content" 
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
                   <LetterTable 
                     letters={filteredLetters} 
                     onDelete={() => {}}
@@ -198,16 +213,21 @@ export default function ArsipDigitalPage() {
                   />
                 </motion.div>
               ) : (
-                <div className="py-32 text-center">
+                <motion.div 
+                  key="empty"
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 1 }}
+                  className="py-32 text-center"
+                >
                   <Archive className="h-10 w-10 text-slate-100 dark:text-slate-800 mx-auto mb-4" />
                   <h3 className="typography-h3 text-slate-900 dark:text-slate-100 font-medium">Data tidak ditemukan</h3>
                   <p className="typography-muted font-medium">Sesuaikan filter atau kata kunci pencarian Anda.</p>
-                </div>
+                </motion.div>
               )}
             </AnimatePresence>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <Sheet open={isExportOpen} onOpenChange={setIsExportOpen}>
         <ExportSheet 
