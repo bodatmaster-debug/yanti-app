@@ -106,6 +106,14 @@ export default function ArsipDigitalPage() {
     toast({ title: "Berhasil", description: "Arsip baru telah ditambahkan." });
   };
 
+  const countsByType = useMemo(() => {
+    return {
+      Masuk: letters.filter(l => l.type === 'Masuk').length,
+      Keluar: letters.filter(l => l.type === 'Keluar').length,
+      'Berita acara': letters.filter(l => l.type === 'Berita acara').length,
+    };
+  }, [letters]);
+
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-slate-950">
       <header className="h-16 border-b border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 flex items-center justify-between px-6 sticky top-0 z-20">
@@ -135,6 +143,8 @@ export default function ArsipDigitalPage() {
                 onSubmit={handleAddLetter} 
                 onCancel={() => setIsFormOpen(false)} 
                 nextAgendaNumber={(letters.length + 1).toString().padStart(3, '0')}
+                countsByType={countsByType}
+                lastLetter={letters[0]}
               />
             </DialogContent>
           </Dialog>
