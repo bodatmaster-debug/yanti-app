@@ -7,7 +7,7 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Arsip Surat');
 
-  // 1. Tambah Logo
+  // 1. Tambah Logo di Pojok Kiri Atas (Kolom A)
   try {
     const response = await fetch('/logo.jpg');
     if (response.ok) {
@@ -16,41 +16,46 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
         buffer: arrayBuffer,
         extension: 'jpeg',
       });
+      // Menempatkan logo di sel A1 sampai A5
       worksheet.addImage(logoId, {
         tl: { col: 0, row: 0 },
-        ext: { width: 80, height: 80 }
+        ext: { width: 90, height: 90 }
       });
     }
   } catch (e) {
     console.warn('Logo tidak dapat dimuat');
   }
 
-  // 2. Judul Laporan (Kop Surat)
+  // 2. Judul Laporan & Kop Surat (Merge B sampai G karena A dipakai Logo)
+  // Baris 2: Judul Utama
   worksheet.mergeCells('B2:G2');
   const titleCell = worksheet.getCell('B2');
   titleCell.value = 'Agenda surat masuk dan keluar';
   titleCell.font = { name: 'Arial', size: 14, bold: true };
   titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
+  // Baris 3: Nama Instansi
   worksheet.mergeCells('B3:G3');
-  const subTitleCell1 = worksheet.getCell('B3');
-  subTitleCell1.value = 'USAHA DAGANG PETANI MARSAOR';
-  subTitleCell1.font = { name: 'Arial', size: 12, bold: true };
-  subTitleCell1.alignment = { vertical: 'middle', horizontal: 'center' };
+  const instansiCell = worksheet.getCell('B3');
+  instansiCell.value = 'USAHA DAGANG PETANI MARSAOR';
+  instansiCell.font = { name: 'Arial', size: 12, bold: true };
+  instansiCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
+  // Baris 4: Alamat 1
   worksheet.mergeCells('B4:G4');
-  const subTitleCell2 = worksheet.getCell('B4');
-  subTitleCell2.value = 'Jl. T. D. Pardede, Simamora Tarutung';
-  subTitleCell2.font = { name: 'Arial', size: 10, bold: false };
-  subTitleCell2.alignment = { vertical: 'middle', horizontal: 'center' };
+  const addr1Cell = worksheet.getCell('B4');
+  addr1Cell.value = 'Jl. T. D. Pardede, Simamora Tarutung';
+  addr1Cell.font = { name: 'Arial', size: 10, bold: false };
+  addr1Cell.alignment = { vertical: 'middle', horizontal: 'center' };
 
+  // Baris 5: Alamat 2
   worksheet.mergeCells('B5:G5');
-  const subTitleCell3 = worksheet.getCell('B5');
-  subTitleCell3.value = 'Kabupaten Tapanuli Utara';
-  subTitleCell3.font = { name: 'Arial', size: 10, bold: false };
-  subTitleCell3.alignment = { vertical: 'middle', horizontal: 'center' };
+  const addr2Cell = worksheet.getCell('B5');
+  addr2Cell.value = 'Kabupaten Tapanuli Utara';
+  addr2Cell.font = { name: 'Arial', size: 10, bold: false };
+  addr2Cell.alignment = { vertical: 'middle', horizontal: 'center' };
 
-  // 3. Definisi Header (Tanpa No. Agenda)
+  // 3. Header Tabel (Dimulai di baris 7)
   const headers = [
     'No. Surat',
     'Jenis',
@@ -65,11 +70,12 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   const headerRow = worksheet.getRow(headerRowIndex);
   headerRow.values = headers;
 
+  // Styling Header
   headerRow.eachCell((cell) => {
     cell.fill = {
       type: 'pattern',
       pattern: 'solid',
-      fgColor: { argb: 'FF1E293B' },
+      fgColor: { argb: 'FF1E293B' }, // Slate-800
     };
     cell.font = { color: { argb: 'FFFFFFFF' }, bold: true, size: 10 };
     cell.alignment = { vertical: 'middle', horizontal: 'center' };
@@ -81,13 +87,16 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
     };
   });
 
-  // Atur lebar kolom
-  const columnWidths = [25, 12, 25, 25, 15, 18, 18];
-  columnWidths.forEach((width, index) => {
-    worksheet.getColumn(index + 1).width = width;
-  });
+  // Atur lebar kolom (7 kolom: A sampai G)
+  worksheet.getColumn(1).width = 25; // No. Surat
+  worksheet.getColumn(2).width = 15; // Jenis
+  worksheet.getColumn(3).width = 25; // Pengirim
+  worksheet.getColumn(4).width = 25; // Penerima
+  worksheet.getColumn(5).width = 20; // Hal
+  worksheet.getColumn(6).width = 18; // Tanggal Surat
+  worksheet.getColumn(7).width = 18; // Tanggal Input
 
-  // 4. Masukkan Data
+  // 4. Masukkan Data (Mulai Baris 8)
   letters.forEach((letter) => {
     const rowValues = [
       letter.refNumber,
@@ -113,12 +122,13 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
     });
   });
 
-  // 5. Download
+  // 5. Eksekusi Download
   const buffer = await workbook.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  const filename = `arsip_marsaor_${new Date().toISOString().split('T')[0]}.xlsx`;
+  const periodStr = options ? `_${options.month}_${options.year}` : `_all_${new Date().toISOString().split('T')[0]}`;
+  const filename = `arsip_marsaor${periodStr}.xlsx`;
   
   link.href = url;
   link.download = filename;
