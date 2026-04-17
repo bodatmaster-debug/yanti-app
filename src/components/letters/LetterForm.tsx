@@ -37,7 +37,8 @@ import { Letter, LetterType } from '@/lib/types';
 import { 
   AlertCircle, 
   CalendarIcon,
-  Lock
+  Lock,
+  Edit2
 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { id } from 'date-fns/locale';
@@ -94,18 +95,24 @@ export default function LetterForm({
   const watchSubject = useWatch({ control: form.control, name: 'subject' });
 
   useEffect(() => {
-    if (!initialData) {
+    // Nomor otomatis hanya untuk surat Keluar
+    if (!initialData && watchType === 'Keluar') {
       const d = watchDate ? parseISO(watchDate) : new Date();
       const year = d.getFullYear();
       const monthRoman = getRomanMonth(d.getMonth());
-      const typeCode = watchType === 'Masuk' ? 'In' : 'Out';
       const hal = watchSubject || '...';
-      const seq = (countsByType[watchType] + 1).toString().padStart(3, '0');
+      const seq = (countsByType.Keluar + 1).toString().padStart(3, '0');
       
-      // Format: nomor surat/hal/perihal/bulan (angka romawi)/tahun
-      const autoRef = `${seq}/${hal}/${typeCode}/${monthRoman}/${year}`;
+      // Format: nomor surat/hal/Out/bulan (angka romawi)/tahun
+      const autoRef = `${seq}/${hal}/Out/${monthRoman}/${year}`;
       
       form.setValue('refNumber', autoRef, { shouldValidate: true });
+    } else if (!initialData && watchType === 'Masuk') {
+      // Jika switch ke masuk, kosongkan jika sebelumnya adalah auto-generated
+      const currentRef = form.getValues('refNumber');
+      if (currentRef.includes('/Out/')) {
+        form.setValue('refNumber', '', { shouldValidate: false });
+      }
     }
   }, [watchType, watchDate, watchSubject, initialData, countsByType, form]);
 
@@ -253,15 +260,17 @@ export default function LetterForm({
                     <FormItem className="space-y-1">
                       <Field>
                         <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5 flex items-center gap-1.5">
-                          Nomor Surat <Lock className="h-3 w-3 text-slate-300" />
+                          Nomor Surat {watchType === 'Keluar' ? <Lock className="h-3 w-3 text-slate-300" /> : <Edit2 className="h-3 w-3 text-slate-300" />}
                         </FieldLabel>
                         <FormControl>
                           <Input 
-                            readOnly
-                            tabIndex={-1}
-                            placeholder="Nomor otomatis..." 
+                            readOnly={watchType === 'Keluar'}
+                            placeholder={watchType === 'Keluar' ? "Nomor otomatis..." : "Masukkan nomor surat..."} 
                             {...field} 
-                            className="h-9 border-slate-300 bg-slate-50/50 text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none focus-visible:ring-0 cursor-default" 
+                            className={cn(
+                              "h-9 border-slate-300 text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none",
+                              watchType === 'Keluar' ? "bg-slate-50/50 cursor-default focus-visible:ring-0" : "bg-white focus-visible:ring-1 focus-visible:ring-slate-400"
+                            )} 
                           />
                         </FormControl>
                         <FormMessage className="text-[10px]" />
