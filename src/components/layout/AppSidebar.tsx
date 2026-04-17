@@ -70,8 +70,8 @@ export function AppSidebar() {
           <Mail className="size-4" />
         </div>
         <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden ml-3">
-          <span className="font-semibold text-sm tracking-tight text-slate-900">Pengarsipan Yanti</span>
-          <span className="text-[10px] font-medium text-slate-400 tracking-tight">App untuk Yanti untuk mengarsip surat</span>
+          <span className="font-semibold text-sm tracking-tight text-slate-900 leading-tight">Pengarsipan Yanti</span>
+          <span className="text-[10px] font-medium text-slate-400 tracking-tight leading-tight">App untuk Yanti untuk mengarsip surat</span>
         </div>
       </SidebarHeader>
 

@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useEffect } from 'react';
@@ -92,7 +91,6 @@ export default function LetterForm({
       const d = watchDate ? parseISO(watchDate) : new Date();
       const year = d.getFullYear();
       const month = (d.getMonth() + 1).toString().padStart(2, '0');
-      // No uppercase: In/Out instead of IN/OUT
       const typeCode = watchType === 'Masuk' ? 'In' : 'Out';
       const seq = (countsByType[watchType] + 1).toString().padStart(3, '0');
       const autoRef = `${seq}/${typeCode}/${month}/${year}`;

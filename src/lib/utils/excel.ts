@@ -27,7 +27,6 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   }
 
   // 2. Judul Laporan (Kop Surat)
-  // Merge baris 1-3 untuk memberikan ruang yang cukup bagi logo di sampingnya
   worksheet.mergeCells('B2:H2');
   const titleCell = worksheet.getCell('B2');
   titleCell.value = 'Pengarsipan Yanti';
@@ -43,7 +42,7 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   subTitleCell.font = { name: 'Arial', size: 11, bold: false };
   subTitleCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
-  // Beri jarak (baris kosong) agar tabel tidak mepet ke logo
+  // Beri jarak agar tabel tidak mepet ke logo (header tabel di baris 7)
   worksheet.addRow([]);
   worksheet.addRow([]);
   worksheet.addRow([]);
@@ -60,7 +59,6 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
     { header: 'Tanggal Input', key: 'createdAt', width: 18 },
   ];
 
-  // Set baris ke-7 sebagai baris header tabel
   const headerRowIndex = 7;
   const headerRow = worksheet.getRow(headerRowIndex);
   headerRow.values = headers.map(h => h.header);
@@ -82,7 +80,7 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
     };
   });
 
-  // Atur lebar kolom secara manual agar presisi
+  // Atur lebar kolom
   headers.forEach((h, index) => {
     worksheet.getColumn(index + 1).width = h.width;
   });
