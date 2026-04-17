@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -279,7 +278,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Export Sheet */}
       <Sheet open={isExportOpen} onOpenChange={setIsExportOpen}>
         <ExportSheet 
           letters={letters} 

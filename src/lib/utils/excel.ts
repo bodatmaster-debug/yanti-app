@@ -7,7 +7,7 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Arsip Surat');
 
-  // 1. Tambah Logo jika ada
+  // 1. Tambah Logo jika ada di /public/logo.jpg
   try {
     const response = await fetch('/logo.jpg');
     if (response.ok) {

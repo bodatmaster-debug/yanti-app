@@ -65,8 +65,8 @@ const navItems = [
 export function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-300 bg-white">
-      <SidebarHeader className="h-16 border-b border-slate-300 flex items-center px-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:justify-center">
-        <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded border border-slate-300 bg-white text-slate-900 transition-all ml-2 group-data-[collapsible=icon]:ml-0">
+      <SidebarHeader className="h-16 border-b border-slate-300 flex items-center px-4 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:justify-center">
+        <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded border border-slate-300 bg-white text-slate-900 transition-all">
           <Mail className="size-4" />
         </div>
         <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden ml-3">
@@ -82,10 +82,10 @@ export function AppSidebar() {
             <SidebarMenu>
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} className="rounded-md transition-all hover:bg-slate-50 text-slate-900">
+                  <SidebarMenuButton asChild tooltip={item.title} className="rounded-md transition-all hover:bg-slate-50 text-slate-900 text-sm">
                     <a href={item.url} className="flex items-center gap-3">
                       <item.icon className="size-4 text-slate-900" />
-                      <span className="font-medium text-sm text-slate-900">{item.title}</span>
+                      <span className="font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                   {item.badge && (
@@ -104,9 +104,9 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Pengaturan" className="rounded-md hover:bg-slate-50 text-slate-900">
+                <SidebarMenuButton tooltip="Pengaturan" className="rounded-md hover:bg-slate-50 text-slate-900 text-sm">
                   <Settings className="size-4 text-slate-900" />
-                  <span className="font-medium text-sm text-slate-900">Pengaturan</span>
+                  <span className="font-medium">Pengaturan</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
