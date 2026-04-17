@@ -64,7 +64,7 @@ const navItems = [
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-300">
+    <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-300 bg-white">
       <SidebarHeader className="h-16 border-b border-slate-300 flex flex-row items-center px-4 gap-3">
         <div className="flex aspect-square size-8 items-center justify-center rounded border border-slate-300 bg-white text-slate-900">
           <Mail className="size-4" />
@@ -84,7 +84,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title} className="rounded-md transition-all hover:bg-slate-50">
                     <a href={item.url} className="flex items-center gap-3">
-                      <item.icon className="size-4 text-slate-500" />
+                      <item.icon className="size-4 text-slate-900" />
                       <span className="font-medium text-sm text-slate-900">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
@@ -105,7 +105,7 @@ export function AppSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton tooltip="Pengaturan" className="rounded-md hover:bg-slate-50">
-                  <Settings className="size-4 text-slate-500" />
+                  <Settings className="size-4 text-slate-900" />
                   <span className="font-medium text-sm text-slate-900">Pengaturan</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -139,7 +139,7 @@ export function AppSidebar() {
                 align="end"
                 sideOffset={8}
               >
-                <DropdownMenuItem className="gap-2 py-2 text-xs font-medium focus:bg-slate-50 cursor-pointer">
+                <DropdownMenuItem className="gap-2 py-2 text-xs font-medium focus:bg-slate-50 cursor-pointer text-slate-900">
                   <User className="size-4 text-slate-400" /> Profil Saya
                 </DropdownMenuItem>
                 <DropdownMenuItem className="gap-2 py-2 text-destructive font-semibold text-xs focus:bg-destructive/5 cursor-pointer">

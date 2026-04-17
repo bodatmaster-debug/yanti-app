@@ -35,8 +35,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Letter, LetterType } from '@/lib/types';
 import { 
   AlertCircle, 
-  CalendarIcon,
-  ChevronDown
+  CalendarIcon
 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { id } from 'date-fns/locale';
@@ -91,15 +90,15 @@ export default function LetterForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full bg-white overflow-hidden">
-        {/* SECTION 1: HEADER - Clean Title Case, Minimalist No Frame */}
+        {/* SECTION 1: HEADER - Title Case, Thin Font, No Frame */}
         <div className="px-6 py-5 border-b border-slate-300 bg-white flex items-center justify-between shrink-0">
           <div className="space-y-0.5">
             <h2 className="text-lg font-semibold tracking-tight text-slate-900 leading-none">Tambah Arsip Surat</h2>
             <p className="text-[11px] font-medium text-slate-400 tracking-tight">Kelola metadata surat untuk kearsipan digital.</p>
           </div>
           
-          <div className="flex items-center gap-1.5">
-            <div className="flex flex-col items-end">
+          <div className="flex items-center gap-1">
+            <div className="flex flex-col items-end pr-1">
               <span className="text-[10px] text-slate-400 font-medium tracking-wide">No. Agenda</span>
               <span className="text-sm font-medium text-slate-800 tabular-nums tracking-tight">{nextAgendaNumber}</span>
             </div>
@@ -109,27 +108,23 @@ export default function LetterForm({
                 <TooltipTrigger asChild>
                   <button 
                     type="button" 
-                    className="flex items-center justify-center text-slate-300 hover:text-slate-500 transition-colors focus:outline-none ml-1"
+                    className="flex items-center justify-center text-slate-300 hover:text-slate-500 transition-colors focus:outline-none"
+                    onFocus={(e) => e.target.blur()} // Anti auto-show saat dialog buka
                   >
                     <AlertCircle className="h-3.5 w-3.5" />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent 
-                  side="bottom" 
-                  align="end" 
-                  className="bg-white border border-slate-300 p-4 shadow-none w-64 rounded-md z-[100]"
-                >
-                  <div className="space-y-2">
-                    <p className="text-[10px] font-medium text-slate-400 border-b border-slate-100 pb-1 tracking-wider uppercase">Arsip Terakhir</p>
+                <TooltipContent side="bottom" align="end">
+                  <div className="space-y-2 text-left">
+                    <p className="text-[10px] font-semibold border-b border-slate-600 pb-1 mb-1">Arsip Terakhir</p>
                     {lastLetter ? (
-                      <div className="space-y-1.5 text-[11px] text-slate-600">
-                        <div className="flex justify-between"><span>No. Agenda</span> <span className="font-medium">{lastLetter.id}</span></div>
-                        <div className="flex justify-between gap-4"><span>No. Surat</span> <span className="font-medium text-right truncate">{lastLetter.refNumber}</span></div>
-                        <div className="flex justify-between"><span>Tanggal</span> <span className="font-medium">{format(new Date(lastLetter.date), 'dd/MM/yyyy')}</span></div>
-                        <div className="flex justify-between gap-4"><span>Penerima</span> <span className="font-medium text-right truncate">{lastLetter.recipient}</span></div>
+                      <div className="space-y-1 text-[10px]">
+                        <p>No. Agenda: {lastLetter.id}</p>
+                        <p>No. Surat: {lastLetter.refNumber}</p>
+                        <p>Tanggal: {format(new Date(lastLetter.date), 'dd/MM/yyyy')}</p>
                       </div>
                     ) : (
-                      <p className="text-[11px] text-slate-400 italic">Belum ada data sebelumnya.</p>
+                      <p className="text-[10px] italic">Belum Ada Data Sebelumnya</p>
                     )}
                   </div>
                 </TooltipContent>
@@ -141,19 +136,19 @@ export default function LetterForm({
         {/* SECTION 2: INPUT AREA - 2 Column Layout with Vertical Separator */}
         <ScrollArea className="flex-1">
           <div className="p-6">
-            <div className="flex gap-10">
-              {/* LEFT COLUMN: Administrative Data */}
-              <div className="w-48 space-y-5 shrink-0">
+            <div className="flex gap-8">
+              {/* LEFT COLUMN: Admin Data */}
+              <div className="w-44 space-y-4 shrink-0">
                 <FormField
                   control={form.control}
                   name="type"
                   render={({ field }) => (
-                    <FormItem className="space-y-1.5">
+                    <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="typography-p text-slate-800 text-[12px] font-medium leading-none">Jenis Surat</FieldLabel>
+                        <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Jenis Surat</FieldLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className="h-9 border-slate-300 bg-white font-medium text-[12px] tracking-tight">
+                            <SelectTrigger className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight">
                               <SelectValue placeholder="Pilih Jenis" />
                             </SelectTrigger>
                           </FormControl>
@@ -172,9 +167,9 @@ export default function LetterForm({
                   control={form.control}
                   name="date"
                   render={({ field }) => (
-                    <FormItem className="space-y-1.5">
+                    <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="typography-p text-slate-800 text-[12px] font-medium leading-none">Tanggal Surat</FieldLabel>
+                        <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Tanggal Surat</FieldLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
@@ -199,7 +194,6 @@ export default function LetterForm({
                               onSelect={(date) => field.onChange(date ? format(date, 'yyyy-MM-dd') : '')}
                               initialFocus
                               locale={id}
-                              className="text-[12px]"
                             />
                           </PopoverContent>
                         </Popover>
@@ -212,20 +206,21 @@ export default function LetterForm({
 
               <Separator orientation="vertical" className="h-auto bg-slate-200" />
 
-              {/* RIGHT COLUMN: Document Metadata */}
-              <div className="flex-1 space-y-5">
+              {/* RIGHT COLUMN: Metadata */}
+              <div className="flex-1 space-y-4">
                 <FormField
                   control={form.control}
                   name="refNumber"
                   render={({ field }) => (
-                    <FormItem className="space-y-1.5">
+                    <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="typography-p text-slate-800 text-[12px] font-medium leading-none">Nomor Surat</FieldLabel>
+                        <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Nomor Surat</FieldLabel>
                         <FormControl>
                           <Input 
+                            autoFocus // Focus di sini agar tooltip di atas tidak terpicu otomatis
                             placeholder="Masukan nomor surat dinas..." 
                             {...field} 
-                            className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300" 
+                            className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none" 
                           />
                         </FormControl>
                         <FormMessage className="text-[10px]" />
@@ -238,14 +233,14 @@ export default function LetterForm({
                   control={form.control}
                   name="subject"
                   render={({ field }) => (
-                    <FormItem className="space-y-1.5">
+                    <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="typography-p text-slate-800 text-[12px] font-medium leading-none">Perihal / Hal</FieldLabel>
+                        <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Perihal / Hal</FieldLabel>
                         <FormControl>
                           <Input 
                             placeholder="Ringkasan perihal dokumen..." 
                             {...field} 
-                            className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300" 
+                            className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none" 
                           />
                         </FormControl>
                         <FormMessage className="text-[10px]" />
@@ -259,14 +254,14 @@ export default function LetterForm({
                     control={form.control}
                     name="sender"
                     render={({ field }) => (
-                      <FormItem className="space-y-1.5">
+                      <FormItem className="space-y-1">
                         <Field>
-                          <FieldLabel className="typography-p text-slate-800 text-[12px] font-medium leading-none">Pengirim</FieldLabel>
+                          <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Pengirim</FieldLabel>
                           <FormControl>
                             <Input 
                               placeholder="Nama atau instansi" 
                               {...field} 
-                              className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300" 
+                              className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none" 
                             />
                           </FormControl>
                           <FormMessage className="text-[10px]" />
@@ -278,14 +273,14 @@ export default function LetterForm({
                     control={form.control}
                     name="recipient"
                     render={({ field }) => (
-                      <FormItem className="space-y-1.5">
+                      <FormItem className="space-y-1">
                         <Field>
-                          <FieldLabel className="typography-p text-slate-800 text-[12px] font-medium leading-none">Penerima</FieldLabel>
+                          <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Penerima</FieldLabel>
                           <FormControl>
                             <Input 
                               placeholder="Nama atau instansi" 
                               {...field} 
-                              className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300" 
+                              className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none" 
                             />
                           </FormControl>
                           <FormMessage className="text-[10px]" />
@@ -305,13 +300,13 @@ export default function LetterForm({
             type="button" 
             variant="ghost" 
             onClick={onCancel} 
-            className="text-[11px] font-medium text-slate-500 hover:bg-slate-100/50 h-9 px-5 transition-colors"
+            className="text-[11px] font-medium text-slate-500 hover:bg-slate-100 h-9 px-5 transition-colors"
           >
             Batalkan
           </Button>
           <Button 
             type="submit" 
-            className="bg-slate-900 text-white text-[11px] font-medium h-9 px-6 rounded-md border border-slate-900 hover:bg-slate-800 transition-all tracking-wide"
+            className="bg-slate-900 text-white text-[11px] font-medium h-9 px-6 rounded border border-slate-900 hover:bg-slate-800 transition-all tracking-wide shadow-none"
           >
             Simpan Arsip
           </Button>
