@@ -71,13 +71,13 @@ export function AppSidebar() {
         </div>
         <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
           <span className="font-semibold text-sm tracking-tight text-slate-900">Surat Digital</span>
-          <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Arsip Modern</span>
+          <span className="text-[10px] font-medium text-slate-400 tracking-tight">Arsip Modern</span>
         </div>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-2 mb-2">Menu Utama</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-semibold text-slate-400 px-2 mb-2">Menu Utama</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
@@ -100,7 +100,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup className="mt-2">
-          <SidebarGroupLabel className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-2 mb-2">Lainnya</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-semibold text-slate-400 px-2 mb-2">Lainnya</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>

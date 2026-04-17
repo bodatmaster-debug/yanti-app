@@ -150,7 +150,7 @@ export default function Dashboard() {
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-8 w-8 text-slate-600 hover:bg-slate-50 transition-colors" />
           <div className="h-6 w-px bg-slate-200 hidden md:block" />
-          <h2 className="text-[10px] font-medium text-slate-400 hidden md:block tracking-[0.2em] uppercase">Digital Archive Management</h2>
+          <h2 className="text-[11px] font-medium text-slate-400 hidden md:block tracking-tight">Manajemen Arsip Digital</h2>
         </div>
         
         <div className="flex items-center gap-3">
@@ -189,13 +189,13 @@ export default function Dashboard() {
 
       <div className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
         <div className="space-y-1">
-          <h1 className="typography-h1">Daftar Arsip Surat</h1>
-          <p className="typography-muted text-sm">Monitor dan kelola seluruh dokumen dinas secara efisien.</p>
+          <h1 className="typography-h1">Arsip Surat</h1>
+          <p className="typography-muted text-sm font-medium">Monitor dan kelola seluruh dokumen dinas secara efisien.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <StatsCard 
-            label="Total Arsip Dokumen" 
+            label="Total Arsip" 
             value={letters.length} 
             icon={<LayoutGrid className="h-5 w-5" />} 
           />
@@ -248,7 +248,7 @@ export default function Dashboard() {
                 >
                   <div className="flex flex-col items-center gap-3">
                     <Loader2 className="h-8 w-8 animate-spin text-slate-200" />
-                    <p className="text-[10px] font-medium text-slate-400 tracking-[0.2em] uppercase">Memuat Data</p>
+                    <p className="text-[11px] font-medium text-slate-400 tracking-tight">Memuat Data</p>
                   </div>
                 </motion.div>
               ) : filteredLetters.length > 0 ? (
@@ -272,7 +272,7 @@ export default function Dashboard() {
                 >
                   <Mail className="h-10 w-10 text-slate-100 mx-auto mb-4" />
                   <h3 className="typography-h3 text-slate-900">Arsip Tidak Ditemukan</h3>
-                  <p className="typography-muted">Sesuaikan kata kunci atau filter pencarian Anda.</p>
+                  <p className="typography-muted font-medium">Sesuaikan kata kunci atau filter pencarian Anda.</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -287,7 +287,7 @@ function StatsCard({ label, value, icon }: { label: string, value: number, icon:
   return (
     <div className="border border-slate-300 bg-white p-6 flex items-center justify-between rounded-lg hover:border-slate-400 transition-colors">
       <div className="space-y-1">
-        <p className="text-[10px] font-medium text-slate-400 tracking-[0.15em] uppercase mb-1">{label}</p>
+        <p className="text-[11px] font-medium text-slate-400 mb-1">{label}</p>
         <h4 className="text-2xl font-semibold tracking-tight text-slate-900">{value}</h4>
       </div>
       <div className="h-12 w-12 rounded border border-slate-100 flex items-center justify-center text-slate-400 bg-slate-50/50 transition-colors">

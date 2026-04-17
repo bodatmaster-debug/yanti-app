@@ -90,17 +90,17 @@ export default function LetterForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full bg-white overflow-hidden">
-        {/* SECTION 1: HEADER - Title Case, Thin Font, No Frame */}
+        {/* SECTION 1: HEADER */}
         <div className="px-6 py-5 border-b border-slate-300 bg-white flex items-center justify-between shrink-0">
           <div className="space-y-0.5">
             <h2 className="text-lg font-semibold tracking-tight text-slate-900 leading-none">Tambah Arsip Surat</h2>
             <p className="text-[11px] font-medium text-slate-400 tracking-tight">Kelola metadata surat untuk kearsipan digital.</p>
           </div>
           
-          <div className="flex items-center gap-1">
-            <div className="flex flex-col items-end pr-1">
-              <span className="text-[10px] text-slate-400 font-medium tracking-wide">No. Agenda</span>
-              <span className="text-sm font-medium text-slate-800 tabular-nums tracking-tight">{nextAgendaNumber}</span>
+          <div className="flex items-center gap-1.5">
+            <div className="flex flex-col items-end">
+              <span className="text-[10px] text-slate-400 font-medium">No. Agenda</span>
+              <span className="text-sm font-medium text-slate-800 tabular-nums">{nextAgendaNumber}</span>
             </div>
 
             <TooltipProvider>
@@ -109,12 +109,12 @@ export default function LetterForm({
                   <button 
                     type="button" 
                     className="flex items-center justify-center text-slate-300 hover:text-slate-500 transition-colors focus:outline-none"
-                    onFocus={(e) => e.target.blur()} // Anti auto-show saat dialog buka
+                    onFocus={(e) => e.target.blur()}
                   >
                     <AlertCircle className="h-3.5 w-3.5" />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="bottom" align="end">
+                <TooltipContent side="bottom" align="end" className="p-3">
                   <div className="space-y-2 text-left">
                     <p className="text-[10px] font-semibold border-b border-slate-600 pb-1 mb-1">Arsip Terakhir</p>
                     {lastLetter ? (
@@ -133,11 +133,11 @@ export default function LetterForm({
           </div>
         </div>
 
-        {/* SECTION 2: INPUT AREA - 2 Column Layout with Vertical Separator */}
+        {/* SECTION 2: INPUT AREA */}
         <ScrollArea className="flex-1">
           <div className="p-6">
             <div className="flex gap-8">
-              {/* LEFT COLUMN: Admin Data */}
+              {/* LEFT COLUMN */}
               <div className="w-44 space-y-4 shrink-0">
                 <FormField
                   control={form.control}
@@ -206,7 +206,7 @@ export default function LetterForm({
 
               <Separator orientation="vertical" className="h-auto bg-slate-200" />
 
-              {/* RIGHT COLUMN: Metadata */}
+              {/* RIGHT COLUMN */}
               <div className="flex-1 space-y-4">
                 <FormField
                   control={form.control}
@@ -217,7 +217,7 @@ export default function LetterForm({
                         <FieldLabel className="text-slate-900 text-[12px] font-medium leading-none">Nomor Surat</FieldLabel>
                         <FormControl>
                           <Input 
-                            autoFocus // Focus di sini agar tooltip di atas tidak terpicu otomatis
+                            autoFocus
                             placeholder="Masukan nomor surat dinas..." 
                             {...field} 
                             className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none" 
