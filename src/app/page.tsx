@@ -26,6 +26,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
@@ -104,7 +105,7 @@ export default function Dashboard() {
     setIsFormOpen(false);
     toast({
       title: "Berhasil",
-      description: "Surat berhasil ditambahkan ke arsip.",
+      description: "Surat Berhasil Ditambahkan Ke Arsip.",
     });
   };
 
@@ -112,7 +113,7 @@ export default function Dashboard() {
     setLetters(prev => prev.map(l => l.id === id ? { ...l, ...data, updatedAt: new Date().toISOString() } : l));
     toast({
       title: "Berhasil",
-      description: "Data surat telah diperbarui.",
+      description: "Data Surat Telah Diperbarui.",
     });
   };
 
@@ -120,7 +121,7 @@ export default function Dashboard() {
     setLetters(prev => prev.filter(l => l.id !== id));
     toast({
       title: "Terhapus",
-      description: "Surat telah dihapus dari arsip.",
+      description: "Surat Telah Dihapus Dari Arsip.",
     });
   };
 
@@ -130,7 +131,7 @@ export default function Dashboard() {
     } catch (err) {
       toast({
         title: "Gagal Export",
-        description: "Terjadi kesalahan saat mengekspor data.",
+        description: "Terjadi Kesalahan Saat Mengekspor Data.",
         variant: "destructive"
       });
     }
@@ -140,33 +141,36 @@ export default function Dashboard() {
     <div className="flex flex-col min-h-screen bg-white">
       <header className="h-16 border-b border-border bg-white flex items-center justify-between px-6 sticky top-0 z-20">
         <div className="flex items-center gap-4">
-          <SidebarTrigger />
-          <div className="h-6 w-px bg-border hidden md:block" />
-          <h2 className="text-sm font-medium text-muted-foreground hidden md:block tracking-tight">Manajemen Arsip</h2>
+          <SidebarTrigger className="h-8 w-8 text-slate-600 hover:bg-slate-50 transition-colors" />
+          <div className="h-6 w-px bg-border hidden md:block shadow-none" />
+          <h2 className="text-sm font-semibold text-slate-500 hidden md:block tracking-tight">Manajemen Arsip Digital</h2>
         </div>
         
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Button 
             variant="outline" 
             size="sm"
             onClick={handleExport}
-            className="hidden sm:flex border-border h-9 text-xs font-medium"
+            className="hidden sm:flex border-border h-9 text-xs font-bold tracking-tight shadow-none hover:bg-slate-50"
           >
-            <FileSpreadsheet className="mr-2 h-4 w-4" />
-            Export Data
+            <FileSpreadsheet className="mr-2 h-4 w-4 text-emerald-600" />
+            Export Excel
           </Button>
           <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
             <DialogTrigger asChild>
-              <Button size="sm" className="bg-primary text-primary-foreground h-9 text-xs font-semibold">
+              <Button size="sm" className="bg-primary text-primary-foreground h-9 text-xs font-bold tracking-tight shadow-none px-4">
                 <Plus className="mr-2 h-4 w-4" />
-                Arsip Baru
+                Tambah Arsip
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl border border-border">
-              <DialogHeader>
-                <DialogTitle className="text-xl font-semibold tracking-tight">Tambah Arsip Surat</DialogTitle>
-              </DialogHeader>
-              <LetterForm onSubmit={handleAddLetter} onCancel={() => setIsFormOpen(false)} />
+            <DialogContent className="max-w-2xl border border-border bg-white shadow-none rounded-lg focus:outline-none p-0 overflow-hidden">
+              <div className="p-6">
+                <DialogHeader className="mb-4">
+                  <DialogTitle className="text-2xl font-bold tracking-tight text-slate-900">Tambah Arsip Surat</DialogTitle>
+                  <DialogDescription className="text-sm text-slate-500 font-medium">Lengkapi metadata surat untuk kearsipan yang lebih baik.</DialogDescription>
+                </DialogHeader>
+                <LetterForm onSubmit={handleAddLetter} onCancel={() => setIsFormOpen(false)} />
+              </div>
             </DialogContent>
           </Dialog>
         </div>
@@ -174,13 +178,13 @@ export default function Dashboard() {
 
       <div className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
         <div className="flex flex-col gap-1">
-          <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0">Daftar Surat</h1>
-          <p className="text-sm text-muted-foreground leading-7">Monitor dan kelola seluruh dokumen surat dinas secara digital.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Daftar Arsip Surat</h1>
+          <p className="text-sm text-slate-500 font-medium leading-normal">Monitor dan kelola seluruh dokumen dinas secara efisien dalam satu dashboard.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <StatsCard 
-            label="Total Arsip" 
+            label="Total Arsip Dokumen" 
             value={letters.length} 
             icon={<LayoutGrid className="h-4 w-4" />} 
           />
@@ -196,25 +200,25 @@ export default function Dashboard() {
           />
         </div>
 
-        <Card className="border border-border bg-white rounded-lg overflow-hidden">
+        <Card className="border border-border bg-white rounded-lg overflow-hidden shadow-none">
           <CardContent className="p-0">
-            <div className="p-4 border-b border-border flex flex-col md:flex-row gap-4 items-center justify-between bg-white">
-              <div className="relative w-full md:max-w-sm">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="p-4 border-b border-border flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50/30">
+              <div className="relative w-full md:max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                 <Input 
-                  placeholder="Cari nomor atau subjek..." 
-                  className="pl-9 bg-white border-border text-sm"
+                  placeholder="Cari Nomor Surat, Subjek, atau Instansi..." 
+                  className="pl-10 bg-white border-border text-sm h-10 shadow-none focus:ring-1 focus:ring-slate-400"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-                  <SelectTrigger className="w-full md:w-[160px] bg-white border-border text-sm font-medium">
-                    <SelectValue placeholder="Semua Tipe" />
+                  <SelectTrigger className="w-full md:w-[180px] bg-white border-border text-sm font-bold shadow-none h-10">
+                    <SelectValue placeholder="Semua Kategori" />
                   </SelectTrigger>
-                  <SelectContent className="border border-border">
-                    <SelectItem value="All">Semua Tipe</SelectItem>
+                  <SelectContent className="border border-border bg-white shadow-none">
+                    <SelectItem value="All">Semua Kategori</SelectItem>
                     <SelectItem value="Masuk">Surat Masuk</SelectItem>
                     <SelectItem value="Keluar">Surat Keluar</SelectItem>
                   </SelectContent>
@@ -222,7 +226,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="relative min-h-[400px]">
+            <div className="relative min-h-[480px]">
               <AnimatePresence mode="wait">
                 {isLoading ? (
                   <motion.div 
@@ -232,7 +236,10 @@ export default function Dashboard() {
                     exit={{ opacity: 0 }}
                     className="absolute inset-0 flex items-center justify-center"
                   >
-                    <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    <div className="flex flex-col items-center gap-3">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                      <p className="text-xs font-bold text-slate-400 tracking-widest uppercase">Memuat Data...</p>
+                    </div>
                   </motion.div>
                 ) : filteredLetters.length > 0 ? (
                   <motion.div
@@ -251,11 +258,11 @@ export default function Dashboard() {
                     key="empty"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="py-24 text-center"
+                    className="py-32 text-center"
                   >
-                    <Mail className="h-10 w-10 text-muted-foreground/30 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold tracking-tight">Data Tidak Ditemukan</h3>
-                    <p className="text-sm text-muted-foreground">Silakan periksa kembali filter atau kata kunci Anda.</p>
+                    <Mail className="h-12 w-12 text-slate-200 mx-auto mb-4" />
+                    <h3 className="text-xl font-bold tracking-tight text-slate-900">Arsip Tidak Ditemukan</h3>
+                    <p className="text-sm text-slate-400 font-medium">Silakan Sesuaikan Kata Kunci Atau Filter Pencarian Anda.</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -269,13 +276,13 @@ export default function Dashboard() {
 
 function StatsCard({ label, value, icon }: { label: string, value: number, icon: React.ReactNode }) {
   return (
-    <Card className="border border-border bg-white transition-all hover:border-primary/30">
-      <CardContent className="p-5 flex items-center justify-between">
+    <Card className="border border-border bg-white transition-all hover:border-slate-400 shadow-none group">
+      <CardContent className="p-6 flex items-center justify-between">
         <div className="space-y-1">
-          <p className="text-sm font-medium text-muted-foreground tracking-tight">{label}</p>
-          <h4 className="text-2xl font-bold tracking-tight tabular-nums">{value}</h4>
+          <p className="text-xs font-bold text-slate-400 tracking-tight leading-none mb-2">{label}</p>
+          <h4 className="text-3xl font-bold tracking-tight tabular-nums text-slate-900">{value}</h4>
         </div>
-        <div className="h-10 w-10 rounded border border-border flex items-center justify-center text-muted-foreground bg-muted/30">
+        <div className="h-12 w-12 rounded-lg border border-border flex items-center justify-center text-slate-400 bg-white group-hover:text-primary group-hover:border-primary/50 transition-colors shadow-none">
           {icon}
         </div>
       </CardContent>
