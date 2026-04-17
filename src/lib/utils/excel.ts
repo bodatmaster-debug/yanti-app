@@ -1,4 +1,3 @@
-
 import ExcelJS from 'exceljs';
 import type { Letter } from '@/lib/types';
 import { format } from 'date-fns';
@@ -29,7 +28,7 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   // 2. Add Header / Kop Surat (Merged next to logo)
   worksheet.mergeCells('B1:H1');
   const titleCell = worksheet.getCell('B1');
-  titleCell.value = 'SISTEM MANAJEMEN ARSIP DIGITAL - SURAT DIGITAL';
+  titleCell.value = 'SISTEM PENGARSIPAN YANTI';
   titleCell.font = { name: 'Arial', size: 14, bold: true };
   titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
@@ -66,7 +65,7 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
     cell.fill = {
       type: 'pattern',
       pattern: 'solid',
-      fgColor: { argb: 'FF1E2021' }, // Dark Slate from theme
+      fgColor: { argb: 'FF1E2021' }, 
     };
     cell.font = { color: { argb: 'FFFFFFFF' }, bold: true };
     cell.alignment = { vertical: 'middle', horizontal: 'center' };
@@ -108,8 +107,8 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   const filename = options?.month 
-    ? `arsip_surat_${options.year}_${options.month}.xlsx` 
-    : `arsip_surat_lengkap_${new Date().toISOString().split('T')[0]}.xlsx`;
+    ? `arsip_yanti_${options.year}_${options.month}.xlsx` 
+    : `arsip_yanti_lengkap_${new Date().toISOString().split('T')[0]}.xlsx`;
   
   link.href = url;
   link.download = filename;

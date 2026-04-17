@@ -5,8 +5,8 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/layout/AppSidebar"
 
 export const metadata: Metadata = {
-  title: 'Surat Digital - Arsip Surat Modern',
-  description: 'Sistem kearsipan surat digital dengan manajemen metadata komprehensif.',
+  title: 'Pengarsipan Yanti',
+  description: 'App untuk Yanti untuk mengarsip surat',
 };
 
 export default function RootLayout({
