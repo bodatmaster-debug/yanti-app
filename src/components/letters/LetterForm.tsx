@@ -81,7 +81,7 @@ export default function LetterForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full bg-white overflow-hidden">
-        {/* SECTION 1: HEADER */}
+        {/* SECTION 1: HEADER - Clean Title Case, No Separate Outline */}
         <div className="px-6 py-5 border-b border-slate-300 bg-white flex items-center justify-between shrink-0">
           <div className="space-y-0.5">
             <h2 className="text-xl font-semibold tracking-tight text-slate-900 leading-none">Tambah Arsip Surat</h2>
@@ -128,7 +128,7 @@ export default function LetterForm({
           </div>
         </div>
 
-        {/* SECTION 2: INPUT AREA */}
+        {/* SECTION 2: INPUT AREA - 2 Column Layout with Vertical Separator */}
         <ScrollArea className="flex-1">
           <div className="p-6">
             <div className="flex gap-10">

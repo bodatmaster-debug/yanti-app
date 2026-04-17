@@ -44,12 +44,12 @@
     @apply bg-background text-foreground font-body antialiased;
   }
   
-  /* Strictly shadowless modern outline style */
+  /* Strictly shadowless modern outline style - Refined to 1px */
   .shadow-sm, .shadow-md, .shadow-lg, .shadow, .shadow-xl {
     @apply shadow-none !important;
   }
   
-  /* Visible but thin 1px border */
+  /* Visible but thin 1px border - standardized to slate-300 for clarity */
   .border {
     @apply border-[1px] border-slate-300;
   }
@@ -58,7 +58,7 @@
     @apply outline-none ring-1 ring-ring ring-offset-0;
   }
 
-  /* Dim background with blur for popups */
+  /* Dim background with subtle blur for popups */
   [data-state=open].fixed.inset-0.z-50.bg-black\/80 {
     @apply bg-black/30 backdrop-blur-sm transition-all duration-300;
   }

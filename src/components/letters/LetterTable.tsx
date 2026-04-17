@@ -84,7 +84,7 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
                 <TableCell>
                   <Badge 
                     variant="outline" 
-                    className={`font-bold text-[10px] px-2.5 py-0.5 rounded-sm tracking-tight shadow-none ${
+                    className={`font-semibold text-[10px] px-2.5 py-0.5 rounded-sm tracking-tight shadow-none ${
                       letter.type === 'Masuk' 
                         ? 'border-emerald-200 bg-emerald-50/30 text-emerald-700' 
                         : 'border-sky-200 bg-sky-50/30 text-sky-700'
@@ -117,17 +117,17 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
                         <MoreVertical className="h-4 w-4 text-slate-400" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[200px] border border-border rounded bg-white p-1 shadow-none">
+                    <DropdownMenuContent align="end" className="w-[200px] border border-slate-300 rounded bg-white p-1 shadow-none">
                       <DropdownMenuItem onClick={() => handleOpenDetail(letter)} className="text-xs font-medium focus:bg-slate-50 cursor-pointer py-2">
                         <Eye className="mr-2 h-4 w-4" /> Detail Arsip
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => handleOpenEdit(letter)} className="text-xs font-medium focus:bg-slate-50 cursor-pointer py-2">
                         <Edit className="mr-2 h-4 w-4" /> Edit Metadata
                       </DropdownMenuItem>
-                      <DropdownMenuSeparator className="bg-border mx-1 my-1 shadow-none" />
+                      <DropdownMenuSeparator className="bg-slate-100 mx-1 my-1 shadow-none" />
                       <DropdownMenuItem 
                         onClick={() => onDelete(letter.id)}
-                        className="text-destructive focus:text-destructive focus:bg-destructive/5 text-xs font-bold cursor-pointer py-2"
+                        className="text-destructive focus:text-destructive focus:bg-destructive/5 text-xs font-semibold cursor-pointer py-2"
                       >
                         <Trash2 className="mr-2 h-4 w-4" /> Hapus Permanen
                       </DropdownMenuItem>
@@ -141,9 +141,9 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
       </div>
 
       <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <DialogContent className="max-w-3xl border border-border rounded-lg bg-white shadow-none focus:outline-none">
+        <DialogContent className="max-w-3xl border border-slate-300 rounded-lg bg-white shadow-none focus:outline-none">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold tracking-tight text-slate-900">Rincian Arsip Surat</DialogTitle>
+            <DialogTitle className="text-xl font-semibold tracking-tight text-slate-900">Rincian Arsip Surat</DialogTitle>
             <DialogDescription className="text-xs text-muted-foreground">Informasi lengkap mengenai dokumen yang diarsipkan.</DialogDescription>
           </DialogHeader>
           <div className="mt-4">
@@ -153,20 +153,12 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
       </Dialog>
 
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="max-w-2xl border border-border rounded-lg bg-white shadow-none focus:outline-none overflow-hidden">
-          <DialogHeader className="p-1">
-            <DialogTitle className="text-xl font-bold tracking-tight text-slate-900">Ubah Informasi Surat</DialogTitle>
-            <DialogDescription className="text-xs text-muted-foreground">Sesuaikan metadata surat untuk akurasi data pengarsipan.</DialogDescription>
-          </DialogHeader>
-          <div className="mt-2">
-            {editingLetter && (
-              <LetterForm 
-                initialData={editingLetter} 
-                onSubmit={handleUpdate} 
-                onCancel={() => setIsEditOpen(false)} 
-              />
-            )}
-          </div>
+        <DialogContent className="max-w-2xl border border-slate-300 rounded-lg bg-white shadow-none focus:outline-none overflow-hidden p-0">
+          <LetterForm 
+            initialData={editingLetter || undefined} 
+            onSubmit={handleUpdate} 
+            onCancel={() => setIsEditOpen(false)} 
+          />
         </DialogContent>
       </Dialog>
     </>
