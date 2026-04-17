@@ -82,13 +82,6 @@ export default function LetterForm({
     },
   });
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setFileName(file.name);
-    }
-  };
-
   const onHandleSubmit = (values: z.infer<typeof formSchema>) => {
     onSubmit({
       ...values,
@@ -99,43 +92,37 @@ export default function LetterForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full max-h-[85vh] bg-white">
-        {/* SECTION 1: HEADER & AGENDA INFO */}
-        <div className="px-6 py-5 flex items-center justify-between border-b border-slate-100 bg-white">
-          <Item variant="outline" size="sm" className="flex-1 bg-white border-slate-200 rounded-md py-2 px-3">
-            <ItemMedia variant="icon" className="bg-slate-50 text-slate-500 border-slate-200 size-7">
+      <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full bg-white">
+        {/* SECTION 1: HEADER (Sticky) */}
+        <div className="px-6 py-4 flex items-center justify-between border-b border-slate-200">
+          <Item variant="outline" size="sm" className="bg-white border-slate-300 rounded-md py-2 px-3">
+            <ItemMedia variant="icon" className="bg-slate-50 text-slate-600 border-slate-300 size-7">
               <Hash className="h-4 w-4" />
             </ItemMedia>
             <ItemContent className="gap-0 ml-1">
-              <p className="text-[10px] text-slate-400 font-medium tracking-tight">Agenda Berikutnya</p>
-              <p className="text-sm font-bold text-slate-900 tracking-tight leading-none">
-                {nextAgendaNumber}
-              </p>
+              <p className="text-[10px] text-slate-500 font-medium">Agenda Berikutnya</p>
+              <p className="text-sm font-bold text-slate-900">{nextAgendaNumber}</p>
             </ItemContent>
           </Item>
 
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" size="icon" className="h-9 w-9 border-slate-200 text-slate-400 hover:text-primary transition-all rounded-md shrink-0 ml-3">
+                <Button variant="outline" size="icon" className="h-9 w-9 border-slate-300 text-slate-600 hover:text-primary transition-all rounded-md shrink-0 ml-3">
                   <AlertCircle className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="left" className="bg-white border border-slate-200 p-4 shadow-none w-80 rounded-md">
-                <div className="space-y-3">
-                  <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase pb-1 border-b border-slate-50">Arsip Terakhir</p>
+              <TooltipContent side="left" className="bg-white border border-slate-300 p-4 shadow-none w-80 rounded-md">
+                <div className="space-y-2">
+                  <p className="text-xs font-bold text-slate-400 border-b pb-1">Arsip Terakhir</p>
                   {lastLetter ? (
-                    <div className="space-y-2 text-xs text-slate-600">
-                      <div className="flex justify-between"><span>No. Agenda:</span> <span className="font-semibold text-slate-900">{lastLetter.id}</span></div>
-                      <div className="flex justify-between"><span>No. Surat:</span> <span className="font-semibold text-slate-900">{lastLetter.refNumber}</span></div>
-                      <div className="flex justify-between"><span>Tanggal:</span> <span className="text-slate-900 font-medium">{format(new Date(lastLetter.date), 'dd MMM yyyy')}</span></div>
-                      <div className="flex flex-col gap-1 mt-1">
-                        <span className="text-slate-400">Perihal:</span>
-                        <span className="text-slate-900 font-semibold leading-relaxed">{lastLetter.subject}</span>
-                      </div>
+                    <div className="space-y-1 text-[11px] text-slate-600">
+                      <div className="flex justify-between"><span>No. Agenda:</span> <span className="font-semibold">{lastLetter.id}</span></div>
+                      <div className="flex justify-between"><span>No. Surat:</span> <span className="font-semibold">{lastLetter.refNumber}</span></div>
+                      <div className="flex justify-between"><span>Hal:</span> <span className="font-semibold text-right max-w-[120px] truncate">{lastLetter.subject}</span></div>
                     </div>
                   ) : (
-                    <p className="text-xs text-slate-400 italic">Belum Ada Data Tersimpan.</p>
+                    <p className="text-[11px] text-slate-400 italic">Belum Ada Data.</p>
                   )}
                 </div>
               </TooltipContent>
@@ -143,8 +130,8 @@ export default function LetterForm({
           </TooltipProvider>
         </div>
 
-        {/* SECTION 2: INPUT AREA (SCROLLABLE) */}
-        <ScrollArea className="flex-1">
+        {/* SECTION 2: INPUT AREA (Scrollable) */}
+        <ScrollArea className="flex-1 max-h-[60vh]">
           <div className="px-6 py-6 space-y-6">
             <div className="grid grid-cols-2 gap-5">
               <FormField
@@ -152,19 +139,18 @@ export default function LetterForm({
                 name="type"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-medium text-slate-900 tracking-tight">Jenis Surat</FormLabel>
+                    <FormLabel className="typography-p">Jenis Surat</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="h-10 border-slate-200 bg-white text-sm">
+                        <SelectTrigger className="h-10 border-slate-300 bg-white">
                           <SelectValue placeholder="Pilih Jenis" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="bg-white border-slate-200">
-                        <SelectItem value="Masuk" className="text-sm">Surat Masuk</SelectItem>
-                        <SelectItem value="Keluar" className="text-sm">Surat Keluar</SelectItem>
+                      <SelectContent className="bg-white border-slate-300">
+                        <SelectItem value="Masuk">Surat Masuk</SelectItem>
+                        <SelectItem value="Keluar">Surat Keluar</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage className="text-[10px]" />
                   </FormItem>
                 )}
               />
@@ -174,33 +160,31 @@ export default function LetterForm({
                 name="date"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel className="text-xs font-medium text-slate-900 tracking-tight mb-2">Tanggal Surat</FormLabel>
+                    <FormLabel className="typography-p mb-2">Tanggal Surat</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
                             variant="outline"
                             className={cn(
-                              "h-10 w-full pl-3 text-left font-normal border-slate-200 bg-white text-sm",
-                              !field.value && "text-slate-400"
+                              "h-10 w-full pl-3 text-left font-normal border-slate-300 bg-white",
+                              !field.value && "typography-muted"
                             )}
                           >
                             {field.value ? format(new Date(field.value), "dd MMM yyyy") : <span>Pilih Tanggal</span>}
-                            <CalendarIcon className="ml-auto h-4 w-4 text-slate-400" />
+                            <CalendarIcon className="ml-auto h-4 w-4 text-slate-500" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0 bg-white border-slate-200" align="start">
+                      <PopoverContent className="w-auto p-0 bg-white border-slate-300" align="start">
                         <Calendar
                           mode="single"
                           selected={new Date(field.value)}
                           onSelect={(date) => field.onChange(date ? format(date, 'yyyy-MM-dd') : '')}
                           disabled={(date) => date > new Date()}
-                          initialFocus
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormMessage className="text-[10px]" />
                   </FormItem>
                 )}
               />
@@ -211,18 +195,14 @@ export default function LetterForm({
               name="refNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-medium text-slate-900 tracking-tight">Nomor Surat</FormLabel>
+                  <FormLabel className="typography-p">Nomor Surat</FormLabel>
                   <FormControl>
-                    <div className="relative group">
-                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                      <Input 
-                        placeholder="Ketik Nomor Surat..." 
-                        {...field} 
-                        className="pl-9 h-10 border-slate-200 bg-white text-sm placeholder:text-slate-300" 
-                      />
-                    </div>
+                    <Input 
+                      placeholder="Ketik Nomor Surat..." 
+                      {...field} 
+                      className="h-10 border-slate-300 bg-white typography-p placeholder:typography-muted" 
+                    />
                   </FormControl>
-                  <FormMessage className="text-[10px]" />
                 </FormItem>
               )}
             />
@@ -232,18 +212,14 @@ export default function LetterForm({
               name="subject"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs font-medium text-slate-900 tracking-tight">Perihal</FormLabel>
+                  <FormLabel className="typography-p">Perihal</FormLabel>
                   <FormControl>
-                    <div className="relative group">
-                      <FileText className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                      <Input 
-                        placeholder="Ringkasan Isi Surat..." 
-                        {...field} 
-                        className="pl-9 h-10 border-slate-200 bg-white text-sm placeholder:text-slate-300" 
-                      />
-                    </div>
+                    <Input 
+                      placeholder="Ringkasan Isi Surat..." 
+                      {...field} 
+                      className="h-10 border-slate-300 bg-white typography-p placeholder:typography-muted" 
+                    />
                   </FormControl>
-                  <FormMessage className="text-[10px]" />
                 </FormItem>
               )}
             />
@@ -254,18 +230,14 @@ export default function LetterForm({
                 name="sender"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-medium text-slate-900 tracking-tight">Pengirim</FormLabel>
+                    <FormLabel className="typography-p">Pengirim</FormLabel>
                     <FormControl>
-                      <div className="relative group">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                        <Input 
-                          placeholder="Nama / Instansi" 
-                          {...field} 
-                          className="pl-9 h-10 border-slate-200 bg-white text-sm placeholder:text-slate-300" 
-                        />
-                      </div>
+                      <Input 
+                        placeholder="Nama / Instansi" 
+                        {...field} 
+                        className="h-10 border-slate-300 bg-white typography-p placeholder:typography-muted" 
+                      />
                     </FormControl>
-                    <FormMessage className="text-[10px]" />
                   </FormItem>
                 )}
               />
@@ -274,67 +246,34 @@ export default function LetterForm({
                 name="recipient"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-medium text-slate-900 tracking-tight">Penerima</FormLabel>
+                    <FormLabel className="typography-p">Penerima</FormLabel>
                     <FormControl>
-                      <div className="relative group">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                        <Input 
-                          placeholder="Nama / Instansi" 
-                          {...field} 
-                          className="pl-9 h-10 border-slate-200 bg-white text-sm placeholder:text-slate-300" 
-                        />
-                      </div>
+                      <Input 
+                        placeholder="Nama / Instansi" 
+                        {...field} 
+                        className="h-10 border-slate-300 bg-white typography-p placeholder:typography-muted" 
+                      />
                     </FormControl>
-                    <FormMessage className="text-[10px]" />
                   </FormItem>
                 )}
               />
             </div>
-
-            <div className="space-y-3">
-              <p className="text-xs font-medium text-slate-900 tracking-tight">Digital Scan</p>
-              <div 
-                className={cn(
-                  "border border-dashed rounded-lg p-5 flex flex-col items-center justify-center transition-all bg-white cursor-pointer hover:bg-slate-50",
-                  fileName ? "border-emerald-200 bg-emerald-50/20" : "border-slate-200"
-                )} 
-                onClick={() => document.getElementById('file-upload')?.click()}
-              >
-                {fileName ? (
-                  <div className="flex items-center gap-3 w-full">
-                    <div className="bg-white p-2 rounded-md border border-emerald-100">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                    </div>
-                    <div className="flex-1 overflow-hidden">
-                      <p className="text-xs font-bold text-slate-700 truncate">{fileName}</p>
-                      <p className="text-[10px] text-slate-400 font-medium">Klik Untuk Mengganti File</p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center gap-2">
-                    <Upload className="h-5 w-5 text-slate-400 mb-1" />
-                    <p className="text-xs font-medium text-slate-400">Pilih Dokumen PDF (Maks. 5MB)</p>
-                  </div>
-                )}
-                <input id="file-upload" type="file" className="hidden" onChange={handleFileUpload} accept=".pdf" />
-              </div>
-            </div>
           </div>
         </ScrollArea>
 
-        {/* SECTION 3: FOOTER ACTIONS */}
-        <div className="px-6 py-5 border-t border-slate-100 flex items-center justify-end gap-3 bg-white">
+        {/* SECTION 3: FOOTER (Sticky) */}
+        <div className="px-6 py-4 border-t border-slate-200 flex items-center justify-end gap-3 bg-white">
           <Button 
             type="button" 
             variant="ghost" 
             onClick={onCancel} 
-            className="text-xs font-semibold text-slate-500 hover:bg-slate-50 h-10 px-6 rounded-md transition-all"
+            className="text-xs font-semibold text-slate-500 hover:bg-slate-50"
           >
             Batal
           </Button>
           <Button 
             type="submit" 
-            className="min-w-[140px] bg-primary text-primary-foreground text-xs font-bold tracking-tight h-10 rounded-md shadow-none hover:bg-primary/90 transition-all border border-primary"
+            className="bg-primary text-primary-foreground text-xs font-bold h-10 px-6 rounded-md border border-primary"
           >
             Simpan Arsip
           </Button>

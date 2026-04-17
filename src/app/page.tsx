@@ -29,7 +29,7 @@ import {
   DialogDescription,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Card, CardContent } from '@/Card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Letter, LetterType } from '@/lib/types';
 import { exportLettersToExcel } from '@/lib/utils/excel';
 import LetterTable from '@/components/letters/LetterTable';
@@ -146,11 +146,11 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <header className="h-16 border-b border-slate-200 bg-white flex items-center justify-between px-6 sticky top-0 z-20">
+      <header className="h-16 border-b border-slate-300 bg-white flex items-center justify-between px-6 sticky top-0 z-20">
         <div className="flex items-center gap-4">
-          <SidebarTrigger className="h-8 w-8 text-slate-500 hover:bg-slate-50 transition-colors" />
+          <SidebarTrigger className="h-8 w-8 text-slate-600 hover:bg-slate-50 transition-colors" />
           <div className="h-6 w-px bg-slate-200 hidden md:block" />
-          <h2 className="text-[11px] font-bold text-slate-400 hidden md:block tracking-widest uppercase">Manajemen Arsip Digital</h2>
+          <h2 className="text-[11px] font-bold text-slate-500 hidden md:block tracking-widest uppercase">Manajemen Arsip Digital</h2>
         </div>
         
         <div className="flex items-center gap-3">
@@ -158,23 +158,23 @@ export default function Dashboard() {
             variant="ghost" 
             size="sm"
             onClick={handleExport}
-            className="hidden sm:flex h-9 text-xs font-semibold text-slate-600 hover:bg-slate-50 tracking-wide"
+            className="hidden sm:flex h-9 text-xs font-semibold text-slate-600 hover:bg-slate-50"
           >
             <FileSpreadsheet className="mr-2 h-4 w-4 text-emerald-600" />
             Export Excel
           </Button>
           <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
             <DialogTrigger asChild>
-              <Button size="sm" className="bg-primary text-primary-foreground h-9 text-xs font-bold px-5 tracking-wide border border-primary">
+              <Button size="sm" className="bg-primary text-primary-foreground h-9 text-xs font-bold px-5 border border-primary shadow-none hover:bg-primary/90">
                 <Plus className="mr-2 h-4 w-4" />
                 Tambah Arsip
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-lg border-slate-200 bg-white p-0 overflow-hidden max-h-[95vh] flex flex-col focus:outline-none">
-              <div className="p-6 border-b border-slate-100 bg-white">
+            <DialogContent className="max-w-lg border-slate-300 bg-white p-0 overflow-hidden max-h-[85vh] flex flex-col focus:outline-none">
+              <div className="p-6 border-b border-slate-200 bg-white">
                 <DialogHeader className="space-y-1 text-left">
-                  <DialogTitle className="text-xl font-bold tracking-tight text-slate-900">Tambah Arsip Surat</DialogTitle>
-                  <DialogDescription className="text-xs text-slate-400 font-medium tracking-wide">Lengkapi metadata surat untuk kearsipan yang lebih baik.</DialogDescription>
+                  <DialogTitle className="text-lg font-bold tracking-tight text-slate-900">Tambah Arsip Surat</DialogTitle>
+                  <DialogDescription className="text-xs text-slate-400 font-medium">Lengkapi metadata surat untuk kearsipan yang lebih baik.</DialogDescription>
                 </DialogHeader>
               </div>
               <LetterForm 
@@ -212,23 +212,23 @@ export default function Dashboard() {
           />
         </div>
 
-        <div className="border border-slate-200 bg-white rounded-lg overflow-hidden">
-          <div className="p-4 border-b border-slate-100 flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50/20">
+        <div className="border border-slate-300 bg-white rounded-lg overflow-hidden">
+          <div className="p-4 border-b border-slate-200 flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50/20">
             <div className="relative w-full md:max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
               <Input 
                 placeholder="Cari nomor surat, subjek, atau instansi..." 
-                className="pl-10 bg-white border-slate-200 text-sm h-10 tracking-wide focus:ring-0"
+                className="pl-10 bg-white border-slate-300 text-sm h-10 tracking-wide focus:ring-0"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
               <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-                <SelectTrigger className="w-full md:w-[180px] bg-white border-slate-200 text-sm font-semibold h-10 tracking-wide">
+                <SelectTrigger className="w-full md:w-[180px] bg-white border-slate-300 text-sm font-semibold h-10">
                   <SelectValue placeholder="Semua Kategori" />
                 </SelectTrigger>
-                <SelectContent className="border-slate-200 bg-white">
+                <SelectContent className="border-slate-300 bg-white">
                   <SelectItem value="All">Semua Kategori</SelectItem>
                   <SelectItem value="Masuk">Surat Masuk</SelectItem>
                   <SelectItem value="Keluar">Surat Keluar</SelectItem>
@@ -248,8 +248,8 @@ export default function Dashboard() {
                   className="absolute inset-0 flex items-center justify-center"
                 >
                   <div className="flex flex-col items-center gap-3">
-                    <Loader2 className="h-8 w-8 animate-spin text-slate-300" />
-                    <p className="text-[10px] font-bold text-slate-400 tracking-[0.2em] uppercase">Memuat Data</p>
+                    <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+                    <p className="text-[10px] font-bold text-slate-500 tracking-[0.2em] uppercase">Memuat Data</p>
                   </div>
                 </motion.div>
               ) : filteredLetters.length > 0 ? (
@@ -271,7 +271,7 @@ export default function Dashboard() {
                   animate={{ opacity: 1 }}
                   className="py-32 text-center"
                 >
-                  <Mail className="h-10 w-10 text-slate-200 mx-auto mb-4" />
+                  <Mail className="h-10 w-10 text-slate-300 mx-auto mb-4" />
                   <h3 className="text-lg font-bold tracking-tight text-slate-900">Arsip Tidak Ditemukan</h3>
                   <p className="text-sm text-slate-400 font-medium tracking-wide">Silakan sesuaikan kata kunci atau filter pencarian anda.</p>
                 </motion.div>
@@ -286,12 +286,12 @@ export default function Dashboard() {
 
 function StatsCard({ label, value, icon }: { label: string, value: number, icon: React.ReactNode }) {
   return (
-    <div className="border border-slate-200 bg-white p-6 flex items-center justify-between rounded-lg transition-all hover:border-slate-300 group">
+    <div className="border border-slate-300 bg-white p-6 flex items-center justify-between rounded-lg transition-all hover:border-slate-400 group">
       <div className="space-y-1">
-        <p className="text-[10px] font-bold text-slate-400 tracking-wider uppercase leading-none mb-2">{label}</p>
+        <p className="text-[10px] font-bold text-slate-500 tracking-wider uppercase leading-none mb-2">{label}</p>
         <h4 className="text-2xl font-bold tracking-tight tabular-nums text-slate-900">{value}</h4>
       </div>
-      <div className="h-12 w-12 rounded-md border border-slate-100 flex items-center justify-center text-slate-400 bg-slate-50/30 group-hover:text-primary group-hover:border-slate-200 transition-colors">
+      <div className="h-12 w-12 rounded-md border border-slate-200 flex items-center justify-center text-slate-500 bg-slate-50/30 group-hover:text-primary group-hover:border-slate-300 transition-colors">
         {icon}
       </div>
     </div>
