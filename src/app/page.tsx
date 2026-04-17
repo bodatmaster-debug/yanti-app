@@ -14,12 +14,10 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Letter } from '@/lib/types';
-import { useToast } from '@/hooks/use-toast';
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
-import { NeuralBackground } from '@/components/layout/NeuralBackground';
 
 const INITIAL_LETTERS: Letter[] = [
   {
@@ -86,9 +84,7 @@ export default function Dashboard() {
   const recentLetters = useMemo(() => letters.slice(0, 5), [letters]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-slate-950 relative overflow-hidden">
-      <NeuralBackground />
-      
+    <div className="flex flex-col min-h-full">
       <header className="h-16 border-b border-slate-300 dark:border-slate-800 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-20">
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-8 w-8 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors" />
@@ -98,7 +94,7 @@ export default function Dashboard() {
       </header>
 
       <motion.div 
-        className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8 relative z-10"
+        className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
@@ -143,7 +139,7 @@ export default function Dashboard() {
               </Button>
             </div>
             
-            <div className="border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 rounded-lg divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden shadow-sm">
+            <div className="border border-slate-300 dark:border-slate-800 bg-white/50 dark:bg-slate-950/50 backdrop-blur-sm rounded-lg divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden shadow-sm">
               {isLoading ? (
                 <div className="p-8 flex items-center justify-center">
                   <Loader2 className="h-6 w-6 animate-spin text-slate-200" />
@@ -201,7 +197,7 @@ function StatsCard({ label, value, icon }: { label: string, value: number, icon:
     <motion.div 
       variants={itemVariants}
       whileHover={{ y: -5 }}
-      className="border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 flex items-center justify-between rounded-lg hover:border-slate-400 dark:hover:border-slate-700 transition-colors shadow-sm"
+      className="border border-slate-300 dark:border-slate-800 bg-white/50 dark:bg-slate-950/50 backdrop-blur-sm p-6 flex items-center justify-between rounded-lg hover:border-slate-400 dark:hover:border-slate-700 transition-colors shadow-sm"
     >
       <div className="space-y-1">
         <p className="text-[11px] font-medium text-slate-400 mb-1">{label}</p>

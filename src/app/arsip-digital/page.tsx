@@ -115,8 +115,8 @@ export default function ArsipDigitalPage() {
   }, [letters]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-slate-950">
-      <header className="h-16 border-b border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 flex items-center justify-between px-6 sticky top-0 z-20">
+    <div className="flex flex-col min-h-full">
+      <header className="h-16 border-b border-slate-300 dark:border-slate-800 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-20">
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-8 w-8 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors" />
           <div className="h-6 w-px bg-slate-200 dark:bg-slate-800 hidden md:block" />
@@ -161,20 +161,20 @@ export default function ArsipDigitalPage() {
           <p className="typography-muted text-sm font-medium">Koleksi lengkap seluruh dokumen surat masuk, keluar, dan berita acara.</p>
         </div>
 
-        <div className="border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 rounded-lg overflow-hidden shadow-sm">
+        <div className="border border-slate-300 dark:border-slate-800 bg-white/50 dark:bg-slate-950/50 backdrop-blur-sm rounded-lg overflow-hidden shadow-sm">
           <div className="p-4 border-b border-slate-300 dark:border-slate-800 flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50/10">
             <div className="relative w-full md:max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <Input 
                 placeholder="Cari semua arsip..." 
-                className="pl-10 bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-800 text-sm h-10 tracking-tight"
+                className="pl-10 bg-white/50 dark:bg-slate-900/50 border-slate-300 dark:border-slate-800 text-sm h-10 tracking-tight"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
               <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-                <SelectTrigger className="w-full md:w-[180px] bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-800 text-sm font-medium h-10">
+                <SelectTrigger className="w-full md:w-[180px] bg-white/50 dark:bg-slate-900/50 border-slate-300 dark:border-slate-800 text-sm font-medium h-10">
                   <SelectValue placeholder="Semua Kategori" />
                 </SelectTrigger>
                 <SelectContent className="border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-none">

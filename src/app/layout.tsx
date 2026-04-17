@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/layout/AppSidebar"
 import { ThemeProvider } from "@/components/theme-provider"
+import { NeuralBackground } from '@/components/layout/NeuralBackground';
 
 export const metadata: Metadata = {
   title: 'Pengarsipan Yanti',
@@ -31,10 +32,13 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SidebarProvider>
-            <div className="flex min-h-screen w-full">
+            <div className="flex min-h-screen w-full relative overflow-hidden">
               <AppSidebar />
-              <main className="flex-1 overflow-auto bg-background">
-                {children}
+              <main className="flex-1 overflow-auto bg-background relative">
+                <NeuralBackground />
+                <div className="relative z-10 min-h-full">
+                  {children}
+                </div>
               </main>
             </div>
           </SidebarProvider>
