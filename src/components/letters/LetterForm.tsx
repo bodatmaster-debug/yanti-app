@@ -101,10 +101,10 @@ export default function LetterForm({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full max-h-[85vh] bg-white">
         {/* SECTION 1: HEADER & AGENDA INFO */}
-        <div className="px-6 py-5 flex items-center justify-between border-b border-slate-100">
-          <Item variant="outline" size="sm" className="flex-1 bg-white border-slate-100 rounded-md py-2 px-3">
-            <ItemMedia variant="icon" className="bg-slate-50 text-slate-400 border-slate-100 size-7">
-              <Hash className="h-3.5 w-3.5" />
+        <div className="px-6 py-5 flex items-center justify-between border-b border-slate-100 bg-white">
+          <Item variant="outline" size="sm" className="flex-1 bg-white border-slate-200 rounded-md py-2 px-3">
+            <ItemMedia variant="icon" className="bg-slate-50 text-slate-500 border-slate-200 size-7">
+              <Hash className="h-4 w-4" />
             </ItemMedia>
             <ItemContent className="gap-0 ml-1">
               <p className="text-[10px] text-slate-400 font-medium tracking-tight">Agenda Berikutnya</p>
@@ -117,11 +117,11 @@ export default function LetterForm({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" size="icon" className="h-9 w-9 border-slate-100 text-slate-300 hover:text-primary transition-all rounded-md shrink-0 ml-3">
+                <Button variant="outline" size="icon" className="h-9 w-9 border-slate-200 text-slate-400 hover:text-primary transition-all rounded-md shrink-0 ml-3">
                   <AlertCircle className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="left" className="bg-white border border-slate-100 p-4 shadow-none w-80 rounded-md">
+              <TooltipContent side="left" className="bg-white border border-slate-200 p-4 shadow-none w-80 rounded-md">
                 <div className="space-y-3">
                   <p className="text-[10px] font-bold text-slate-400 tracking-widest uppercase pb-1 border-b border-slate-50">Arsip Terakhir</p>
                   {lastLetter ? (
@@ -152,14 +152,14 @@ export default function LetterForm({
                 name="type"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-slate-900 tracking-tight">Jenis Surat</FormLabel>
+                    <FormLabel className="text-xs font-medium text-slate-900 tracking-tight">Jenis Surat</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="h-10 border-slate-100 bg-white text-sm">
+                        <SelectTrigger className="h-10 border-slate-200 bg-white text-sm">
                           <SelectValue placeholder="Pilih Jenis" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="bg-white border-slate-100">
+                      <SelectContent className="bg-white border-slate-200">
                         <SelectItem value="Masuk" className="text-sm">Surat Masuk</SelectItem>
                         <SelectItem value="Keluar" className="text-sm">Surat Keluar</SelectItem>
                       </SelectContent>
@@ -174,23 +174,23 @@ export default function LetterForm({
                 name="date"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel className="text-sm font-medium text-slate-900 tracking-tight mb-2">Tanggal Surat</FormLabel>
+                    <FormLabel className="text-xs font-medium text-slate-900 tracking-tight mb-2">Tanggal Surat</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
                             variant="outline"
                             className={cn(
-                              "h-10 w-full pl-3 text-left font-normal border-slate-100 bg-white text-sm",
+                              "h-10 w-full pl-3 text-left font-normal border-slate-200 bg-white text-sm",
                               !field.value && "text-slate-400"
                             )}
                           >
                             {field.value ? format(new Date(field.value), "dd MMM yyyy") : <span>Pilih Tanggal</span>}
-                            <CalendarIcon className="ml-auto h-4 w-4 text-slate-300" />
+                            <CalendarIcon className="ml-auto h-4 w-4 text-slate-400" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0 bg-white border-slate-100" align="start">
+                      <PopoverContent className="w-auto p-0 bg-white border-slate-200" align="start">
                         <Calendar
                           mode="single"
                           selected={new Date(field.value)}
@@ -211,14 +211,14 @@ export default function LetterForm({
               name="refNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-slate-900 tracking-tight">Nomor Surat</FormLabel>
+                  <FormLabel className="text-xs font-medium text-slate-900 tracking-tight">Nomor Surat</FormLabel>
                   <FormControl>
                     <div className="relative group">
-                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 group-focus-within:text-primary transition-colors" />
+                      <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                       <Input 
                         placeholder="Ketik Nomor Surat..." 
                         {...field} 
-                        className="pl-9 h-10 border-slate-100 bg-white text-sm placeholder:text-slate-300" 
+                        className="pl-9 h-10 border-slate-200 bg-white text-sm placeholder:text-slate-300" 
                       />
                     </div>
                   </FormControl>
@@ -232,14 +232,14 @@ export default function LetterForm({
               name="subject"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-slate-900 tracking-tight">Perihal</FormLabel>
+                  <FormLabel className="text-xs font-medium text-slate-900 tracking-tight">Perihal</FormLabel>
                   <FormControl>
                     <div className="relative group">
-                      <FileText className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 group-focus-within:text-primary transition-colors" />
+                      <FileText className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                       <Input 
                         placeholder="Ringkasan Isi Surat..." 
                         {...field} 
-                        className="pl-9 h-10 border-slate-100 bg-white text-sm placeholder:text-slate-300" 
+                        className="pl-9 h-10 border-slate-200 bg-white text-sm placeholder:text-slate-300" 
                       />
                     </div>
                   </FormControl>
@@ -254,14 +254,14 @@ export default function LetterForm({
                 name="sender"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-slate-900 tracking-tight">Pengirim</FormLabel>
+                    <FormLabel className="text-xs font-medium text-slate-900 tracking-tight">Pengirim</FormLabel>
                     <FormControl>
                       <div className="relative group">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 group-focus-within:text-primary transition-colors" />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                         <Input 
                           placeholder="Nama / Instansi" 
                           {...field} 
-                          className="pl-9 h-10 border-slate-100 bg-white text-sm placeholder:text-slate-300" 
+                          className="pl-9 h-10 border-slate-200 bg-white text-sm placeholder:text-slate-300" 
                         />
                       </div>
                     </FormControl>
@@ -274,14 +274,14 @@ export default function LetterForm({
                 name="recipient"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-slate-900 tracking-tight">Penerima</FormLabel>
+                    <FormLabel className="text-xs font-medium text-slate-900 tracking-tight">Penerima</FormLabel>
                     <FormControl>
                       <div className="relative group">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 group-focus-within:text-primary transition-colors" />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                         <Input 
                           placeholder="Nama / Instansi" 
                           {...field} 
-                          className="pl-9 h-10 border-slate-100 bg-white text-sm placeholder:text-slate-300" 
+                          className="pl-9 h-10 border-slate-200 bg-white text-sm placeholder:text-slate-300" 
                         />
                       </div>
                     </FormControl>
@@ -292,11 +292,11 @@ export default function LetterForm({
             </div>
 
             <div className="space-y-3">
-              <p className="text-sm font-medium text-slate-900 tracking-tight">Digital Scan</p>
+              <p className="text-xs font-medium text-slate-900 tracking-tight">Digital Scan</p>
               <div 
                 className={cn(
                   "border border-dashed rounded-lg p-5 flex flex-col items-center justify-center transition-all bg-white cursor-pointer hover:bg-slate-50",
-                  fileName ? "border-emerald-100 bg-emerald-50/20" : "border-slate-100"
+                  fileName ? "border-emerald-200 bg-emerald-50/20" : "border-slate-200"
                 )} 
                 onClick={() => document.getElementById('file-upload')?.click()}
               >
@@ -312,7 +312,7 @@ export default function LetterForm({
                   </div>
                 ) : (
                   <div className="flex flex-col items-center gap-2">
-                    <Upload className="h-5 w-5 text-slate-300 mb-1" />
+                    <Upload className="h-5 w-5 text-slate-400 mb-1" />
                     <p className="text-xs font-medium text-slate-400">Pilih Dokumen PDF (Maks. 5MB)</p>
                   </div>
                 )}
@@ -334,7 +334,7 @@ export default function LetterForm({
           </Button>
           <Button 
             type="submit" 
-            className="min-w-[140px] bg-primary text-primary-foreground text-xs font-bold tracking-tight h-10 rounded-md shadow-none hover:bg-primary/90 transition-all"
+            className="min-w-[140px] bg-primary text-primary-foreground text-xs font-bold tracking-tight h-10 rounded-md shadow-none hover:bg-primary/90 transition-all border border-primary"
           >
             Simpan Arsip
           </Button>
