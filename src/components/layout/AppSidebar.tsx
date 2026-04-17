@@ -64,32 +64,32 @@ const navItems = [
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="sidebar" collapsible="icon" className="border-r border-border">
-      <SidebarHeader className="h-16 border-b border-border flex flex-row items-center px-4 gap-3">
-        <div className="flex aspect-square size-8 items-center justify-center rounded border border-border bg-white text-primary">
+    <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-300">
+      <SidebarHeader className="h-16 border-b border-slate-300 flex flex-row items-center px-4 gap-3">
+        <div className="flex aspect-square size-8 items-center justify-center rounded border border-slate-300 bg-white text-slate-900">
           <Mail className="size-4" />
         </div>
         <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
-          <span className="font-semibold text-sm tracking-tight">Surat Digital</span>
-          <span className="text-xs font-medium text-muted-foreground">Arsip Modern</span>
+          <span className="font-semibold text-sm tracking-tight text-slate-900">Surat Digital</span>
+          <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">Arsip Modern</span>
         </div>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground px-2">Menu Utama</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-2 mb-2">Menu Utama</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} className="rounded-md transition-all">
+                  <SidebarMenuButton asChild tooltip={item.title} className="rounded-md transition-all hover:bg-slate-50">
                     <a href={item.url} className="flex items-center gap-3">
-                      <item.icon className="size-4" />
-                      <span className="font-medium text-sm">{item.title}</span>
+                      <item.icon className="size-4 text-slate-500" />
+                      <span className="font-medium text-sm text-slate-900">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                   {item.badge && (
-                    <SidebarMenuBadge className="group-data-[collapsible=icon]:hidden text-[10px] font-semibold border border-border bg-muted/50">
+                    <SidebarMenuBadge className="group-data-[collapsible=icon]:hidden text-[10px] font-bold border border-slate-200 bg-white text-slate-900 px-1.5 py-0.5 min-w-[20px]">
                       {item.badge}
                     </SidebarMenuBadge>
                   )}
@@ -99,14 +99,14 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup className="mt-4">
-          <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground px-2">Lainnya</SidebarGroupLabel>
+        <SidebarGroup className="mt-2">
+          <SidebarGroupLabel className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-2 mb-2">Lainnya</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Pengaturan" className="rounded-md">
-                  <Settings className="size-4" />
-                  <span className="font-medium text-sm">Pengaturan</span>
+                <SidebarMenuButton tooltip="Pengaturan" className="rounded-md hover:bg-slate-50">
+                  <Settings className="size-4 text-slate-500" />
+                  <span className="font-medium text-sm text-slate-900">Pengaturan</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -114,35 +114,35 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-border p-2">
+      <SidebarFooter className="border-t border-slate-300 p-2">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
                   size="lg"
-                  className="data-[state=open]:bg-muted rounded-md border border-transparent hover:border-border"
+                  className="data-[state=open]:bg-slate-50 rounded-md border border-transparent hover:border-slate-200"
                 >
-                  <Avatar className="h-8 w-8 rounded border border-border">
-                    <AvatarFallback className="rounded bg-muted text-[10px] font-semibold text-muted-foreground">AD</AvatarFallback>
+                  <Avatar className="h-8 w-8 rounded border border-slate-200">
+                    <AvatarFallback className="rounded bg-slate-50 text-[10px] font-bold text-slate-900">AD</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                    <span className="truncate font-semibold">Administrator</span>
-                    <span className="truncate text-xs text-muted-foreground">admin@surat.digital</span>
+                    <span className="truncate font-semibold text-slate-900">Administrator</span>
+                    <span className="truncate text-[11px] font-medium text-slate-400">admin@surat.digital</span>
                   </div>
-                  <ChevronRight className="ml-auto size-4 group-data-[collapsible=icon]:hidden opacity-50" />
+                  <ChevronRight className="ml-auto size-4 group-data-[collapsible=icon]:hidden text-slate-300" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-md border border-border"
+                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-md border border-slate-300 bg-white shadow-none p-1"
                 side="right"
                 align="end"
                 sideOffset={8}
               >
-                <DropdownMenuItem className="gap-2 py-2 text-sm font-medium">
-                  <User className="size-4" /> Profil Saya
+                <DropdownMenuItem className="gap-2 py-2 text-xs font-medium focus:bg-slate-50 cursor-pointer">
+                  <User className="size-4 text-slate-400" /> Profil Saya
                 </DropdownMenuItem>
-                <DropdownMenuItem className="gap-2 py-2 text-destructive font-semibold text-sm">
+                <DropdownMenuItem className="gap-2 py-2 text-destructive font-semibold text-xs focus:bg-destructive/5 cursor-pointer">
                   <LogOut className="size-4" /> Keluar
                 </DropdownMenuItem>
               </DropdownMenuContent>
