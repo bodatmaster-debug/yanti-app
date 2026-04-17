@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState } from 'react';
@@ -105,7 +104,7 @@ export default function LetterForm({ initialData, onSubmit, onCancel }: LetterFo
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel className="mb-2">Tanggal Surat</PopLabel>
+                <FormLabel className="mb-2">Tanggal Surat</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
