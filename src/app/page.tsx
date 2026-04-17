@@ -172,6 +172,10 @@ export default function Dashboard() {
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-xl border-slate-300 bg-white p-0 overflow-hidden max-h-[90vh] flex flex-col focus:outline-none">
+              <DialogHeader className="sr-only">
+                <DialogTitle>Tambah Arsip Surat</DialogTitle>
+                <DialogDescription>Formulir pengisian data surat baru untuk pengarsipan digital.</DialogDescription>
+              </DialogHeader>
               <LetterForm 
                 onSubmit={handleAddLetter} 
                 onCancel={() => setIsFormOpen(false)} 
@@ -186,7 +190,7 @@ export default function Dashboard() {
       <div className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
         <div className="space-y-1">
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">Daftar Arsip Surat</h1>
-          <p className="typography-muted">Monitor dan kelola seluruh dokumen dinas secara efisien.</p>
+          <p className="typography-muted">Monitor Dan Kelola Seluruh Dokumen Dinas Secara Efisien.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -212,7 +216,7 @@ export default function Dashboard() {
             <div className="relative w-full md:max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <Input 
-                placeholder="Cari nomor surat, subjek, atau instansi..." 
+                placeholder="Cari Nomor Surat, Subjek, Atau Instansi..." 
                 className="pl-10 bg-white border-slate-300 text-sm h-10 tracking-tight focus:ring-0 placeholder:text-slate-400"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -268,7 +272,7 @@ export default function Dashboard() {
                 >
                   <Mail className="h-10 w-10 text-slate-200 mx-auto mb-4" />
                   <h3 className="text-lg font-bold tracking-tight text-slate-900">Arsip Tidak Ditemukan</h3>
-                  <p className="typography-muted">Silakan sesuaikan kata kunci atau filter pencarian anda.</p>
+                  <p className="typography-muted">Silakan Sesuaikan Kata Kunci Atau Filter Pencarian Anda.</p>
                 </motion.div>
               )}
             </AnimatePresence>

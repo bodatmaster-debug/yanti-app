@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -28,7 +28,6 @@ import {
 } from "@/components/ui/tooltip"
 import { Letter, LetterType } from '@/lib/types';
 import { 
-  CalendarIcon, 
   AlertCircle, 
   Hash, 
   Calendar as CalendarIconLucide,
@@ -87,11 +86,11 @@ export default function LetterForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full bg-white">
-        {/* SECTION 1: HEADER */}
+        {/* SECTION 1: HEADER (Static) */}
         <div className="px-6 py-5 border-b border-slate-200 bg-white flex items-center justify-between">
           <div className="space-y-0.5">
             <h2 className="text-lg font-bold tracking-tight text-slate-900">Tambah Arsip Surat</h2>
-            <p className="typography-muted text-[11px]">Lengkapi metadata surat untuk kearsipan digital.</p>
+            <p className="typography-muted text-[11px]">Lengkapi Metadata Surat Untuk Kearsipan Digital.</p>
           </div>
           
           <div className="flex items-center gap-3">
@@ -281,7 +280,7 @@ export default function LetterForm({
           </div>
         </ScrollArea>
 
-        {/* SECTION 3: FOOTER */}
+        {/* SECTION 3: FOOTER (Static) */}
         <div className="px-6 py-5 border-t border-slate-200 flex items-center justify-end gap-3 bg-white">
           <Button 
             type="button" 
