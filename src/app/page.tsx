@@ -170,19 +170,19 @@ export default function Dashboard() {
                 Tambah Arsip
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-lg border-slate-100 bg-white p-0 overflow-hidden max-h-[90vh] flex flex-col">
-              <div className="p-6 overflow-y-auto">
-                <DialogHeader className="mb-6 space-y-1.5 text-left">
+            <DialogContent className="max-w-lg border-slate-100 bg-white p-0 overflow-hidden max-h-[95vh] flex flex-col">
+              <div className="p-6 border-b border-slate-50">
+                <DialogHeader className="space-y-1 text-left">
                   <DialogTitle className="text-xl font-bold tracking-tight text-slate-900">Tambah Arsip Surat</DialogTitle>
                   <DialogDescription className="text-xs text-slate-400 font-medium tracking-wide">Lengkapi metadata surat untuk kearsipan yang lebih baik.</DialogDescription>
                 </DialogHeader>
-                <LetterForm 
-                  onSubmit={handleAddLetter} 
-                  onCancel={() => setIsFormOpen(false)} 
-                  lastLetter={lastLetter}
-                  nextAgendaNumber={nextAgendaNumber}
-                />
               </div>
+              <LetterForm 
+                onSubmit={handleAddLetter} 
+                onCancel={() => setIsFormOpen(false)} 
+                lastLetter={lastLetter}
+                nextAgendaNumber={nextAgendaNumber}
+              />
             </DialogContent>
           </Dialog>
         </div>
