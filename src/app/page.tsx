@@ -6,12 +6,10 @@ import {
   Plus, 
   Search, 
   FileSpreadsheet, 
-  Filter, 
   Mail, 
   ArrowUpRight, 
   ArrowDownLeft,
   Loader2,
-  Menu,
   LayoutGrid
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -139,32 +137,32 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50/50">
-      <header className="h-16 border-b bg-white/80 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-20">
+    <div className="flex flex-col min-h-screen bg-white">
+      <header className="h-16 border-b bg-white flex items-center justify-between px-6 sticky top-0 z-20">
         <div className="flex items-center gap-4">
           <SidebarTrigger />
           <div className="h-6 w-px bg-border hidden md:block" />
-          <h2 className="font-semibold text-sm text-muted-foreground hidden md:block">Manajemen Arsip</h2>
+          <h2 className="font-semibold text-xs uppercase tracking-widest text-muted-foreground hidden md:block">Manajemen Arsip</h2>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Button 
             variant="outline" 
             size="sm"
             onClick={handleExport}
-            className="hidden sm:flex"
+            className="hidden sm:flex border-border"
           >
             <FileSpreadsheet className="mr-2 h-4 w-4" />
             Export
           </Button>
           <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
             <DialogTrigger asChild>
-              <Button size="sm">
+              <Button size="sm" className="bg-primary text-primary-foreground">
                 <Plus className="mr-2 h-4 w-4" />
                 Arsip Baru
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl">
+            <DialogContent className="max-w-2xl border-2">
               <DialogHeader>
                 <DialogTitle>Tambah Arsip Surat</DialogTitle>
               </DialogHeader>
@@ -185,37 +183,34 @@ export default function Dashboard() {
             label="Total Arsip" 
             value={letters.length} 
             icon={<LayoutGrid className="h-4 w-4" />} 
-            delay={0.1}
           />
           <StatsCard 
             label="Surat Masuk" 
             value={letters.filter(l => l.type === 'Masuk').length} 
-            icon={<ArrowDownLeft className="h-4 w-4 text-emerald-500" />} 
-            delay={0.2}
+            icon={<ArrowDownLeft className="h-4 w-4 text-emerald-600" />} 
           />
           <StatsCard 
             label="Surat Keluar" 
             value={letters.filter(l => l.type === 'Keluar').length} 
-            icon={<ArrowUpRight className="h-4 w-4 text-sky-500" />} 
-            delay={0.3}
+            icon={<ArrowUpRight className="h-4 w-4 text-sky-600" />} 
           />
         </div>
 
-        <Card className="border shadow-sm bg-white overflow-hidden">
+        <Card className="border border-border bg-white rounded-lg overflow-hidden">
           <CardContent className="p-0">
-            <div className="p-4 border-b flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div className="p-4 border-b flex flex-col md:flex-row gap-4 items-center justify-between bg-white">
               <div className="relative w-full md:max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input 
-                  placeholder="Cari berdasarkan nomor atau subjek..." 
-                  className="pl-9 bg-slate-50/50 border-border/60"
+                  placeholder="Cari nomor atau subjek..." 
+                  className="pl-9 bg-white border-border"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-                  <SelectTrigger className="w-full md:w-[160px] bg-slate-50/50">
+                  <SelectTrigger className="w-full md:w-[160px] bg-white border-border">
                     <SelectValue placeholder="Semua Tipe" />
                   </SelectTrigger>
                   <SelectContent>
@@ -272,24 +267,18 @@ export default function Dashboard() {
   );
 }
 
-function StatsCard({ label, value, icon, delay }: { label: string, value: number, icon: React.ReactNode, delay: number }) {
+function StatsCard({ label, value, icon }: { label: string, value: number, icon: React.ReactNode }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay }}
-    >
-      <Card className="border shadow-sm hover:border-border transition-colors bg-white">
-        <CardContent className="p-5 flex items-center justify-between">
-          <div className="space-y-1">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</p>
-            <h4 className="text-2xl font-bold">{value}</h4>
-          </div>
-          <div className="h-10 w-10 rounded-full bg-slate-50 border flex items-center justify-center text-muted-foreground">
-            {icon}
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
+    <Card className="border border-border bg-white transition-colors hover:border-primary/50">
+      <CardContent className="p-5 flex items-center justify-between">
+        <div className="space-y-1">
+          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{label}</p>
+          <h4 className="text-2xl font-bold">{value}</h4>
+        </div>
+        <div className="h-10 w-10 rounded border border-border flex items-center justify-center text-muted-foreground bg-white">
+          {icon}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

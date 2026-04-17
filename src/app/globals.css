@@ -20,18 +20,10 @@
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    --border: 240 5.9% 85%;
+    --input: 240 5.9% 85%;
     --ring: 240 5.9% 10%;
-    --radius: 0.6rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --radius: 0.5rem;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -50,8 +42,8 @@
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --border: 240 3.7% 25%;
+    --input: 240 3.7% 25%;
     --ring: 240 4.9% 83.9%;
   }
 }
@@ -64,17 +56,18 @@
     @apply bg-background text-foreground font-body antialiased;
   }
   
-  /* Modern Outline Style Overrides */
-  .border {
-    @apply border-border/60;
+  /* Reset Shadows for Flat Modern Look */
+  .shadow-sm, .shadow-md, .shadow-lg, .shadow {
+    @apply shadow-none !important;
   }
   
-  /* Soft shadows and clean lines */
-  .shadow-sm { @apply shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]; }
-  .shadow-md { @apply shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)]; }
-  
+  /* Firm Thin Outlines */
+  .border {
+    @apply border-[1px];
+  }
+
   /* Focus States */
   :focus-visible {
-    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+    @apply outline-none ring-1 ring-ring ring-offset-0;
   }
 }

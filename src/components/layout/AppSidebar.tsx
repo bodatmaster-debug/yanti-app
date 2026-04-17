@@ -71,32 +71,32 @@ const settingsItems = [
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="sidebar" collapsible="icon" className="border-r-2">
-      <SidebarHeader className="h-16 border-b-2 flex flex-row items-center px-4 gap-3">
-        <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+    <Sidebar variant="sidebar" collapsible="icon" className="border-r border-border bg-white">
+      <SidebarHeader className="h-16 border-b border-border flex flex-row items-center px-4 gap-3 bg-white">
+        <div className="flex aspect-square size-8 items-center justify-center rounded bg-primary text-primary-foreground">
           <Mail className="size-4" />
         </div>
         <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
-          <span className="font-bold text-sm">Surat Digital</span>
-          <span className="text-xs text-muted-foreground">Arsip Modern</span>
+          <span className="font-bold text-sm tracking-tight uppercase">Surat Digital</span>
+          <span className="text-[10px] font-medium text-muted-foreground tracking-widest uppercase">Arsip Modern</span>
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="bg-white">
         <SidebarGroup>
-          <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">Menu Utama</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-widest group-data-[collapsible=icon]:hidden">Menu Utama</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title}>
+                  <SidebarMenuButton asChild tooltip={item.title} className="rounded hover:bg-muted/50">
                     <a href={item.url} className="flex items-center gap-3">
                       <item.icon className="size-4" />
-                      <span>{item.title}</span>
+                      <span className="font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                   {item.badge && (
-                    <SidebarMenuBadge className="group-data-[collapsible=icon]:hidden">
+                    <SidebarMenuBadge className="group-data-[collapsible=icon]:hidden font-mono bg-muted border border-border">
                       {item.badge}
                     </SidebarMenuBadge>
                   )}
@@ -107,15 +107,15 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup className="mt-auto">
-          <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">Lainnya</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] uppercase font-bold tracking-widest group-data-[collapsible=icon]:hidden">Lainnya</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {settingsItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title}>
+                  <SidebarMenuButton asChild tooltip={item.title} className="rounded hover:bg-muted/50">
                     <a href={item.url}>
                       <item.icon className="size-4" />
-                      <span>{item.title}</span>
+                      <span className="font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -125,35 +125,35 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t-2 p-2">
+      <SidebarFooter className="border-t border-border p-2 bg-white">
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
                   size="lg"
-                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  className="data-[state=open]:bg-muted rounded"
                 >
-                  <Avatar className="h-8 w-8 rounded-lg border-2">
-                    <AvatarFallback className="rounded-lg bg-muted text-xs">AD</AvatarFallback>
+                  <Avatar className="h-8 w-8 rounded border border-border">
+                    <AvatarFallback className="rounded bg-muted text-xs font-bold uppercase">AD</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                    <span className="truncate font-semibold">Admin</span>
-                    <span className="truncate text-xs text-muted-foreground">admin@surat.digital</span>
+                    <span className="truncate font-bold">Admin</span>
+                    <span className="truncate text-[10px] text-muted-foreground uppercase tracking-tight">admin@surat.digital</span>
                   </div>
                   <ChevronRight className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg border-2"
+                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded border border-border shadow-none"
                 side="right"
                 align="end"
                 sideOffset={4}
               >
-                <DropdownMenuItem className="gap-2">
+                <DropdownMenuItem className="gap-2 font-medium">
                   <User className="size-4" /> Profil Saya
                 </DropdownMenuItem>
-                <DropdownMenuItem className="gap-2 text-destructive">
+                <DropdownMenuItem className="gap-2 text-destructive font-medium">
                   <LogOut className="size-4" /> Keluar
                 </DropdownMenuItem>
               </DropdownMenuContent>

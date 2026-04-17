@@ -1,4 +1,3 @@
-
 "use client"
 
 import React from 'react';
@@ -31,43 +30,43 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
         <div>
           <Badge 
             variant="outline" 
-            className={`border-2 mb-2 ${
+            className={`border-[1.5px] mb-2 font-bold text-[10px] tracking-wider ${
               letter.type === 'Masuk' 
-                ? 'border-green-600 text-green-700 bg-green-50' 
-                : 'border-blue-600 text-blue-700 bg-blue-50'
+                ? 'border-emerald-500 text-emerald-700' 
+                : 'border-sky-500 text-sky-700'
             }`}
           >
             {letter.type === 'Masuk' ? <ArrowDownLeft className="h-3 w-3 mr-1" /> : <ArrowUpRight className="h-3 w-3 mr-1" />}
-            Surat {letter.type}
+            SURAT {letter.type.toUpperCase()}
           </Badge>
-          <h2 className="text-2xl font-bold leading-tight">{letter.subject}</h2>
+          <h2 className="text-xl font-bold leading-tight tracking-tight text-slate-900">{letter.subject}</h2>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
           <DetailItem 
-            icon={<Hash className="h-4 w-4" />} 
+            icon={<Hash className="h-3.5 w-3.5" />} 
             label="Nomor Surat" 
             value={letter.refNumber} 
           />
           <DetailItem 
-            icon={<Calendar className="h-4 w-4" />} 
+            icon={<Calendar className="h-3.5 w-3.5" />} 
             label="Tanggal Surat" 
             value={format(new Date(letter.date), 'dd MMMM yyyy', { locale: id })} 
           />
-          <Separator />
+          <Separator className="bg-border" />
           <DetailItem 
-            icon={<User className="h-4 w-4" />} 
+            icon={<User className="h-3.5 w-3.5" />} 
             label="Pengirim" 
             value={letter.sender} 
           />
           <DetailItem 
-            icon={<User className="h-4 w-4" />} 
+            icon={<User className="h-3.5 w-3.5" />} 
             label="Penerima" 
             value={letter.recipient} 
           />
-          <Separator />
+          <Separator className="bg-border" />
           <DetailItem 
-            icon={<Clock className="h-4 w-4" />} 
+            icon={<Clock className="h-3.5 w-3.5" />} 
             label="Diarsipkan pada" 
             value={format(new Date(letter.createdAt), 'dd/MM/yyyy HH:mm')} 
           />
@@ -75,8 +74,8 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
 
         {letter.fileName && (
           <div className="pt-4">
-            <Button variant="outline" className="w-full border-2 border-accent text-accent hover:bg-accent hover:text-white transition-colors">
-              <Download className="mr-2 h-4 w-4" /> Unduh Dokumen ({letter.fileName})
+            <Button variant="outline" className="w-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-colors font-bold text-xs tracking-widest">
+              <Download className="mr-2 h-4 w-4" /> UNDUH DOKUMEN
             </Button>
           </div>
         )}
@@ -84,24 +83,22 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
 
       {/* Right Column: Integrated Preview (Simulation) */}
       <div className="space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Pratinjau Dokumen</h3>
-        <div className="aspect-[3/4] border-2 rounded-lg bg-muted/30 flex flex-col items-center justify-center relative overflow-hidden group">
+        <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Pratinjau Dokumen</h3>
+        <div className="aspect-[3/4] border border-border rounded bg-white flex flex-col items-center justify-center relative overflow-hidden group">
           {letter.fileName ? (
             <div className="p-8 text-center">
-              <div className="w-20 h-24 bg-white border-2 border-primary/20 rounded shadow-none mx-auto mb-4 flex items-center justify-center">
-                <FileText className="h-10 w-10 text-accent" />
+              <div className="w-16 h-20 bg-white border border-border rounded mx-auto mb-4 flex items-center justify-center">
+                <FileText className="h-8 w-8 text-muted-foreground/50" />
               </div>
-              <p className="font-bold text-sm mb-1">{letter.fileName}</p>
-              <p className="text-xs text-muted-foreground">Digital Preview terintegrasi memerlukan library viewer PDF.</p>
+              <p className="font-bold text-xs mb-1 uppercase tracking-tight">{letter.fileName}</p>
+              <p className="text-[10px] text-muted-foreground font-medium">Digital Preview terintegrasi</p>
             </div>
           ) : (
             <div className="p-8 text-center text-muted-foreground">
-              <FileText className="h-12 w-12 mx-auto mb-4 opacity-20" />
-              <p className="text-sm">Tidak ada lampiran dokumen untuk surat ini.</p>
+              <FileText className="h-10 w-10 mx-auto mb-4 opacity-20" />
+              <p className="text-[10px] font-bold uppercase tracking-widest">Tidak ada lampiran</p>
             </div>
           )}
-          
-          <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
         </div>
       </div>
     </div>
@@ -111,12 +108,12 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
 function DetailItem({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="mt-0.5 p-1.5 rounded bg-muted border border-primary/10">
+      <div className="mt-0.5 p-1.5 rounded border border-border bg-white">
         {icon}
       </div>
       <div>
-        <p className="text-xs font-medium text-muted-foreground uppercase tracking-tight">{label}</p>
-        <p className="font-semibold text-sm">{value}</p>
+        <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest leading-none mb-1.5">{label}</p>
+        <p className="font-bold text-xs tracking-tight">{value}</p>
       </div>
     </div>
   );
