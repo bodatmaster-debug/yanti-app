@@ -7,7 +7,7 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Arsip Surat');
 
-  // 1. Tambah Logo jika ada di /public/logo.jpg
+  // 1. Tambah Logo dari /logo.jpg
   try {
     const response = await fetch('/logo.jpg');
     if (response.ok) {
@@ -16,14 +16,14 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
         buffer: arrayBuffer,
         extension: 'jpeg',
       });
-      // Posisi logo di pojok kiri atas
+      // Posisi logo di pojok kiri atas (baris 0-4)
       worksheet.addImage(logoId, {
-        tl: { col: 0.1, row: 0.1 },
-        ext: { width: 65, height: 65 }
+        tl: { col: 0, row: 0 },
+        ext: { width: 80, height: 80 }
       });
     }
   } catch (e) {
-    console.warn('Logo instansi tidak dapat dimuat ke Excel');
+    console.warn('Logo instansi tidak dapat dimuat ke excel');
   }
 
   // 2. Judul Laporan (Kop Surat)
@@ -43,25 +43,23 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   subTitleCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
   // Beri jarak agar tabel tidak mepet ke logo (header tabel di baris 7)
-  worksheet.addRow([]);
-  worksheet.addRow([]);
-  worksheet.addRow([]);
+  // Tidak perlu addRow manual bertubi-tubi, kita langsung set header di row 7
 
-  // 3. Definisi Kolom
+  // 3. Definisi Header
   const headers = [
-    { header: 'No. Agenda', key: 'id', width: 15 },
-    { header: 'No. Surat', key: 'refNumber', width: 25 },
-    { header: 'Jenis', key: 'type', width: 12 },
-    { header: 'Pengirim', key: 'sender', width: 25 },
-    { header: 'Penerima', key: 'recipient', width: 25 },
-    { header: 'Perihal / Hal', key: 'subject', width: 45 },
-    { header: 'Tanggal Surat', key: 'date', width: 18 },
-    { header: 'Tanggal Input', key: 'createdAt', width: 18 },
+    'No. Agenda',
+    'No. Surat',
+    'Jenis',
+    'Pengirim',
+    'Penerima',
+    'Perihal / Hal',
+    'Tanggal Surat',
+    'Tanggal Input'
   ];
 
   const headerRowIndex = 7;
   const headerRow = worksheet.getRow(headerRowIndex);
-  headerRow.values = headers.map(h => h.header);
+  headerRow.values = headers;
 
   // Style Header Tabel
   headerRow.eachCell((cell) => {
@@ -80,23 +78,26 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
     };
   });
 
-  // Atur lebar kolom
-  headers.forEach((h, index) => {
-    worksheet.getColumn(index + 1).width = h.width;
+  // Atur lebar kolom secara manual
+  const columnWidths = [12, 25, 12, 25, 25, 45, 18, 18];
+  columnWidths.forEach((width, index) => {
+    worksheet.getColumn(index + 1).width = width;
   });
 
-  // 4. Masukkan Data
+  // 4. Masukkan Data menggunakan Array (agar tidak tersesat)
   letters.forEach((letter) => {
-    const row = worksheet.addRow({
-      id: letter.id,
-      refNumber: letter.refNumber,
-      type: letter.type,
-      sender: letter.sender,
-      recipient: letter.recipient,
-      subject: letter.subject,
-      date: format(new Date(letter.date), 'dd/MM/yyyy'),
-      createdAt: format(new Date(letter.createdAt), 'dd/MM/yyyy HH:mm'),
-    });
+    const rowValues = [
+      letter.id,
+      letter.refNumber,
+      letter.type,
+      letter.sender,
+      letter.recipient,
+      letter.subject,
+      format(new Date(letter.date), 'dd/MM/yyyy'),
+      format(new Date(letter.createdAt), 'dd/MM/yyyy HH:mm'),
+    ];
+    
+    const row = worksheet.addRow(rowValues);
 
     row.eachCell((cell) => {
       cell.font = { size: 10 };

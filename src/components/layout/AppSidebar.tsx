@@ -65,8 +65,8 @@ const navItems = [
 export function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-300 bg-white">
-      <SidebarHeader className="h-20 flex flex-col justify-center px-4 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:items-center">
-        <div className="flex items-center gap-3">
+      <SidebarHeader className="h-20 flex flex-col justify-center px-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:items-center">
+        <div className="flex items-center gap-3 ml-2 group-data-[collapsible=icon]:ml-0">
           <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded border border-slate-300 bg-white text-slate-900 transition-all">
             <Mail className="size-4" />
           </div>
