@@ -82,7 +82,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} className="rounded-md transition-all hover:bg-slate-50">
+                  <SidebarMenuButton asChild tooltip={item.title} className="rounded-md transition-all hover:bg-slate-50 text-slate-900">
                     <a href={item.url} className="flex items-center gap-3">
                       <item.icon className="size-4 text-slate-900" />
                       <span className="font-medium text-sm text-slate-900">{item.title}</span>
@@ -104,7 +104,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Pengaturan" className="rounded-md hover:bg-slate-50">
+                <SidebarMenuButton tooltip="Pengaturan" className="rounded-md hover:bg-slate-50 text-slate-900">
                   <Settings className="size-4 text-slate-900" />
                   <span className="font-medium text-sm text-slate-900">Pengaturan</span>
                 </SidebarMenuButton>
