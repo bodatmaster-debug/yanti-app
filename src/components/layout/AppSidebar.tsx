@@ -65,13 +65,15 @@ const navItems = [
 export function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-300 bg-white">
-      <SidebarHeader className="h-16 border-b border-slate-300 flex items-center px-4 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:justify-center">
-        <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded border border-slate-300 bg-white text-slate-900 transition-all">
-          <Mail className="size-4" />
-        </div>
-        <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden ml-3">
-          <span className="font-semibold text-sm tracking-tight text-slate-900 leading-tight">Pengarsipan Yanti</span>
-          <span className="text-[10px] font-medium text-slate-400 tracking-tight leading-tight">App untuk Yanti untuk mengarsip surat</span>
+      <SidebarHeader className="h-20 border-b border-slate-300 flex flex-col justify-center px-4 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:items-center">
+        <div className="flex items-center gap-3">
+          <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded border border-slate-300 bg-white text-slate-900 transition-all">
+            <Mail className="size-4" />
+          </div>
+          <div className="flex flex-col group-data-[collapsible=icon]:hidden">
+            <span className="font-bold text-sm tracking-tight text-slate-900 leading-tight">Pengarsipan Yanti</span>
+            <span className="text-[10px] font-medium text-slate-400 tracking-tight leading-tight">App untuk Yanti untuk mengarsip surat</span>
+          </div>
         </div>
       </SidebarHeader>
 
