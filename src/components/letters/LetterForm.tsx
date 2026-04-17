@@ -49,7 +49,7 @@ const formSchema = z.object({
   refNumber: z.string().min(1, 'Nomor surat wajib diisi'),
   sender: z.string().min(1, 'Pengirim wajib diisi'),
   recipient: z.string().min(1, 'Penerima wajib diisi'),
-  subject: z.string().min(5, 'Subjek minimal 5 karakter'),
+  subject: z.string().min(1, 'Pilih perihal / hal'),
   date: z.string().min(1, 'Pilih tanggal surat'),
   type: z.enum(['Masuk', 'Keluar'] as const),
 });
@@ -267,14 +267,33 @@ export default function LetterForm({
                     <FormItem className="space-y-1">
                       <Field>
                         <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5">Perihal / Hal</FieldLabel>
-                        <FormControl>
-                          <Input 
-                            autoFocus
-                            placeholder="Ringkasan isi dokumen..." 
-                            {...field} 
-                            className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none focus-visible:ring-1 focus-visible:ring-slate-400" 
-                          />
-                        </FormControl>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight shadow-none focus:ring-1 focus:ring-slate-400">
+                              <SelectValue placeholder="Pilih perihal / hal" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="bg-white border-slate-300 shadow-none">
+                            <SelectItem value="SK" className="py-2">
+                              <div className="flex flex-col text-left">
+                                <span className="font-medium text-[12px]">SK</span>
+                                <span className="text-[10px] text-slate-400 font-normal leading-tight">Surat keterangan</span>
+                              </div>
+                            </SelectItem>
+                            <SelectItem value="BBH" className="py-2">
+                              <div className="flex flex-col text-left">
+                                <span className="font-medium text-[12px]">BBH</span>
+                                <span className="text-[10px] text-slate-400 font-normal leading-tight">Bahan baku</span>
+                              </div>
+                            </SelectItem>
+                            <SelectItem value="SU" className="py-2">
+                              <div className="flex flex-col text-left">
+                                <span className="font-medium text-[12px]">SU</span>
+                                <span className="text-[10px] text-slate-400 font-normal leading-tight">Surat undangan</span>
+                              </div>
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
                         <FormMessage className="text-[10px]" />
                       </Field>
                     </FormItem>
