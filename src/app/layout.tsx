@@ -1,22 +1,23 @@
 
-import type {Metadata} from 'next';
+"use client"
+
+import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/layout/AppSidebar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { NeuralBackground } from '@/components/layout/NeuralBackground';
-
-export const metadata: Metadata = {
-  title: 'Pengarsipan Yanti',
-  description: 'App untuk Yanti untuk mengarsip surat',
-};
+import { usePathname } from 'next/navigation';
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isLoginPage = pathname === '/login';
+
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
@@ -33,7 +34,7 @@ export default function RootLayout({
         >
           <SidebarProvider>
             <div className="flex min-h-screen w-full relative overflow-hidden">
-              <AppSidebar />
+              {!isLoginPage && <AppSidebar />}
               <main className="flex-1 overflow-auto bg-background relative">
                 <NeuralBackground />
                 <div className="relative z-10 min-h-full">
