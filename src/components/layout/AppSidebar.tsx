@@ -77,6 +77,12 @@ const navItems = [
 export function AppSidebar() {
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
+  const [mounted, setMounted] = React.useState(false)
+
+  // Ensure component is mounted to avoid hydration mismatch with theme
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950">
@@ -126,11 +132,15 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <div className="px-2 flex items-center justify-between group-data-[collapsible=icon]:hidden">
               <div className="flex items-center gap-3">
-                {theme === 'dark' ? <Moon className="size-4 text-slate-400" /> : <Sun className="size-4 text-slate-400" />}
+                {mounted && theme === 'dark' ? (
+                  <Moon className="size-4 text-slate-400" />
+                ) : (
+                  <Sun className="size-4 text-slate-400" />
+                )}
                 <span className="text-sm font-medium text-slate-900 dark:text-slate-100">Mode Gelap</span>
               </div>
               <Switch 
-                checked={theme === 'dark'} 
+                checked={mounted && theme === 'dark'} 
                 onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')} 
               />
             </div>
@@ -141,7 +151,7 @@ export function AppSidebar() {
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                   className="rounded-md hover:bg-slate-50 dark:hover:bg-slate-900"
                 >
-                  {theme === 'dark' ? <Moon className="size-4" /> : <Sun className="size-4" />}
+                  {mounted && theme === 'dark' ? <Moon className="size-4" /> : <Sun className="size-4" />}
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
