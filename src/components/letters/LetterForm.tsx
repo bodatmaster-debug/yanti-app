@@ -86,21 +86,19 @@ export default function LetterForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full bg-white">
-        {/* SECTION 1: HEADER (Static) */}
-        <div className="px-6 py-4 border-b border-slate-300 bg-white flex items-center justify-between">
+        {/* SECTION 1: HEADER */}
+        <div className="px-6 py-5 border-b border-slate-300 bg-white flex items-center justify-between">
           <div className="space-y-0.5">
             <h2 className="text-lg font-bold tracking-tight text-slate-900">Tambah Arsip Surat</h2>
-            <p className="typography-muted text-[10px]">Lengkapi Metadata Surat Untuk Kearsipan Digital.</p>
+            <p className="text-[11px] text-slate-400 font-medium tracking-tight">Lengkapi Metadata Surat Untuk Kearsipan Digital.</p>
           </div>
           
-          <div className="flex items-center border border-slate-300 rounded-md bg-white overflow-hidden h-10">
-            <div className="flex items-center gap-2 px-3 border-r border-slate-300 h-full">
-              <div className="bg-slate-50 text-slate-600 border border-slate-300 size-6 flex items-center justify-center rounded">
-                <Hash className="h-3.5 w-3.5" />
-              </div>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <Hash className="h-4 w-4 text-slate-300" />
               <div className="flex flex-col leading-none">
-                <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">No. Agenda</p>
-                <p className="text-sm font-bold text-slate-900 tabular-nums">{nextAgendaNumber}</p>
+                <p className="text-[9px] text-slate-400 font-medium">No. Agenda</p>
+                <p className="text-sm font-medium text-slate-900 tabular-nums">{nextAgendaNumber}</p>
               </div>
             </div>
 
@@ -109,7 +107,7 @@ export default function LetterForm({
                 <TooltipTrigger asChild>
                   <button 
                     type="button" 
-                    className="h-full w-10 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all focus:outline-none"
+                    className="flex items-center justify-center text-slate-300 hover:text-slate-500 transition-colors focus:outline-none"
                   >
                     <AlertCircle className="h-4 w-4" />
                   </button>
@@ -138,19 +136,19 @@ export default function LetterForm({
           </div>
         </div>
 
-        {/* SECTION 2: INPUT AREA (Scrollable) */}
-        <ScrollArea className="flex-1 max-h-[65vh]">
+        {/* SECTION 2: INPUT AREA */}
+        <ScrollArea className="flex-1 max-h-[60vh]">
           <div className="p-6">
             <div className="flex gap-8">
-              {/* LEFT COLUMN: TYPE & DATE */}
-              <div className="w-48 space-y-6">
+              {/* LEFT COLUMN */}
+              <div className="w-48 space-y-5">
                 <FormField
                   control={form.control}
                   name="type"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Jenis Surat</FieldLabel>
+                        <FieldLabel className="text-slate-800 font-medium text-[12px] tracking-tight mb-1">Jenis Surat</FieldLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger className="h-9 border-slate-300 bg-white font-medium text-xs tracking-tight">
@@ -172,9 +170,9 @@ export default function LetterForm({
                   control={form.control}
                   name="date"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
+                    <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Tanggal Surat</FieldLabel>
+                        <FieldLabel className="text-slate-800 font-medium text-[12px] tracking-tight mb-1">Tanggal Surat</FieldLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>
@@ -206,18 +204,17 @@ export default function LetterForm({
                 />
               </div>
 
-              {/* VERTICAL SEPARATOR */}
               <Separator orientation="vertical" className="h-auto bg-slate-200" />
 
-              {/* RIGHT COLUMN: METADATA */}
-              <div className="flex-1 space-y-6">
+              {/* RIGHT COLUMN */}
+              <div className="flex-1 space-y-5">
                 <FormField
                   control={form.control}
                   name="refNumber"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Nomor Surat</FieldLabel>
+                        <FieldLabel className="text-slate-800 font-medium text-[12px] tracking-tight mb-1">Nomor Surat</FieldLabel>
                         <FormControl>
                           <Input 
                             autoFocus
@@ -236,9 +233,9 @@ export default function LetterForm({
                   control={form.control}
                   name="subject"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Perihal / Hal</FieldLabel>
+                        <FieldLabel className="text-slate-800 font-medium text-[12px] tracking-tight mb-1">Perihal / Hal</FieldLabel>
                         <FormControl>
                           <Input 
                             placeholder="Ringkasan Perihal Dokumen..." 
@@ -257,9 +254,9 @@ export default function LetterForm({
                     control={form.control}
                     name="sender"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="space-y-1">
                         <Field>
-                          <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Pengirim</FieldLabel>
+                          <FieldLabel className="text-slate-800 font-medium text-[12px] tracking-tight mb-1">Pengirim</FieldLabel>
                           <FormControl>
                             <Input 
                               placeholder="Nama Atau Instansi" 
@@ -276,9 +273,9 @@ export default function LetterForm({
                     control={form.control}
                     name="recipient"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="space-y-1">
                         <Field>
-                          <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Penerima</FieldLabel>
+                          <FieldLabel className="text-slate-800 font-medium text-[12px] tracking-tight mb-1">Penerima</FieldLabel>
                           <FormControl>
                             <Input 
                               placeholder="Nama Atau Instansi" 
@@ -297,8 +294,8 @@ export default function LetterForm({
           </div>
         </ScrollArea>
 
-        {/* SECTION 3: FOOTER (Static) */}
-        <div className="px-6 py-4 border-t border-slate-300 flex items-center justify-end gap-3 bg-slate-50/10">
+        {/* SECTION 3: FOOTER */}
+        <div className="px-6 py-4 border-t border-slate-300 flex items-center justify-end gap-3 bg-slate-50/20">
           <Button 
             type="button" 
             variant="ghost" 
