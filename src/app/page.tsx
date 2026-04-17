@@ -39,7 +39,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 
 const INITIAL_LETTERS: Letter[] = [
   {
-    id: '1',
+    id: '001',
     refNumber: '400/12/SK/2023',
     sender: 'Dinas Pendidikan',
     recipient: 'Sekretariat Utama',
@@ -51,7 +51,7 @@ const INITIAL_LETTERS: Letter[] = [
     fileName: 'surat_bantuan_dana.pdf'
   },
   {
-    id: '2',
+    id: '002',
     refNumber: '401/05/OUT/2023',
     sender: 'Sekretariat Utama',
     recipient: 'Kementerian Keuangan',
@@ -94,10 +94,18 @@ export default function Dashboard() {
     });
   }, [letters, searchTerm, typeFilter]);
 
+  // Logic Penomoran Agenda Otomatis
+  const nextAgendaNumber = useMemo(() => {
+    const lastId = letters.length > 0 ? parseInt(letters[0].id) : 0;
+    return (lastId + 1).toString().padStart(3, '0');
+  }, [letters]);
+
+  const lastLetter = letters.length > 0 ? letters[0] : undefined;
+
   const handleAddLetter = (data: Partial<Letter>) => {
     const newLetter: Letter = {
       ...data,
-      id: Math.random().toString(36).substr(2, 9),
+      id: nextAgendaNumber,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     } as Letter;
@@ -142,7 +150,7 @@ export default function Dashboard() {
       <header className="h-16 border-b border-border bg-white flex items-center justify-between px-6 sticky top-0 z-20">
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-8 w-8 text-slate-600 hover:bg-slate-50 transition-colors" />
-          <div className="h-6 w-px bg-border hidden md:block shadow-none" />
+          <div className="h-6 w-px bg-border hidden md:block" />
           <h2 className="text-sm font-semibold text-slate-500 hidden md:block tracking-tight">Manajemen Arsip Digital</h2>
         </div>
         
@@ -151,25 +159,30 @@ export default function Dashboard() {
             variant="outline" 
             size="sm"
             onClick={handleExport}
-            className="hidden sm:flex border-border h-9 text-xs font-bold tracking-tight shadow-none hover:bg-slate-50"
+            className="hidden sm:flex border-border h-9 text-xs font-bold tracking-tight hover:bg-slate-50"
           >
             <FileSpreadsheet className="mr-2 h-4 w-4 text-emerald-600" />
             Export Excel
           </Button>
           <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
             <DialogTrigger asChild>
-              <Button size="sm" className="bg-primary text-primary-foreground h-9 text-xs font-bold tracking-tight shadow-none px-4">
+              <Button size="sm" className="bg-primary text-primary-foreground h-9 text-xs font-bold tracking-tight px-4">
                 <Plus className="mr-2 h-4 w-4" />
                 Tambah Arsip
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl border border-border bg-white shadow-none rounded-lg focus:outline-none p-0 overflow-hidden">
+            <DialogContent className="max-w-xl border border-border bg-white p-0 overflow-hidden">
               <div className="p-6">
-                <DialogHeader className="mb-4">
-                  <DialogTitle className="text-2xl font-bold tracking-tight text-slate-900">Tambah Arsip Surat</DialogTitle>
-                  <DialogDescription className="text-sm text-slate-500 font-medium">Lengkapi metadata surat untuk kearsipan yang lebih baik.</DialogDescription>
+                <DialogHeader className="mb-6">
+                  <DialogTitle className="text-xl font-bold tracking-tight text-slate-900">Tambah Arsip Surat</DialogTitle>
+                  <DialogDescription className="text-xs text-slate-500 font-medium">Lengkapi Metadata Surat Untuk Kearsipan Yang Lebih Baik.</DialogDescription>
                 </DialogHeader>
-                <LetterForm onSubmit={handleAddLetter} onCancel={() => setIsFormOpen(false)} />
+                <LetterForm 
+                  onSubmit={handleAddLetter} 
+                  onCancel={() => setIsFormOpen(false)} 
+                  lastLetter={lastLetter}
+                  nextAgendaNumber={nextAgendaNumber}
+                />
               </div>
             </DialogContent>
           </Dialog>
@@ -179,7 +192,7 @@ export default function Dashboard() {
       <div className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
         <div className="flex flex-col gap-1">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Daftar Arsip Surat</h1>
-          <p className="text-sm text-slate-500 font-medium leading-normal">Monitor dan kelola seluruh dokumen dinas secara efisien dalam satu dashboard.</p>
+          <p className="text-sm text-slate-500 font-medium leading-normal">Monitor Dan Kelola Seluruh Dokumen Dinas Secara Efisien Dalam Satu Dashboard.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -200,21 +213,21 @@ export default function Dashboard() {
           />
         </div>
 
-        <Card className="border border-border bg-white rounded-lg overflow-hidden shadow-none">
+        <Card className="border border-border bg-white rounded-lg overflow-hidden">
           <CardContent className="p-0">
             <div className="p-4 border-b border-border flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50/30">
               <div className="relative w-full md:max-w-md">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                 <Input 
-                  placeholder="Cari Nomor Surat, Subjek, atau Instansi..." 
-                  className="pl-10 bg-white border-border text-sm h-10 shadow-none focus:ring-1 focus:ring-slate-400"
+                  placeholder="Cari Nomor Surat, Subjek, Atau Instansi..." 
+                  className="pl-10 bg-white border-border text-sm h-10 focus:ring-1 focus:ring-slate-400"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-                  <SelectTrigger className="w-full md:w-[180px] bg-white border-border text-sm font-bold shadow-none h-10">
+                  <SelectTrigger className="w-full md:w-[180px] bg-white border-border text-sm font-bold h-10">
                     <SelectValue placeholder="Semua Kategori" />
                   </SelectTrigger>
                   <SelectContent className="border border-border bg-white shadow-none">
@@ -276,13 +289,13 @@ export default function Dashboard() {
 
 function StatsCard({ label, value, icon }: { label: string, value: number, icon: React.ReactNode }) {
   return (
-    <Card className="border border-border bg-white transition-all hover:border-slate-400 shadow-none group">
+    <Card className="border border-border bg-white transition-all hover:border-slate-400 group">
       <CardContent className="p-6 flex items-center justify-between">
         <div className="space-y-1">
           <p className="text-xs font-bold text-slate-400 tracking-tight leading-none mb-2">{label}</p>
           <h4 className="text-3xl font-bold tracking-tight tabular-nums text-slate-900">{value}</h4>
         </div>
-        <div className="h-12 w-12 rounded-lg border border-border flex items-center justify-center text-slate-400 bg-white group-hover:text-primary group-hover:border-primary/50 transition-colors shadow-none">
+        <div className="h-12 w-12 rounded-lg border border-border flex items-center justify-center text-slate-400 bg-white group-hover:text-primary group-hover:border-primary/50 transition-colors">
           {icon}
         </div>
       </CardContent>
