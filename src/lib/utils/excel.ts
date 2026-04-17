@@ -7,7 +7,7 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Arsip Surat');
 
-  // 1. Tambah Logo dari /logo.jpg
+  // 1. Tambah Logo
   try {
     const response = await fetch('/logo.jpg');
     if (response.ok) {
@@ -16,43 +16,47 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
         buffer: arrayBuffer,
         extension: 'jpeg',
       });
-      // Posisi logo di pojok kiri atas (baris 0-4)
       worksheet.addImage(logoId, {
         tl: { col: 0, row: 0 },
         ext: { width: 80, height: 80 }
       });
     }
   } catch (e) {
-    console.warn('Logo instansi tidak dapat dimuat ke excel');
+    console.warn('Logo tidak dapat dimuat');
   }
 
   // 2. Judul Laporan (Kop Surat)
-  worksheet.mergeCells('B2:H2');
+  worksheet.mergeCells('B2:G2');
   const titleCell = worksheet.getCell('B2');
-  titleCell.value = 'Pengarsipan Yanti';
-  titleCell.font = { name: 'Arial', size: 16, bold: true };
+  titleCell.value = 'Agenda surat masuk dan keluar';
+  titleCell.font = { name: 'Arial', size: 14, bold: true };
   titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
-  worksheet.mergeCells('B3:H3');
-  const subTitleCell = worksheet.getCell('B3');
-  const reportType = options?.month 
-    ? `Laporan Bulanan: ${format(new Date(`${options.year}-${options.month}-01`), 'MMMM yyyy', { locale: id })}` 
-    : 'Laporan Seluruh Arsip Digital';
-  subTitleCell.value = reportType;
-  subTitleCell.font = { name: 'Arial', size: 11, bold: false };
-  subTitleCell.alignment = { vertical: 'middle', horizontal: 'center' };
+  worksheet.mergeCells('B3:G3');
+  const subTitleCell1 = worksheet.getCell('B3');
+  subTitleCell1.value = 'USAHA DAGANG PETANI MARSAOR';
+  subTitleCell1.font = { name: 'Arial', size: 12, bold: true };
+  subTitleCell1.alignment = { vertical: 'middle', horizontal: 'center' };
 
-  // Beri jarak agar tabel tidak mepet ke logo (header tabel di baris 7)
-  // Tidak perlu addRow manual bertubi-tubi, kita langsung set header di row 7
+  worksheet.mergeCells('B4:G4');
+  const subTitleCell2 = worksheet.getCell('B4');
+  subTitleCell2.value = 'Jl. T. D. Pardede, Simamora Tarutung';
+  subTitleCell2.font = { name: 'Arial', size: 10, bold: false };
+  subTitleCell2.alignment = { vertical: 'middle', horizontal: 'center' };
 
-  // 3. Definisi Header
+  worksheet.mergeCells('B5:G5');
+  const subTitleCell3 = worksheet.getCell('B5');
+  subTitleCell3.value = 'Kabupaten Tapanuli Utara';
+  subTitleCell3.font = { name: 'Arial', size: 10, bold: false };
+  subTitleCell3.alignment = { vertical: 'middle', horizontal: 'center' };
+
+  // 3. Definisi Header (Tanpa No. Agenda)
   const headers = [
-    'No. Agenda',
     'No. Surat',
     'Jenis',
     'Pengirim',
     'Penerima',
-    'Perihal / Hal',
+    'Hal',
     'Tanggal Surat',
     'Tanggal Input'
   ];
@@ -61,12 +65,11 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   const headerRow = worksheet.getRow(headerRowIndex);
   headerRow.values = headers;
 
-  // Style Header Tabel
   headerRow.eachCell((cell) => {
     cell.fill = {
       type: 'pattern',
       pattern: 'solid',
-      fgColor: { argb: 'FF1E293B' }, // Slate-800
+      fgColor: { argb: 'FF1E293B' },
     };
     cell.font = { color: { argb: 'FFFFFFFF' }, bold: true, size: 10 };
     cell.alignment = { vertical: 'middle', horizontal: 'center' };
@@ -78,21 +81,20 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
     };
   });
 
-  // Atur lebar kolom secara manual
-  const columnWidths = [12, 25, 12, 25, 25, 45, 18, 18];
+  // Atur lebar kolom
+  const columnWidths = [25, 12, 25, 25, 15, 18, 18];
   columnWidths.forEach((width, index) => {
     worksheet.getColumn(index + 1).width = width;
   });
 
-  // 4. Masukkan Data menggunakan Array (agar tidak tersesat)
+  // 4. Masukkan Data
   letters.forEach((letter) => {
     const rowValues = [
-      letter.id,
       letter.refNumber,
       letter.type,
       letter.sender,
       letter.recipient,
-      letter.subject,
+      letter.subject, // Hal
       format(new Date(letter.date), 'dd/MM/yyyy'),
       format(new Date(letter.createdAt), 'dd/MM/yyyy HH:mm'),
     ];
@@ -111,14 +113,12 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
     });
   });
 
-  // 5. Generate dan Download
+  // 5. Download
   const buffer = await workbook.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  const filename = options?.month 
-    ? `arsip_yanti_${options.year}_${options.month}.xlsx` 
-    : `arsip_yanti_lengkap_${new Date().toISOString().split('T')[0]}.xlsx`;
+  const filename = `arsip_marsaor_${new Date().toISOString().split('T')[0]}.xlsx`;
   
   link.href = url;
   link.download = filename;

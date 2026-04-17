@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useEffect } from 'react';
@@ -51,7 +50,7 @@ const formSchema = z.object({
   refNumber: z.string().min(1, 'Nomor surat wajib diisi'),
   sender: z.string().min(1, 'Pengirim wajib diisi'),
   recipient: z.string().min(1, 'Penerima wajib diisi'),
-  subject: z.string().min(1, 'Pilih perihal / hal'),
+  subject: z.string().min(1, 'Pilih hal'),
   date: z.string().min(1, 'Pilih tanggal surat'),
   type: z.enum(['Masuk', 'Keluar'] as const),
 });
@@ -95,7 +94,6 @@ export default function LetterForm({
   const watchSubject = useWatch({ control: form.control, name: 'subject' });
 
   useEffect(() => {
-    // Nomor otomatis hanya untuk surat Keluar
     if (!initialData && watchType === 'Keluar') {
       const d = watchDate ? parseISO(watchDate) : new Date();
       const year = d.getFullYear();
@@ -103,14 +101,14 @@ export default function LetterForm({
       const hal = watchSubject || '...';
       const seq = (countsByType.Keluar + 1).toString().padStart(3, '0');
       
-      // Format: nomor surat/hal/Out/bulan (angka romawi)/tahun
-      const autoRef = `${seq}/${hal}/Out/${monthRoman}/${year}`;
+      // New Format: nomor/hal/bulan(romawi)/tahun
+      const autoRef = `${seq}/${hal}/${monthRoman}/${year}`;
       
       form.setValue('refNumber', autoRef, { shouldValidate: true });
     } else if (!initialData && watchType === 'Masuk') {
-      // Jika switch ke masuk, kosongkan jika sebelumnya adalah auto-generated
       const currentRef = form.getValues('refNumber');
-      if (currentRef.includes('/Out/')) {
+      // If switching from Keluar, clear if it looks like an auto-generated one
+      if (currentRef.includes('/') && currentRef.split('/').length >= 4) {
         form.setValue('refNumber', '', { shouldValidate: false });
       }
     }
@@ -164,13 +162,9 @@ export default function LetterForm({
                               <span className="text-slate-400 shrink-0">Tanggal</span>
                               <span className="text-right font-medium">{format(new Date(lastLetter.date), 'dd/MM/yyyy')}</span>
                             </div>
-                            <div className="pt-1.5 border-t border-slate-700/50">
-                              <span className="text-slate-400 block mb-0.5">Perihal / Hal</span>
-                              <span className="font-medium line-clamp-2 italic">"{lastLetter.subject}"</span>
-                            </div>
                           </div>
                         ) : (
-                          <p className="text-[10px] italic text-slate-400">Belum ada data sebelumnya di sistem.</p>
+                          <p className="text-[10px] italic text-slate-400">Belum ada data sebelumnya.</p>
                         )}
                       </div>
                     </TooltipContent>
@@ -183,8 +177,8 @@ export default function LetterForm({
 
         <ScrollArea className="flex-1">
           <div className="p-6">
-            <div className="flex gap-10">
-              <div className="w-48 space-y-6 shrink-0">
+            <div className="flex flex-col gap-6">
+              <div className="grid grid-cols-2 gap-5">
                 <FormField
                   control={form.control}
                   name="type"
@@ -250,27 +244,85 @@ export default function LetterForm({
                 />
               </div>
 
-              <Separator orientation="vertical" className="h-auto bg-slate-200" />
+              <FormField
+                control={form.control}
+                name="subject"
+                render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <Field>
+                      <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5">Hal</FieldLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight shadow-none focus:ring-1 focus:ring-slate-400">
+                            <SelectValue placeholder="Pilih hal" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-white border-slate-300 shadow-none">
+                          <SelectItem value="SK" className="py-2">
+                            <div className="flex flex-col text-left">
+                              <span className="font-medium text-[12px]">SK</span>
+                              <span className="text-[10px] text-slate-400 font-normal leading-tight">Surat keterangan</span>
+                            </div>
+                          </SelectItem>
+                          <SelectItem value="BBH" className="py-2">
+                            <div className="flex flex-col text-left">
+                              <span className="font-medium text-[12px]">BBH</span>
+                              <span className="text-[10px] text-slate-400 font-normal leading-tight">Bahan baku</span>
+                            </div>
+                          </SelectItem>
+                          <SelectItem value="SU" className="py-2">
+                            <div className="flex flex-col text-left">
+                              <span className="font-medium text-[12px]">SU</span>
+                              <span className="text-[10px] text-slate-400 font-normal leading-tight">Surat undangan</span>
+                            </div>
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage className="text-[10px]" />
+                    </Field>
+                  </FormItem>
+                )}
+              />
 
-              <div className="flex-1 space-y-6">
+              <FormField
+                control={form.control}
+                name="refNumber"
+                render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <Field>
+                      <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5 flex items-center gap-1.5">
+                        Nomor Surat {watchType === 'Keluar' ? <Lock className="h-3 w-3 text-slate-300" /> : <Edit2 className="h-3 w-3 text-slate-300" />}
+                      </FieldLabel>
+                      <FormControl>
+                        <Input 
+                          readOnly={watchType === 'Keluar'}
+                          placeholder={watchType === 'Keluar' ? "Nomor otomatis..." : "Masukkan nomor surat..."} 
+                          {...field} 
+                          className={cn(
+                            "h-9 border-slate-300 text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none",
+                            watchType === 'Keluar' ? "bg-slate-50/50 cursor-default focus-visible:ring-0" : "bg-white focus-visible:ring-1 focus-visible:ring-slate-400"
+                          )} 
+                        />
+                      </FormControl>
+                      <FormMessage className="text-[10px]" />
+                    </Field>
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-2 gap-5">
                 <FormField
                   control={form.control}
-                  name="refNumber"
+                  name="sender"
                   render={({ field }) => (
                     <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5 flex items-center gap-1.5">
-                          Nomor Surat {watchType === 'Keluar' ? <Lock className="h-3 w-3 text-slate-300" /> : <Edit2 className="h-3 w-3 text-slate-300" />}
-                        </FieldLabel>
+                        <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5">Pengirim</FieldLabel>
                         <FormControl>
                           <Input 
-                            readOnly={watchType === 'Keluar'}
-                            placeholder={watchType === 'Keluar' ? "Nomor otomatis..." : "Masukkan nomor surat..."} 
+                            placeholder="Instansi / Nama" 
                             {...field} 
-                            className={cn(
-                              "h-9 border-slate-300 text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none",
-                              watchType === 'Keluar' ? "bg-slate-50/50 cursor-default focus-visible:ring-0" : "bg-white focus-visible:ring-1 focus-visible:ring-slate-400"
-                            )} 
+                            className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none focus-visible:ring-1 focus-visible:ring-slate-400" 
                           />
                         </FormControl>
                         <FormMessage className="text-[10px]" />
@@ -278,87 +330,25 @@ export default function LetterForm({
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
-                  name="subject"
+                  name="recipient"
                   render={({ field }) => (
                     <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5">Perihal / Hal</FieldLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight shadow-none focus:ring-1 focus:ring-slate-400">
-                              <SelectValue placeholder="Pilih perihal / hal" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent className="bg-white border-slate-300 shadow-none">
-                            <SelectItem value="SK" className="py-2">
-                              <div className="flex flex-col text-left">
-                                <span className="font-medium text-[12px]">SK</span>
-                                <span className="text-[10px] text-slate-400 font-normal leading-tight">Surat keterangan</span>
-                              </div>
-                            </SelectItem>
-                            <SelectItem value="BBH" className="py-2">
-                              <div className="flex flex-col text-left">
-                                <span className="font-medium text-[12px]">BBH</span>
-                                <span className="text-[10px] text-slate-400 font-normal leading-tight">Bahan baku</span>
-                              </div>
-                            </SelectItem>
-                            <SelectItem value="SU" className="py-2">
-                              <div className="flex flex-col text-left">
-                                <span className="font-medium text-[12px]">SU</span>
-                                <span className="text-[10px] text-slate-400 font-normal leading-tight">Surat undangan</span>
-                              </div>
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5">Penerima</FieldLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Instansi / Nama" 
+                            {...field} 
+                            className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none focus-visible:ring-1 focus-visible:ring-slate-400" 
+                          />
+                        </FormControl>
                         <FormMessage className="text-[10px]" />
                       </Field>
                     </FormItem>
                   )}
                 />
-
-                <div className="grid grid-cols-2 gap-5">
-                  <FormField
-                    control={form.control}
-                    name="sender"
-                    render={({ field }) => (
-                      <FormItem className="space-y-1">
-                        <Field>
-                          <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5">Pengirim</FieldLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="Instansi / Nama" 
-                              {...field} 
-                              className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none focus-visible:ring-1 focus-visible:ring-slate-400" 
-                            />
-                          </FormControl>
-                          <FormMessage className="text-[10px]" />
-                        </Field>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="recipient"
-                    render={({ field }) => (
-                      <FormItem className="space-y-1">
-                        <Field>
-                          <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5">Penerima</FieldLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="Instansi / Nama" 
-                              {...field} 
-                              className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none focus-visible:ring-1 focus-visible:ring-slate-400" 
-                            />
-                          </FormControl>
-                          <FormMessage className="text-[10px]" />
-                        </Field>
-                      </FormItem>
-                    )}
-                  />
-                </div>
               </div>
             </div>
           </div>
