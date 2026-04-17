@@ -8,23 +8,44 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Arsip Surat');
 
-  // 1. Add Header / Kop Surat
-  worksheet.mergeCells('A1:H1');
-  const titleCell = worksheet.getCell('A1');
+  // 1. Add Logo if exists (Positioned in A1:A3 area)
+  try {
+    const response = await fetch('/logo.jpg');
+    if (response.ok) {
+      const arrayBuffer = await response.arrayBuffer();
+      const logoId = workbook.addImage({
+        buffer: arrayBuffer,
+        extension: 'jpeg',
+      });
+      worksheet.addImage(logoId, {
+        tl: { col: 0.2, row: 0.2 },
+        ext: { width: 60, height: 60 }
+      });
+    }
+  } catch (e) {
+    console.warn('Logo could not be embedded into Excel');
+  }
+
+  // 2. Add Header / Kop Surat (Merged next to logo)
+  worksheet.mergeCells('B1:H1');
+  const titleCell = worksheet.getCell('B1');
   titleCell.value = 'SISTEM MANAJEMEN ARSIP DIGITAL - SURAT DIGITAL';
   titleCell.font = { name: 'Arial', size: 14, bold: true };
   titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
-  worksheet.mergeCells('A2:H2');
-  const subTitleCell = worksheet.getCell('A2');
-  const reportType = options?.month ? `Laporan Bulanan: ${format(new Date(`${options.year}-${options.month}-01`), 'MMMM yyyy', { locale: id })}` : 'Laporan Seluruh Arsip';
+  worksheet.mergeCells('B2:H2');
+  const subTitleCell = worksheet.getCell('B2');
+  const reportType = options?.month 
+    ? `Laporan Bulanan: ${format(new Date(`${options.year}-${options.month}-01`), 'MMMM yyyy', { locale: id })}` 
+    : 'Laporan Seluruh Arsip';
   subTitleCell.value = reportType;
   subTitleCell.font = { name: 'Arial', size: 12, bold: false };
   subTitleCell.alignment = { vertical: 'middle', horizontal: 'center' };
 
-  worksheet.addRow([]); // Spacer
+  worksheet.addRow([]);
+  worksheet.addRow([]); // Extra spacers for header height
 
-  // 2. Define Columns
+  // 3. Define Columns
   const headers = [
     { header: 'No. Agenda', key: 'id', width: 12 },
     { header: 'No. Surat', key: 'refNumber', width: 25 },
@@ -38,8 +59,8 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
 
   worksheet.columns = headers;
 
-  // 3. Style Table Header (Row 4)
-  const headerRow = worksheet.getRow(4);
+  // 4. Style Table Header (Row 5)
+  const headerRow = worksheet.getRow(5);
   headerRow.values = headers.map(h => h.header);
   headerRow.eachCell((cell) => {
     cell.fill = {
@@ -57,7 +78,7 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
     };
   });
 
-  // 4. Add Data Rows
+  // 5. Add Data Rows
   letters.forEach((letter) => {
     const row = worksheet.addRow({
       id: letter.id,
@@ -80,22 +101,6 @@ export const exportLettersToExcel = async (letters: Letter[], options?: { month?
       };
     });
   });
-
-  // 5. Try to add Logo if exists
-  try {
-    const response = await fetch('/logo.jpg');
-    if (response.ok) {
-      const arrayBuffer = await response.arrayBuffer();
-      const logoId = workbook.addImage({
-        buffer: arrayBuffer,
-        extension: 'jpeg',
-      });
-      // Position logo on top left (floating)
-      // worksheet.addImage(logoId, 'A1:B2'); 
-    }
-  } catch (e) {
-    console.log('Logo not found or could not be loaded');
-  }
 
   // 6. Generate and Download
   const buffer = await workbook.xlsx.writeBuffer();
