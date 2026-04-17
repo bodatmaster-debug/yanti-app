@@ -36,7 +36,8 @@ import { Calendar } from "@/components/ui/calendar"
 import { Letter, LetterType } from '@/lib/types';
 import { 
   AlertCircle, 
-  CalendarIcon
+  CalendarIcon,
+  Lock
 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { id } from 'date-fns/locale';
@@ -91,7 +92,8 @@ export default function LetterForm({
       const d = watchDate ? parseISO(watchDate) : new Date();
       const year = d.getFullYear();
       const month = (d.getMonth() + 1).toString().padStart(2, '0');
-      const typeCode = watchType === 'Masuk' ? 'IN' : 'OUT';
+      // No uppercase: In/Out instead of IN/OUT
+      const typeCode = watchType === 'Masuk' ? 'In' : 'Out';
       const seq = (countsByType[watchType] + 1).toString().padStart(3, '0');
       const autoRef = `${seq}/${typeCode}/${month}/${year}`;
       
@@ -242,13 +244,16 @@ export default function LetterForm({
                   render={({ field }) => (
                     <FormItem className="space-y-1">
                       <Field>
-                        <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5">Nomor Surat</FieldLabel>
+                        <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5 flex items-center gap-1.5">
+                          Nomor Surat <Lock className="h-3 w-3 text-slate-300" />
+                        </FieldLabel>
                         <FormControl>
                           <Input 
-                            autoFocus
-                            placeholder="Nomor resmi dokumen..." 
+                            readOnly
+                            tabIndex={-1}
+                            placeholder="Nomor otomatis..." 
                             {...field} 
-                            className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none focus-visible:ring-1 focus-visible:ring-slate-400" 
+                            className="h-9 border-slate-300 bg-slate-50/50 text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none focus-visible:ring-0 cursor-default" 
                           />
                         </FormControl>
                         <FormMessage className="text-[10px]" />
@@ -266,6 +271,7 @@ export default function LetterForm({
                         <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5">Perihal / Hal</FieldLabel>
                         <FormControl>
                           <Input 
+                            autoFocus
                             placeholder="Ringkasan isi dokumen..." 
                             {...field} 
                             className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none focus-visible:ring-1 focus-visible:ring-slate-400" 

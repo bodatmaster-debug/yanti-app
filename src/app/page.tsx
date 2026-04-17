@@ -40,7 +40,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 const INITIAL_LETTERS: Letter[] = [
   {
     id: '001',
-    refNumber: '001/IN/11/2023',
+    refNumber: '001/In/11/2023',
     sender: 'Dinas Pendidikan',
     recipient: 'Sekretariat Utama',
     subject: 'Permohonan bantuan dana operasional gedung',
@@ -52,7 +52,7 @@ const INITIAL_LETTERS: Letter[] = [
   },
   {
     id: '002',
-    refNumber: '001/OUT/12/2023',
+    refNumber: '001/Out/12/2023',
     sender: 'Sekretariat Utama',
     recipient: 'Kementerian Keuangan',
     subject: 'Laporan pertanggungjawaban tahunan anggaran 2023',
