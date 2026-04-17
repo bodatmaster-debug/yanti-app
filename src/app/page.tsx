@@ -112,7 +112,7 @@ export default function Dashboard() {
     setIsFormOpen(false);
     toast({
       title: "Berhasil",
-      description: "Surat Berhasil Ditambahkan Ke Arsip.",
+      description: "Surat berhasil ditambahkan ke arsip.",
     });
   };
 
@@ -120,7 +120,7 @@ export default function Dashboard() {
     setLetters(prev => prev.map(l => l.id === id ? { ...l, ...data, updatedAt: new Date().toISOString() } : l));
     toast({
       title: "Berhasil",
-      description: "Data Surat Telah Diperbarui.",
+      description: "Data surat telah diperbarui.",
     });
   };
 
@@ -128,7 +128,7 @@ export default function Dashboard() {
     setLetters(prev => prev.filter(l => l.id !== id));
     toast({
       title: "Terhapus",
-      description: "Surat Telah Dihapus Dari Arsip.",
+      description: "Surat telah dihapus dari arsip.",
     });
   };
 
@@ -138,7 +138,7 @@ export default function Dashboard() {
     } catch (err) {
       toast({
         title: "Gagal Export",
-        description: "Terjadi Kesalahan Saat Mengekspor Data.",
+        description: "Terjadi kesalahan saat mengekspor data.",
         variant: "destructive"
       });
     }
@@ -150,7 +150,7 @@ export default function Dashboard() {
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-8 w-8 text-slate-600 hover:bg-slate-50 transition-colors" />
           <div className="h-6 w-px bg-slate-200 hidden md:block" />
-          <h2 className="text-[11px] font-bold text-slate-400 hidden md:block tracking-widest">Digital Archive Management</h2>
+          <h2 className="text-[10px] font-medium text-slate-400 hidden md:block tracking-[0.2em] uppercase">Digital Archive Management</h2>
         </div>
         
         <div className="flex items-center gap-3">
@@ -158,7 +158,7 @@ export default function Dashboard() {
             variant="ghost" 
             size="sm"
             onClick={handleExport}
-            className="hidden sm:flex h-9 text-xs font-semibold text-slate-600 hover:bg-slate-50 border border-transparent hover:border-slate-300"
+            className="hidden sm:flex h-9 text-xs font-medium text-slate-600 hover:bg-slate-50 border border-transparent hover:border-slate-200"
           >
             <FileSpreadsheet className="mr-2 h-4 w-4 text-emerald-600" />
             Export Excel
@@ -166,15 +166,15 @@ export default function Dashboard() {
           
           <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
             <DialogTrigger asChild>
-              <Button size="sm" className="bg-primary text-primary-foreground h-9 text-xs font-bold px-5 border border-primary shadow-none hover:bg-primary/90">
+              <Button size="sm" className="bg-primary text-primary-foreground h-9 text-xs font-medium px-5 border border-primary hover:bg-primary/90">
                 <Plus className="mr-2 h-4 w-4" />
                 Tambah Arsip
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-3xl border-slate-300 bg-white p-0 overflow-hidden max-h-[90vh] flex flex-col focus:outline-none shadow-none">
+            <DialogContent className="max-w-2xl border-slate-300 bg-white p-0 overflow-hidden max-h-[90vh] flex flex-col focus:outline-none shadow-none">
               <DialogHeader className="sr-only">
                 <DialogTitle>Tambah Arsip Surat</DialogTitle>
-                <DialogDescription>Formulir pengisian data surat baru untuk pengarsipan digital.</DialogDescription>
+                <DialogDescription>Lengkapi informasi metadata surat untuk pengarsipan digital.</DialogDescription>
               </DialogHeader>
               <LetterForm 
                 onSubmit={handleAddLetter} 
@@ -189,8 +189,8 @@ export default function Dashboard() {
 
       <div className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
         <div className="space-y-1">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Daftar Arsip Surat</h1>
-          <p className="typography-muted">Monitor Dan Kelola Seluruh Dokumen Dinas Secara Efisien.</p>
+          <h1 className="typography-h1">Daftar Arsip Surat</h1>
+          <p className="typography-muted text-sm">Monitor dan kelola seluruh dokumen dinas secara efisien.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -212,19 +212,19 @@ export default function Dashboard() {
         </div>
 
         <div className="border border-slate-300 bg-white rounded-lg overflow-hidden">
-          <div className="p-4 border-b border-slate-300 flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50/20">
+          <div className="p-4 border-b border-slate-300 flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50/10">
             <div className="relative w-full md:max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <Input 
-                placeholder="Cari Nomor Surat, Subjek, Atau Instansi..." 
-                className="pl-10 bg-white border-slate-300 text-sm h-10 tracking-tight focus:ring-0 placeholder:text-slate-400"
+                placeholder="Cari nomor surat, subjek, atau instansi..." 
+                className="pl-10 bg-white border-slate-200 text-sm h-10 tracking-tight placeholder:text-slate-400"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="flex items-center gap-3 w-full md:w-auto">
               <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-                <SelectTrigger className="w-full md:w-[180px] bg-white border-slate-300 text-sm font-semibold h-10">
+                <SelectTrigger className="w-full md:w-[180px] bg-white border-slate-200 text-sm font-medium h-10">
                   <SelectValue placeholder="Semua Kategori" />
                 </SelectTrigger>
                 <SelectContent className="border-slate-300 bg-white">
@@ -247,8 +247,8 @@ export default function Dashboard() {
                   className="absolute inset-0 flex items-center justify-center"
                 >
                   <div className="flex flex-col items-center gap-3">
-                    <Loader2 className="h-8 w-8 animate-spin text-slate-300" />
-                    <p className="text-[10px] font-bold text-slate-400 tracking-[0.2em] uppercase">Memuat Data</p>
+                    <Loader2 className="h-8 w-8 animate-spin text-slate-200" />
+                    <p className="text-[10px] font-medium text-slate-400 tracking-[0.2em] uppercase">Memuat Data</p>
                   </div>
                 </motion.div>
               ) : filteredLetters.length > 0 ? (
@@ -270,9 +270,9 @@ export default function Dashboard() {
                   animate={{ opacity: 1 }}
                   className="py-32 text-center"
                 >
-                  <Mail className="h-10 w-10 text-slate-200 mx-auto mb-4" />
-                  <h3 className="text-lg font-bold tracking-tight text-slate-900">Arsip Tidak Ditemukan</h3>
-                  <p className="typography-muted">Silakan Sesuaikan Kata Kunci Atau Filter Pencarian Anda.</p>
+                  <Mail className="h-10 w-10 text-slate-100 mx-auto mb-4" />
+                  <h3 className="typography-h3 text-slate-900">Arsip Tidak Ditemukan</h3>
+                  <p className="typography-muted">Sesuaikan kata kunci atau filter pencarian Anda.</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -285,12 +285,12 @@ export default function Dashboard() {
 
 function StatsCard({ label, value, icon }: { label: string, value: number, icon: React.ReactNode }) {
   return (
-    <div className="border border-slate-300 bg-white p-6 flex items-center justify-between rounded-lg transition-all hover:border-slate-400 group">
+    <div className="border border-slate-300 bg-white p-6 flex items-center justify-between rounded-lg hover:border-slate-400 transition-colors">
       <div className="space-y-1">
-        <p className="text-[10px] font-bold text-slate-400 tracking-wider uppercase leading-none mb-2">{label}</p>
-        <h4 className="text-2xl font-bold tracking-tight tabular-nums text-slate-900">{value}</h4>
+        <p className="text-[10px] font-medium text-slate-400 tracking-[0.15em] uppercase mb-1">{label}</p>
+        <h4 className="text-2xl font-semibold tracking-tight text-slate-900">{value}</h4>
       </div>
-      <div className="h-12 w-12 rounded-md border border-slate-200 flex items-center justify-center text-slate-400 bg-slate-50/30 group-hover:text-primary group-hover:border-slate-300 transition-colors">
+      <div className="h-12 w-12 rounded border border-slate-100 flex items-center justify-center text-slate-400 bg-slate-50/50 transition-colors">
         {icon}
       </div>
     </div>
