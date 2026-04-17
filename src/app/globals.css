@@ -25,7 +25,6 @@
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
 
-    /* Sidebar Variables */
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -58,10 +57,5 @@
   /* Focus States */
   :focus-visible {
     @apply outline-none ring-1 ring-ring ring-offset-0;
-  }
-
-  /* Custom Title Case for Sidebar Labels */
-  [data-sidebar="group-label"] {
-    @apply capitalize !important;
   }
 }

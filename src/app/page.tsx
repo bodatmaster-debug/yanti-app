@@ -142,7 +142,7 @@ export default function Dashboard() {
         <div className="flex items-center gap-4">
           <SidebarTrigger />
           <div className="h-6 w-px bg-border hidden md:block" />
-          <h2 className="font-bold text-xs tracking-tight text-muted-foreground hidden md:block">Manajemen Arsip</h2>
+          <h2 className="text-sm font-medium text-muted-foreground hidden md:block tracking-tight">Manajemen Arsip</h2>
         </div>
         
         <div className="flex items-center gap-2">
@@ -150,21 +150,21 @@ export default function Dashboard() {
             variant="outline" 
             size="sm"
             onClick={handleExport}
-            className="hidden sm:flex border-border h-9"
+            className="hidden sm:flex border-border h-9 text-xs font-medium"
           >
             <FileSpreadsheet className="mr-2 h-4 w-4" />
             Export Data
           </Button>
           <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
             <DialogTrigger asChild>
-              <Button size="sm" className="bg-primary text-primary-foreground h-9 font-bold">
+              <Button size="sm" className="bg-primary text-primary-foreground h-9 text-xs font-semibold">
                 <Plus className="mr-2 h-4 w-4" />
                 Arsip Baru
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl border border-border">
               <DialogHeader>
-                <DialogTitle>Tambah Arsip Surat</DialogTitle>
+                <DialogTitle className="text-xl font-semibold tracking-tight">Tambah Arsip Surat</DialogTitle>
               </DialogHeader>
               <LetterForm onSubmit={handleAddLetter} onCancel={() => setIsFormOpen(false)} />
             </DialogContent>
@@ -174,8 +174,8 @@ export default function Dashboard() {
 
       <div className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold tracking-tight">Daftar Surat</h1>
-          <p className="text-sm text-muted-foreground">Monitor dan kelola seluruh dokumen surat dinas secara digital.</p>
+          <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0">Daftar Surat</h1>
+          <p className="text-sm text-muted-foreground leading-7">Monitor dan kelola seluruh dokumen surat dinas secara digital.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -203,14 +203,14 @@ export default function Dashboard() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input 
                   placeholder="Cari nomor atau subjek..." 
-                  className="pl-9 bg-white border-border"
+                  className="pl-9 bg-white border-border text-sm"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-                  <SelectTrigger className="w-full md:w-[160px] bg-white border-border font-medium">
+                  <SelectTrigger className="w-full md:w-[160px] bg-white border-border text-sm font-medium">
                     <SelectValue placeholder="Semua Tipe" />
                   </SelectTrigger>
                   <SelectContent className="border border-border">
@@ -254,8 +254,8 @@ export default function Dashboard() {
                     className="py-24 text-center"
                   >
                     <Mail className="h-10 w-10 text-muted-foreground/30 mx-auto mb-4" />
-                    <h3 className="text-sm font-bold">Data tidak ditemukan</h3>
-                    <p className="text-xs text-muted-foreground">Silakan periksa kembali filter atau kata kunci Anda.</p>
+                    <h3 className="text-lg font-semibold tracking-tight">Data Tidak Ditemukan</h3>
+                    <p className="text-sm text-muted-foreground">Silakan periksa kembali filter atau kata kunci Anda.</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -272,8 +272,8 @@ function StatsCard({ label, value, icon }: { label: string, value: number, icon:
     <Card className="border border-border bg-white transition-all hover:border-primary/30">
       <CardContent className="p-5 flex items-center justify-between">
         <div className="space-y-1">
-          <p className="text-[10px] font-bold text-muted-foreground tracking-tight">{label}</p>
-          <h4 className="text-2xl font-bold tabular-nums">{value}</h4>
+          <p className="text-sm font-medium text-muted-foreground tracking-tight">{label}</p>
+          <h4 className="text-2xl font-bold tracking-tight tabular-nums">{value}</h4>
         </div>
         <div className="h-10 w-10 rounded border border-border flex items-center justify-center text-muted-foreground bg-muted/30">
           {icon}

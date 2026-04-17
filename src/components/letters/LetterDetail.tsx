@@ -30,7 +30,7 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
         <div>
           <Badge 
             variant="outline" 
-            className={`border-[1.5px] mb-2 font-bold text-[10px] tracking-wider ${
+            className={`mb-2 font-semibold text-[10px] tracking-wide ${
               letter.type === 'Masuk' 
                 ? 'border-emerald-500 text-emerald-700' 
                 : 'border-sky-500 text-sky-700'
@@ -39,7 +39,7 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
             {letter.type === 'Masuk' ? <ArrowDownLeft className="h-3 w-3 mr-1" /> : <ArrowUpRight className="h-3 w-3 mr-1" />}
             Surat {letter.type}
           </Badge>
-          <h2 className="text-xl font-bold leading-tight tracking-tight text-slate-900">{letter.subject}</h2>
+          <h2 className="text-xl font-semibold leading-tight tracking-tight text-slate-900">{letter.subject}</h2>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
@@ -74,29 +74,29 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
 
         {letter.fileName && (
           <div className="pt-4">
-            <Button variant="outline" className="w-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-colors font-bold text-xs tracking-wide shadow-none">
+            <Button variant="outline" className="w-full border border-primary text-primary hover:bg-primary hover:text-white transition-colors font-semibold text-xs tracking-tight">
               <Download className="mr-2 h-4 w-4" /> Unduh Dokumen
             </Button>
           </div>
         )}
       </div>
 
-      {/* Right Column: Integrated Preview (Simulation) */}
+      {/* Right Column: Integrated Preview */}
       <div className="space-y-4">
-        <h3 className="text-[11px] font-bold tracking-wide text-muted-foreground">Pratinjau Dokumen</h3>
-        <div className="aspect-[3/4] border border-border rounded bg-white flex flex-col items-center justify-center relative overflow-hidden group shadow-none">
+        <h3 className="text-xs font-semibold tracking-tight text-muted-foreground">Pratinjau Dokumen</h3>
+        <div className="aspect-[3/4] border border-border rounded bg-white flex flex-col items-center justify-center relative overflow-hidden group">
           {letter.fileName ? (
             <div className="p-8 text-center">
-              <div className="w-16 h-20 bg-white border border-border rounded mx-auto mb-4 flex items-center justify-center shadow-none">
+              <div className="w-16 h-20 bg-white border border-border rounded mx-auto mb-4 flex items-center justify-center">
                 <FileText className="h-8 w-8 text-muted-foreground/50" />
               </div>
-              <p className="font-bold text-xs mb-1 tracking-tight">{letter.fileName}</p>
-              <p className="text-[10px] text-muted-foreground font-medium">Digital Preview terintegrasi</p>
+              <p className="font-semibold text-xs mb-1 tracking-tight">{letter.fileName}</p>
+              <p className="text-[10px] text-muted-foreground font-medium">Pratinjau digital terintegrasi</p>
             </div>
           ) : (
             <div className="p-8 text-center text-muted-foreground">
               <FileText className="h-10 w-10 mx-auto mb-4 opacity-20" />
-              <p className="text-[11px] font-bold tracking-wide">Tidak ada lampiran</p>
+              <p className="text-xs font-semibold tracking-tight">Tidak Ada Lampiran</p>
             </div>
           )}
         </div>
@@ -108,12 +108,12 @@ export default function LetterDetail({ letter }: LetterDetailProps) {
 function DetailItem({ icon, label, value }: { icon: React.ReactNode, label: string, value: string }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="mt-0.5 p-1.5 rounded border border-border bg-white shadow-none">
+      <div className="mt-0.5 p-1.5 rounded border border-border bg-white">
         {icon}
       </div>
       <div>
-        <p className="text-[10px] font-bold text-muted-foreground tracking-wide leading-none mb-1.5">{label}</p>
-        <p className="font-bold text-xs tracking-tight">{value}</p>
+        <p className="text-xs font-medium text-muted-foreground tracking-tight leading-none mb-1.5">{label}</p>
+        <p className="font-semibold text-sm tracking-tight">{value}</p>
       </div>
     </div>
   );
