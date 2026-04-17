@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useEffect } from 'react';
@@ -63,6 +64,11 @@ interface LetterFormProps {
   onCancel: () => void;
 }
 
+const getRomanMonth = (month: number) => {
+  const roman = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+  return roman[month] || "";
+};
+
 export default function LetterForm({ 
   initialData, 
   lastLetter, 
@@ -85,19 +91,23 @@ export default function LetterForm({
 
   const watchType = useWatch({ control: form.control, name: 'type' });
   const watchDate = useWatch({ control: form.control, name: 'date' });
+  const watchSubject = useWatch({ control: form.control, name: 'subject' });
 
   useEffect(() => {
     if (!initialData) {
       const d = watchDate ? parseISO(watchDate) : new Date();
       const year = d.getFullYear();
-      const month = (d.getMonth() + 1).toString().padStart(2, '0');
+      const monthRoman = getRomanMonth(d.getMonth());
       const typeCode = watchType === 'Masuk' ? 'In' : 'Out';
+      const hal = watchSubject || '...';
       const seq = (countsByType[watchType] + 1).toString().padStart(3, '0');
-      const autoRef = `${seq}/${typeCode}/${month}/${year}`;
+      
+      // Format: nomor surat/hal/perihal/bulan (angka romawi)/tahun
+      const autoRef = `${seq}/${hal}/${typeCode}/${monthRoman}/${year}`;
       
       form.setValue('refNumber', autoRef, { shouldValidate: true });
     }
-  }, [watchType, watchDate, initialData, countsByType, form]);
+  }, [watchType, watchDate, watchSubject, initialData, countsByType, form]);
 
   const onHandleSubmit = (values: z.infer<typeof formSchema>) => {
     onSubmit({
