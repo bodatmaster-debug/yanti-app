@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -65,11 +66,11 @@ const navItems = [
 export function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-300 bg-white">
-      <SidebarHeader className="h-16 border-b border-slate-300 flex flex-row items-center px-4 gap-3">
-        <div className="flex aspect-square size-8 items-center justify-center rounded border border-slate-300 bg-white text-slate-900">
+      <SidebarHeader className="h-16 border-b border-slate-300 flex items-center px-4 group-data-[collapsible=icon]:px-2">
+        <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded border border-slate-300 bg-white text-slate-900">
           <Mail className="size-4" />
         </div>
-        <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
+        <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden ml-3">
           <span className="font-semibold text-sm tracking-tight text-slate-900">Surat Digital</span>
           <span className="text-[10px] font-medium text-slate-400 tracking-tight">Sistem Arsip Modern</span>
         </div>
@@ -89,7 +90,7 @@ export function AppSidebar() {
                     </a>
                   </SidebarMenuButton>
                   {item.badge && (
-                    <SidebarMenuBadge className="group-data-[collapsible=icon]:hidden text-[10px] font-bold border border-slate-200 bg-white text-slate-900 px-1.5 py-0.5 min-w-[20px]">
+                    <SidebarMenuBadge className="group-data-[collapsible=icon]:hidden text-[10px] font-semibold border border-slate-200 bg-white text-slate-900 px-1.5 py-0.5 min-w-[20px]">
                       {item.badge}
                     </SidebarMenuBadge>
                   )}
@@ -124,7 +125,7 @@ export function AppSidebar() {
                   className="data-[state=open]:bg-slate-50 rounded-md border border-transparent hover:border-slate-200"
                 >
                   <Avatar className="h-8 w-8 rounded border border-slate-200 shadow-none">
-                    <AvatarFallback className="rounded bg-slate-50 text-[10px] font-bold text-slate-900">AD</AvatarFallback>
+                    <AvatarFallback className="rounded bg-slate-50 text-[10px] font-semibold text-slate-900">AD</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                     <span className="truncate font-semibold text-slate-900">Administrator</span>
