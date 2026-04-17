@@ -66,19 +66,19 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
     <>
       <div className="overflow-x-auto">
         <Table>
-          <TableHeader className="bg-slate-50/50">
-            <TableRow className="border-b border-slate-300">
-              <TableHead className="w-[200px] text-xs font-medium tracking-tight text-slate-500 py-4">Nomor Surat</TableHead>
-              <TableHead className="w-[120px] text-xs font-medium tracking-tight text-slate-500 py-4">Jenis</TableHead>
-              <TableHead className="text-xs font-medium tracking-tight text-slate-500 py-4">Perihal & Entitas</TableHead>
-              <TableHead className="w-[160px] text-xs font-medium tracking-tight text-slate-500 py-4">Tanggal</TableHead>
+          <TableHeader className="bg-slate-50/50 dark:bg-slate-900/50">
+            <TableRow className="border-b border-slate-300 dark:border-slate-800">
+              <TableHead className="w-[200px] text-xs font-medium tracking-tight text-slate-500 dark:text-slate-400 py-4">Nomor Surat</TableHead>
+              <TableHead className="w-[120px] text-xs font-medium tracking-tight text-slate-500 dark:text-slate-400 py-4">Jenis</TableHead>
+              <TableHead className="text-xs font-medium tracking-tight text-slate-500 dark:text-slate-400 py-4">Perihal & Entitas</TableHead>
+              <TableHead className="w-[160px] text-xs font-medium tracking-tight text-slate-500 dark:text-slate-400 py-4">Tanggal</TableHead>
               <TableHead className="w-[80px] text-right py-4"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {letters.map((letter) => (
-              <TableRow key={letter.id} className="group transition-colors hover:bg-slate-50/50 border-b border-slate-300">
-                <TableCell className="font-mono text-[11px] font-medium text-slate-500">
+              <TableRow key={letter.id} className="group transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-900/50 border-b border-slate-300 dark:border-slate-800">
+                <TableCell className="font-mono text-[11px] font-medium text-slate-500 dark:text-slate-400">
                   {letter.refNumber}
                 </TableCell>
                 <TableCell>
@@ -86,17 +86,19 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
                     variant="outline" 
                     className={`font-medium text-[10px] px-2.5 py-0.5 rounded-sm tracking-tight shadow-none ${
                       letter.type === 'Masuk' 
-                        ? 'border-emerald-200 bg-emerald-50/30 text-emerald-700' 
-                        : 'border-sky-200 bg-sky-50/30 text-sky-700'
+                        ? 'border-emerald-200 bg-emerald-50/30 text-emerald-700 dark:text-emerald-400 dark:border-emerald-900/50 dark:bg-emerald-950/20' 
+                        : letter.type === 'Keluar'
+                        ? 'border-sky-200 bg-sky-50/30 text-sky-700 dark:text-sky-400 dark:border-sky-900/50 dark:bg-sky-950/20'
+                        : 'border-amber-200 bg-amber-50/30 text-amber-700 dark:text-amber-400 dark:border-amber-900/50 dark:bg-amber-950/20'
                     }`}
                   >
-                    Surat {letter.type}
+                    {letter.type}
                   </Badge>
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-col gap-0.5">
-                    <span className="font-medium text-sm line-clamp-1 text-slate-900 tracking-tight">{letter.subject}</span>
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
+                    <span className="font-medium text-sm line-clamp-1 text-slate-900 dark:text-slate-100 tracking-tight">{letter.subject}</span>
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400 dark:text-slate-500">
                       <User className="h-3 w-3" />
                       <span className="truncate max-w-[240px]">
                         {letter.type === 'Masuk' ? letter.sender : letter.recipient}
@@ -105,26 +107,26 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
                   </div>
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
-                    <Calendar className="h-3.5 w-3.5 text-slate-300" />
+                  <div className="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                    <Calendar className="h-3.5 w-3.5 text-slate-300 dark:text-slate-700" />
                     {format(new Date(letter.date), 'dd MMM yyyy', { locale: id })}
                   </div>
                 </TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded border border-transparent hover:border-slate-300 transition-all">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded border border-transparent hover:border-slate-300 dark:hover:border-slate-700 transition-all">
                         <MoreVertical className="h-4 w-4 text-slate-400" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[200px] border border-slate-300 rounded bg-white p-1 shadow-none">
-                      <DropdownMenuItem onClick={() => handleOpenDetail(letter)} className="text-xs font-medium focus:bg-slate-50 cursor-pointer py-2 text-slate-900">
+                    <DropdownMenuContent align="end" className="w-[200px] border border-slate-300 dark:border-slate-800 rounded bg-white dark:bg-slate-950 p-1 shadow-none">
+                      <DropdownMenuItem onClick={() => handleOpenDetail(letter)} className="text-xs font-medium focus:bg-slate-50 dark:focus:bg-slate-900 cursor-pointer py-2 text-slate-900 dark:text-slate-100">
                         <Eye className="mr-2 h-4 w-4 text-slate-400" /> Detail Arsip
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleOpenEdit(letter)} className="text-xs font-medium focus:bg-slate-50 cursor-pointer py-2 text-slate-900">
+                      <DropdownMenuItem onClick={() => handleOpenEdit(letter)} className="text-xs font-medium focus:bg-slate-50 dark:focus:bg-slate-900 cursor-pointer py-2 text-slate-900 dark:text-slate-100">
                         <Edit className="mr-2 h-4 w-4 text-slate-400" /> Edit Metadata
                       </DropdownMenuItem>
-                      <DropdownMenuSeparator className="bg-slate-100 mx-1 my-1 shadow-none" />
+                      <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 mx-1 my-1 shadow-none" />
                       <DropdownMenuItem 
                         onClick={() => onDelete(letter.id)}
                         className="text-destructive focus:text-destructive focus:bg-destructive/5 text-xs font-medium cursor-pointer py-2"
@@ -141,10 +143,10 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
       </div>
 
       <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <DialogContent className="max-w-3xl border border-slate-300 rounded-lg bg-white shadow-none focus:outline-none">
+        <DialogContent className="max-w-3xl border border-slate-300 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-950 shadow-none focus:outline-none">
           <DialogHeader>
-            <DialogTitle className="text-xl font-medium tracking-tight text-slate-900">Rincian Arsip Surat</DialogTitle>
-            <DialogDescription className="text-xs text-slate-400 font-medium">Informasi lengkap mengenai dokumen yang diarsipkan.</DialogDescription>
+            <DialogTitle className="text-xl font-medium tracking-tight text-slate-900 dark:text-slate-100">Rincian Arsip Surat</DialogTitle>
+            <DialogDescription className="text-xs text-slate-400 dark:text-slate-500 font-medium">Informasi lengkap mengenai dokumen yang diarsipkan.</DialogDescription>
           </DialogHeader>
           <div className="mt-4">
             {selectedLetter && <LetterDetail letter={selectedLetter} />}
@@ -153,7 +155,7 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
       </Dialog>
 
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="max-w-2xl border border-slate-300 rounded-lg bg-white shadow-none focus:outline-none overflow-hidden p-0">
+        <DialogContent className="max-w-2xl border border-slate-300 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-950 shadow-none focus:outline-none overflow-hidden p-0">
           <LetterForm 
             initialData={editingLetter || undefined} 
             onSubmit={handleUpdate} 
