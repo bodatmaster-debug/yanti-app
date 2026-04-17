@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -39,7 +40,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 const INITIAL_LETTERS: Letter[] = [
   {
     id: '001',
-    refNumber: '400/12/SK/2023',
+    refNumber: '001/IN/11/2023',
     sender: 'Dinas Pendidikan',
     recipient: 'Sekretariat Utama',
     subject: 'Permohonan bantuan dana operasional gedung',
@@ -51,7 +52,7 @@ const INITIAL_LETTERS: Letter[] = [
   },
   {
     id: '002',
-    refNumber: '401/05/OUT/2023',
+    refNumber: '001/OUT/12/2023',
     sender: 'Sekretariat Utama',
     recipient: 'Kementerian Keuangan',
     subject: 'Laporan pertanggungjawaban tahunan anggaran 2023',
@@ -97,6 +98,13 @@ export default function Dashboard() {
     if (letters.length === 0) return "001";
     const maxId = letters.reduce((max, l) => Math.max(max, parseInt(l.id)), 0);
     return (maxId + 1).toString().padStart(3, '0');
+  }, [letters]);
+
+  const countsByType = useMemo(() => {
+    return {
+      Masuk: letters.filter(l => l.type === 'Masuk').length,
+      Keluar: letters.filter(l => l.type === 'Keluar').length,
+    };
   }, [letters]);
 
   const lastLetter = letters.length > 0 ? letters[0] : undefined;
@@ -146,7 +154,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <header className="h-16 border-b border-slate-300 bg-white flex items-center justify-between px-6 sticky top-0 z-20">
+      <header className="h-16 border-b border-slate-300 bg-white flex items-center justify-between px-6 sticky top-0 z-20 shadow-none">
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-8 w-8 text-slate-600 hover:bg-slate-50 transition-colors" />
           <div className="h-6 w-px bg-slate-200 hidden md:block" />
@@ -181,6 +189,7 @@ export default function Dashboard() {
                 onCancel={() => setIsFormOpen(false)} 
                 lastLetter={lastLetter}
                 nextAgendaNumber={nextAgendaNumber}
+                countsByType={countsByType}
               />
             </DialogContent>
           </Dialog>

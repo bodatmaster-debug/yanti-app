@@ -1,7 +1,8 @@
+
 "use client"
 
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { 
@@ -57,6 +58,7 @@ interface LetterFormProps {
   initialData?: Letter;
   lastLetter?: Letter;
   nextAgendaNumber?: string;
+  countsByType?: { Masuk: number; Keluar: number };
   onSubmit: (data: Partial<Letter>) => void;
   onCancel: () => void;
 }
@@ -65,6 +67,7 @@ export default function LetterForm({
   initialData, 
   lastLetter, 
   nextAgendaNumber = "001",
+  countsByType = { Masuk: 0, Keluar: 0 },
   onSubmit, 
   onCancel 
 }: LetterFormProps) {
@@ -80,6 +83,22 @@ export default function LetterForm({
     },
   });
 
+  const watchType = useWatch({ control: form.control, name: 'type' });
+  const watchDate = useWatch({ control: form.control, name: 'date' });
+
+  useEffect(() => {
+    if (!initialData) {
+      const d = watchDate ? parseISO(watchDate) : new Date();
+      const year = d.getFullYear();
+      const month = (d.getMonth() + 1).toString().padStart(2, '0');
+      const typeCode = watchType === 'Masuk' ? 'IN' : 'OUT';
+      const seq = (countsByType[watchType] + 1).toString().padStart(3, '0');
+      const autoRef = `${seq}/${typeCode}/${month}/${year}`;
+      
+      form.setValue('refNumber', autoRef, { shouldValidate: true });
+    }
+  }, [watchType, watchDate, initialData, countsByType, form]);
+
   const onHandleSubmit = (values: z.infer<typeof formSchema>) => {
     onSubmit({
       ...values,
@@ -90,7 +109,6 @@ export default function LetterForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full bg-white overflow-hidden shadow-none">
-        {/* SECTION 1: HEADER */}
         <div className="px-6 py-5 border-b border-slate-300 bg-white flex items-center justify-between shrink-0">
           <div className="space-y-0.5">
             <h2 className="text-lg font-medium tracking-tight text-slate-900 leading-none">Tambah Arsip Surat</h2>
@@ -103,12 +121,11 @@ export default function LetterForm({
               <div className="flex items-center gap-1.5">
                 <span className="text-sm font-medium text-slate-800 tabular-nums">{nextAgendaNumber}</span>
                 <TooltipProvider>
-                  <Tooltip delayDuration={200}>
+                  <Tooltip delayDuration={300}>
                     <TooltipTrigger asChild>
                       <button 
                         type="button" 
                         className="flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
-                        onFocus={(e) => e.target.blur()}
                       >
                         <AlertCircle className="h-3.5 w-3.5" />
                       </button>
@@ -147,12 +164,10 @@ export default function LetterForm({
           </div>
         </div>
 
-        {/* SECTION 2: INPUT AREA */}
         <ScrollArea className="flex-1">
           <div className="p-6">
             <div className="flex gap-10">
-              {/* LEFT COLUMN: Administrative */}
-              <div className="w-48 space-y-5 shrink-0">
+              <div className="w-48 space-y-6 shrink-0">
                 <FormField
                   control={form.control}
                   name="type"
@@ -220,8 +235,7 @@ export default function LetterForm({
 
               <Separator orientation="vertical" className="h-auto bg-slate-200" />
 
-              {/* RIGHT COLUMN: Metadata */}
-              <div className="flex-1 space-y-5">
+              <div className="flex-1 space-y-6">
                 <FormField
                   control={form.control}
                   name="refNumber"
@@ -232,7 +246,7 @@ export default function LetterForm({
                         <FormControl>
                           <Input 
                             autoFocus
-                            placeholder="Masukan nomor resmi surat..." 
+                            placeholder="Nomor resmi dokumen..." 
                             {...field} 
                             className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none focus-visible:ring-1 focus-visible:ring-slate-400" 
                           />
@@ -308,7 +322,6 @@ export default function LetterForm({
           </div>
         </ScrollArea>
 
-        {/* SECTION 3: FOOTER */}
         <div className="px-6 py-4 border-t border-slate-300 flex items-center justify-end gap-3 bg-slate-50/10 shrink-0">
           <Button 
             type="button" 
