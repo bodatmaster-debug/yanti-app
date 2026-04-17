@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -11,7 +10,8 @@ import {
   Mail, 
   ArrowUpRight, 
   ArrowDownLeft,
-  Loader2
+  Loader2,
+  Menu
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -35,6 +35,7 @@ import { exportLettersToExcel } from '@/lib/utils/excel';
 import LetterTable from '@/components/letters/LetterTable';
 import LetterForm from '@/components/letters/LetterForm';
 import { useToast } from '@/hooks/use-toast';
+import { SidebarTrigger } from "@/components/ui/sidebar"
 
 // Initial Mock Data
 const INITIAL_LETTERS: Letter[] = [
@@ -139,28 +140,31 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8"
-      >
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-primary">Surat Digital</h1>
-          <p className="text-muted-foreground">Sistem manajemen kearsipan surat organisasi.</p>
+    <div className="flex flex-col min-h-screen">
+      {/* Top Header/Toolbar */}
+      <header className="h-16 border-b-2 bg-white flex items-center justify-between px-6 sticky top-0 z-10">
+        <div className="flex items-center gap-4">
+          <SidebarTrigger>
+            <Button variant="ghost" size="icon" className="border-2 h-9 w-9">
+              <Menu className="h-4 w-4" />
+            </Button>
+          </SidebarTrigger>
+          <h2 className="font-bold text-lg hidden md:block">Dashboard Arsip</h2>
         </div>
+        
         <div className="flex items-center gap-3">
           <Button 
             variant="outline" 
+            size="sm"
             onClick={handleExport}
-            className="border-2 border-primary/20 hover:border-primary font-medium"
+            className="border-2 border-primary/20 hover:border-primary font-medium hidden sm:flex"
           >
             <FileSpreadsheet className="mr-2 h-4 w-4" />
             Export Excel
           </Button>
           <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
+              <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
                 <Plus className="mr-2 h-4 w-4" />
                 Arsip Baru
               </Button>
@@ -173,101 +177,112 @@ export default function Dashboard() {
             </DialogContent>
           </Dialog>
         </div>
-      </motion.div>
+      </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <StatsCard 
-          label="Total Surat" 
-          value={letters.length} 
-          icon={<Mail className="h-5 w-5" />} 
-          delay={0.1}
-        />
-        <StatsCard 
-          label="Surat Masuk" 
-          value={letters.filter(l => l.type === 'Masuk').length} 
-          icon={<ArrowDownLeft className="h-5 w-5 text-green-600" />} 
-          delay={0.2}
-        />
-        <StatsCard 
-          label="Surat Keluar" 
-          value={letters.filter(l => l.type === 'Keluar').length} 
-          icon={<ArrowUpRight className="h-5 w-5 text-blue-600" />} 
-          delay={0.3}
-        />
-      </div>
+      <div className="p-6 lg:p-10 max-w-7xl mx-auto w-full">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <h1 className="text-3xl font-bold tracking-tight text-primary">Manajemen Surat</h1>
+          <p className="text-muted-foreground">Kelola semua arsip surat masuk dan keluar di satu tempat.</p>
+        </motion.div>
 
-      <Card className="border-2 shadow-none bg-white overflow-hidden">
-        <CardContent className="p-0">
-          <div className="p-4 border-b-2 flex flex-col md:flex-row gap-4 items-center justify-between bg-white">
-            <div className="relative w-full md:max-w-sm">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input 
-                placeholder="Cari subjek, nomor, pengirim..." 
-                className="pl-9 border-2"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div className="flex items-center gap-3 w-full md:w-auto">
-              <div className="flex items-center gap-2">
-                <Filter className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium">Filter:</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <StatsCard 
+            label="Total Surat" 
+            value={letters.length} 
+            icon={<Mail className="h-5 w-5" />} 
+            delay={0.1}
+          />
+          <StatsCard 
+            label="Surat Masuk" 
+            value={letters.filter(l => l.type === 'Masuk').length} 
+            icon={<ArrowDownLeft className="h-5 w-5 text-green-600" />} 
+            delay={0.2}
+          />
+          <StatsCard 
+            label="Surat Keluar" 
+            value={letters.filter(l => l.type === 'Keluar').length} 
+            icon={<ArrowUpRight className="h-5 w-5 text-blue-600" />} 
+            delay={0.3}
+          />
+        </div>
+
+        <Card className="border-2 shadow-none bg-white overflow-hidden">
+          <CardContent className="p-0">
+            <div className="p-4 border-b-2 flex flex-col md:flex-row gap-4 items-center justify-between bg-white">
+              <div className="relative w-full md:max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Cari subjek, nomor, pengirim..." 
+                  className="pl-9 border-2"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
-              <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-                <SelectTrigger className="w-full md:w-[150px] border-2">
-                  <SelectValue placeholder="Semua Tipe" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="All">Semua Tipe</SelectItem>
-                  <SelectItem value="Masuk">Masuk</SelectItem>
-                  <SelectItem value="Keluar">Keluar</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex items-center gap-3 w-full md:w-auto">
+                <div className="flex items-center gap-2">
+                  <Filter className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm font-medium">Filter:</span>
+                </div>
+                <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
+                  <SelectTrigger className="w-full md:w-[150px] border-2">
+                    <SelectValue placeholder="Semua Tipe" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="All">Semua Tipe</SelectItem>
+                    <SelectItem value="Masuk">Masuk</SelectItem>
+                    <SelectItem value="Keluar">Keluar</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          </div>
 
-          <div className="relative min-h-[400px]">
-            <AnimatePresence mode="wait">
-              {isLoading ? (
-                <motion.div 
-                  key="loading"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm z-10"
-                >
-                  <Loader2 className="h-8 w-8 animate-spin text-accent" />
-                </motion.div>
-              ) : filteredLetters.length > 0 ? (
-                <motion.div
-                  key="content"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  <LetterTable 
-                    letters={filteredLetters} 
-                    onDelete={handleDeleteLetter}
-                    onUpdate={handleUpdateLetter}
-                  />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="empty"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="py-20 text-center"
-                >
-                  <div className="bg-muted w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border-2">
-                    <Mail className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                  <h3 className="text-lg font-semibold">Tidak ada surat ditemukan</h3>
-                  <p className="text-muted-foreground">Coba ubah kata kunci pencarian atau filter Anda.</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </CardContent>
-      </Card>
+            <div className="relative min-h-[400px]">
+              <AnimatePresence mode="wait">
+                {isLoading ? (
+                  <motion.div 
+                    key="loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm z-10"
+                  >
+                    <Loader2 className="h-8 w-8 animate-spin text-accent" />
+                  </motion.div>
+                ) : filteredLetters.length > 0 ? (
+                  <motion.div
+                    key="content"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    <LetterTable 
+                      letters={filteredLetters} 
+                      onDelete={handleDeleteLetter}
+                      onUpdate={handleUpdateLetter}
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="empty"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="py-20 text-center"
+                  >
+                    <div className="bg-muted w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border-2">
+                      <Mail className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                    <h3 className="text-lg font-semibold">Tidak ada surat ditemukan</h3>
+                    <p className="text-muted-foreground">Coba ubah kata kunci pencarian atau filter Anda.</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
