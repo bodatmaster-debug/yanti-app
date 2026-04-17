@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState } from 'react';
@@ -26,7 +25,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Letter } from '@/lib/types';
-import { MoreVertical, Eye, Edit, Trash2, Calendar, User, ArrowRightLeft } from 'lucide-react';
+import { MoreVertical, Eye, Edit, Trash2, Calendar, User, FileText } from 'lucide-react';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
 import LetterForm from './LetterForm';
@@ -66,70 +65,70 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
     <>
       <div className="overflow-x-auto">
         <Table>
-          <TableHeader className="bg-muted/50 border-b-2">
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[180px] font-bold">Nomor Surat</TableHead>
-              <TableHead className="w-[100px] font-bold">Jenis</TableHead>
-              <TableHead className="font-bold">Info Surat</TableHead>
-              <TableHead className="w-[150px] font-bold">Tanggal</TableHead>
-              <TableHead className="w-[80px] text-right font-bold">Aksi</TableHead>
+          <TableHeader className="bg-slate-50/50">
+            <TableRow>
+              <TableHead className="w-[200px] text-xs font-bold uppercase tracking-wider">Nomor Surat</TableHead>
+              <TableHead className="w-[100px] text-xs font-bold uppercase tracking-wider">Jenis</TableHead>
+              <TableHead className="text-xs font-bold uppercase tracking-wider">Perihal & Instansi</TableHead>
+              <TableHead className="w-[150px] text-xs font-bold uppercase tracking-wider">Tanggal</TableHead>
+              <TableHead className="w-[80px] text-right"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {letters.map((letter) => (
-              <TableRow key={letter.id} className="group hover:bg-accent/5">
-                <TableCell className="font-mono text-xs font-semibold">
+              <TableRow key={letter.id} className="group transition-colors hover:bg-slate-50/80">
+                <TableCell className="font-mono text-[11px] font-medium text-muted-foreground">
                   {letter.refNumber}
                 </TableCell>
                 <TableCell>
                   <Badge 
                     variant="outline" 
-                    className={`border-2 ${
+                    className={`font-semibold text-[10px] px-2 py-0.5 rounded-md ${
                       letter.type === 'Masuk' 
-                        ? 'border-green-600 text-green-700 bg-green-50' 
-                        : 'border-blue-600 text-blue-700 bg-blue-50'
+                        ? 'border-emerald-200 text-emerald-700 bg-emerald-50/50' 
+                        : 'border-sky-200 text-sky-700 bg-sky-50/50'
                     }`}
                   >
                     {letter.type}
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <div className="flex flex-col">
-                    <span className="font-bold text-sm line-clamp-1">{letter.subject}</span>
-                    <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                  <div className="flex flex-col gap-0.5">
+                    <span className="font-semibold text-sm line-clamp-1 text-slate-900">{letter.subject}</span>
+                    <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
                       <User className="h-3 w-3" />
-                      <span className="line-clamp-1">
-                        {letter.type === 'Masuk' ? `Dari: ${letter.sender}` : `Ke: ${letter.recipient}`}
+                      <span className="truncate max-w-[200px]">
+                        {letter.type === 'Masuk' ? letter.sender : letter.recipient}
                       </span>
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="text-sm">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-3 w-3 text-muted-foreground" />
+                <TableCell>
+                  <div className="flex items-center gap-2 text-xs font-medium text-slate-600">
+                    <Calendar className="h-3.5 w-3.5 text-muted-foreground/60" />
                     {format(new Date(letter.date), 'dd MMM yyyy', { locale: id })}
                   </div>
                 </TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-accent hover:text-accent-foreground">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity">
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[160px] border-2">
+                    <DropdownMenuContent align="end" className="w-[180px]">
                       <DropdownMenuItem onClick={() => handleOpenDetail(letter)}>
-                        <Eye className="mr-2 h-4 w-4" /> Lihat Detail
+                        <Eye className="mr-2 h-4 w-4" /> Detail Arsip
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => handleOpenEdit(letter)}>
                         <Edit className="mr-2 h-4 w-4" /> Edit Metadata
                       </DropdownMenuItem>
-                      <DropdownMenuSeparator className="border-t-2" />
+                      <DropdownMenuSeparator />
                       <DropdownMenuItem 
                         onClick={() => onDelete(letter.id)}
                         className="text-destructive focus:text-destructive"
                       >
-                        <Trash2 className="mr-2 h-4 w-4" /> Hapus Arsip
+                        <Trash2 className="mr-2 h-4 w-4" /> Hapus Permanen
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -140,21 +139,19 @@ export default function LetterTable({ letters, onDelete, onUpdate }: LetterTable
         </Table>
       </div>
 
-      {/* Detail Dialog */}
       <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <DialogContent className="max-w-3xl border-2">
+        <DialogContent className="max-w-3xl">
           <DialogHeader>
-            <DialogTitle>Detail Arsip Surat</DialogTitle>
+            <DialogTitle className="text-lg font-bold">Rincian Arsip Surat</DialogTitle>
           </DialogHeader>
           {selectedLetter && <LetterDetail letter={selectedLetter} />}
         </DialogContent>
       </Dialog>
 
-      {/* Edit Dialog */}
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="max-w-2xl border-2">
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Edit Metadata Surat</DialogTitle>
+            <DialogTitle className="text-lg font-bold">Ubah Informasi Surat</DialogTitle>
           </DialogHeader>
           {editingLetter && (
             <LetterForm 
