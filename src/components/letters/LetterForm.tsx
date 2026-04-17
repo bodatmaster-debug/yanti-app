@@ -39,6 +39,7 @@ import { cn } from '@/lib/utils';
 import { Item, ItemContent, ItemMedia } from '@/components/ui/item';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Field, FieldLabel } from '@/components/ui/field';
+import { Separator } from '@/components/ui/separator';
 
 const formSchema = z.object({
   refNumber: z.string().min(1, 'Nomor Surat Wajib Diisi'),
@@ -87,39 +88,39 @@ export default function LetterForm({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onHandleSubmit)} className="flex flex-col h-full bg-white">
         {/* SECTION 1: HEADER (Static) */}
-        <div className="px-6 py-5 border-b border-slate-200 bg-white flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-slate-300 bg-white flex items-center justify-between">
           <div className="space-y-0.5">
             <h2 className="text-lg font-bold tracking-tight text-slate-900">Tambah Arsip Surat</h2>
-            <p className="typography-muted text-[11px]">Lengkapi Metadata Surat Untuk Kearsipan Digital.</p>
+            <p className="typography-muted text-[10px]">Lengkapi Metadata Surat Untuk Kearsipan Digital.</p>
           </div>
           
           <div className="flex items-center gap-3">
-            <Item variant="outline" size="sm" className="bg-white border-slate-300 rounded-md py-1.5 px-3">
+            <Item variant="outline" size="sm" className="bg-white border-slate-300 rounded-md py-1 px-3">
               <ItemMedia variant="icon" className="bg-slate-50 text-slate-600 border-slate-300 size-6">
                 <Hash className="h-3.5 w-3.5" />
               </ItemMedia>
               <ItemContent className="gap-0 ml-1">
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Agenda</p>
-                <p className="text-sm font-bold text-slate-900">{nextAgendaNumber}</p>
+                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">No. Agenda</p>
+                <p className="text-sm font-bold text-slate-900 tabular-nums">{nextAgendaNumber}</p>
               </ItemContent>
             </Item>
 
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" className="h-9 w-9 border-slate-300 text-slate-400 hover:text-slate-600 hover:border-slate-400 transition-all rounded-md">
+                  <Button variant="outline" size="icon" className="h-8 w-8 border-slate-300 text-slate-400 hover:text-slate-600 hover:border-slate-400 transition-all rounded-md">
                     <AlertCircle className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="left" className="bg-white border border-slate-300 p-4 shadow-none w-80 rounded-md z-[100]">
+                <TooltipContent side="left" className="bg-white border border-slate-300 p-4 shadow-none w-72 rounded-md z-[100]">
                   <div className="space-y-2">
-                    <p className="text-[10px] font-bold text-slate-400 border-b pb-1 uppercase tracking-widest">Arsip Terakhir</p>
+                    <p className="text-[10px] font-bold text-slate-400 border-b border-slate-200 pb-1 tracking-widest uppercase">Arsip Terakhir</p>
                     {lastLetter ? (
-                      <div className="space-y-1 text-[11px] text-slate-600">
-                        <div className="flex justify-between"><span>No. Agenda:</span> <span className="font-semibold">{lastLetter.id}</span></div>
-                        <div className="flex justify-between"><span>No. Surat:</span> <span className="font-semibold">{lastLetter.refNumber}</span></div>
-                        <div className="flex justify-between"><span>Tanggal:</span> <span className="font-semibold">{format(new Date(lastLetter.date), 'dd/MM/yyyy')}</span></div>
-                        <div className="flex justify-between"><span>Perihal:</span> <span className="font-semibold text-right max-w-[120px] truncate">{lastLetter.subject}</span></div>
+                      <div className="space-y-1.5 text-[11px] text-slate-600">
+                        <div className="flex justify-between"><span>No. Agenda</span> <span className="font-semibold">{lastLetter.id}</span></div>
+                        <div className="flex justify-between"><span>No. Surat</span> <span className="font-semibold text-right max-w-[120px] truncate">{lastLetter.refNumber}</span></div>
+                        <div className="flex justify-between"><span>Tanggal</span> <span className="font-semibold">{format(new Date(lastLetter.date), 'dd/MM/yyyy')}</span></div>
+                        <div className="flex justify-between gap-4"><span>Perihal</span> <span className="font-semibold text-right truncate flex-1">{lastLetter.subject}</span></div>
                       </div>
                     ) : (
                       <p className="text-[11px] text-slate-400 italic">Belum Ada Data.</p>
@@ -132,167 +133,176 @@ export default function LetterForm({
         </div>
 
         {/* SECTION 2: INPUT AREA (Scrollable) */}
-        <ScrollArea className="flex-1 max-h-[60vh]">
-          <div className="px-6 py-6 space-y-6">
-            <div className="grid grid-cols-2 gap-6">
-              <FormField
-                control={form.control}
-                name="type"
-                render={({ field }) => (
-                  <FormItem>
-                    <Field>
-                      <FieldLabel className="typography-p">Jenis Surat</FieldLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="h-10 border-slate-300 bg-white font-medium text-sm">
-                            <SelectValue placeholder="Pilih Jenis" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="bg-white border-slate-300">
-                          <SelectItem value="Masuk" className="text-sm">Surat Masuk</SelectItem>
-                          <SelectItem value="Keluar" className="text-sm">Surat Keluar</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage className="text-[10px]" />
-                    </Field>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="date"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <Field>
-                      <FieldLabel className="typography-p">Tanggal Surat</FieldLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
+        <ScrollArea className="flex-1 max-h-[65vh]">
+          <div className="p-6">
+            <div className="flex gap-8">
+              {/* LEFT COLUMN: TYPE & DATE */}
+              <div className="w-48 space-y-6">
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Field>
+                        <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Jenis Surat</FieldLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <Button
-                              variant="outline"
-                              className={cn(
-                                "h-10 w-full pl-3 text-left font-medium border-slate-300 bg-white text-sm",
-                                !field.value && "typography-muted"
-                              )}
-                            >
-                              {field.value ? format(new Date(field.value), "dd MMM yyyy") : <span>Pilih Tanggal</span>}
-                              <CalendarIconLucide className="ml-auto h-4 w-4 text-slate-400" />
-                            </Button>
+                            <SelectTrigger className="h-9 border-slate-300 bg-white font-medium text-xs tracking-tight">
+                              <SelectValue placeholder="Pilih Jenis" />
+                            </SelectTrigger>
                           </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-white border-slate-300 z-[100]" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={new Date(field.value)}
-                            onSelect={(date) => field.onChange(date ? format(date, 'yyyy-MM-dd') : '')}
-                            disabled={(date) => date > new Date()}
+                          <SelectContent className="bg-white border-slate-300">
+                            <SelectItem value="Masuk" className="text-xs">Surat Masuk</SelectItem>
+                            <SelectItem value="Keluar" className="text-xs">Surat Keluar</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage className="text-[10px]" />
+                      </Field>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <Field>
+                        <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Tanggal Surat</FieldLabel>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  "h-9 w-full pl-3 text-left font-medium border-slate-300 bg-white text-xs tracking-tight",
+                                  !field.value && "text-slate-400"
+                                )}
+                              >
+                                {field.value ? format(new Date(field.value), "dd MMM yyyy") : <span>Pilih Tanggal</span>}
+                                <CalendarIconLucide className="ml-auto h-3.5 w-3.5 text-slate-400" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0 bg-white border-slate-300 z-[100]" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={new Date(field.value)}
+                              onSelect={(date) => field.onChange(date ? format(date, 'yyyy-MM-dd') : '')}
+                              disabled={(date) => date > new Date()}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage className="text-[10px]" />
+                      </Field>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* VERTICAL SEPARATOR */}
+              <Separator orientation="vertical" className="h-auto bg-slate-200" />
+
+              {/* RIGHT COLUMN: METADATA */}
+              <div className="flex-1 space-y-6">
+                <FormField
+                  control={form.control}
+                  name="refNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Field>
+                        <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Nomor Surat</FieldLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Contoh: 400/12/SK/2023" 
+                            {...field} 
+                            className="h-9 border-slate-300 bg-white text-xs tracking-tight placeholder:text-slate-300" 
                           />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage className="text-[10px]" />
-                    </Field>
-                  </FormItem>
-                )}
-              />
-            </div>
+                        </FormControl>
+                        <FormMessage className="text-[10px]" />
+                      </Field>
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="refNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <Field>
-                    <FieldLabel className="typography-p">Nomor Surat</FieldLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Ketik Nomor Surat..." 
-                        {...field} 
-                        className="h-10 border-slate-300 bg-white typography-p placeholder:typography-muted" 
-                      />
-                    </FormControl>
-                    <FormMessage className="text-[10px]" />
-                  </Field>
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="subject"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Field>
+                        <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Perihal / Hal</FieldLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Ringkasan Perihal Dokumen..." 
+                            {...field} 
+                            className="h-9 border-slate-300 bg-white text-xs tracking-tight placeholder:text-slate-300" 
+                          />
+                        </FormControl>
+                        <FormMessage className="text-[10px]" />
+                      </Field>
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="subject"
-              render={({ field }) => (
-                <FormItem>
-                  <Field>
-                    <FieldLabel className="typography-p">Perihal / Hal</FieldLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Ringkasan Isi Surat..." 
-                        {...field} 
-                        className="h-10 border-slate-300 bg-white typography-p placeholder:typography-muted" 
-                      />
-                    </FormControl>
-                    <FormMessage className="text-[10px]" />
-                  </Field>
-                </FormItem>
-              )}
-            />
-
-            <div className="grid grid-cols-2 gap-6">
-              <FormField
-                control={form.control}
-                name="sender"
-                render={({ field }) => (
-                  <FormItem>
-                    <Field>
-                      <FieldLabel className="typography-p">Pengirim</FieldLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Nama / Instansi" 
-                          {...field} 
-                          className="h-10 border-slate-300 bg-white typography-p placeholder:typography-muted" 
-                        />
-                      </FormControl>
-                      <FormMessage className="text-[10px]" />
-                    </Field>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="recipient"
-                render={({ field }) => (
-                  <FormItem>
-                    <Field>
-                      <FieldLabel className="typography-p">Penerima</FieldLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Nama / Instansi" 
-                          {...field} 
-                          className="h-10 border-slate-300 bg-white typography-p placeholder:typography-muted" 
-                        />
-                      </FormControl>
-                      <FormMessage className="text-[10px]" />
-                    </Field>
-                  </FormItem>
-                )}
-              />
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="sender"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Field>
+                          <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Pengirim</FieldLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Nama Atau Instansi" 
+                              {...field} 
+                              className="h-9 border-slate-300 bg-white text-xs tracking-tight placeholder:text-slate-300" 
+                            />
+                          </FormControl>
+                          <FormMessage className="text-[10px]" />
+                        </Field>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="recipient"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Field>
+                          <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Penerima</FieldLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Nama Atau Instansi" 
+                              {...field} 
+                              className="h-9 border-slate-300 bg-white text-xs tracking-tight placeholder:text-slate-300" 
+                            />
+                          </FormControl>
+                          <FormMessage className="text-[10px]" />
+                        </Field>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </ScrollArea>
 
         {/* SECTION 3: FOOTER (Static) */}
-        <div className="px-6 py-5 border-t border-slate-200 flex items-center justify-end gap-3 bg-white">
+        <div className="px-6 py-4 border-t border-slate-300 flex items-center justify-end gap-3 bg-slate-50/10">
           <Button 
             type="button" 
             variant="ghost" 
             onClick={onCancel} 
-            className="text-xs font-semibold text-slate-500 hover:bg-slate-50 h-10 px-6"
+            className="text-xs font-semibold text-slate-500 hover:bg-slate-100 h-9 px-5 transition-colors"
           >
             Batalkan
           </Button>
           <Button 
             type="submit" 
-            className="bg-primary text-primary-foreground text-xs font-bold h-10 px-8 rounded-md border border-primary shadow-none hover:bg-primary/90"
+            className="bg-primary text-primary-foreground text-xs font-bold h-9 px-6 rounded-md border border-primary shadow-none hover:bg-primary/90 transition-all"
           >
             Simpan Arsip
           </Button>

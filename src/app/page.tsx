@@ -146,11 +146,11 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <header className="h-16 border-b border-slate-200 bg-white flex items-center justify-between px-6 sticky top-0 z-20">
+      <header className="h-16 border-b border-slate-300 bg-white flex items-center justify-between px-6 sticky top-0 z-20">
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-8 w-8 text-slate-600 hover:bg-slate-50 transition-colors" />
           <div className="h-6 w-px bg-slate-200 hidden md:block" />
-          <h2 className="text-[11px] font-bold text-slate-400 hidden md:block tracking-widest uppercase">Digital Archive Management</h2>
+          <h2 className="text-[11px] font-bold text-slate-400 hidden md:block tracking-widest">Digital Archive Management</h2>
         </div>
         
         <div className="flex items-center gap-3">
@@ -158,7 +158,7 @@ export default function Dashboard() {
             variant="ghost" 
             size="sm"
             onClick={handleExport}
-            className="hidden sm:flex h-9 text-xs font-semibold text-slate-600 hover:bg-slate-50 border border-transparent hover:border-slate-200"
+            className="hidden sm:flex h-9 text-xs font-semibold text-slate-600 hover:bg-slate-50 border border-transparent hover:border-slate-300"
           >
             <FileSpreadsheet className="mr-2 h-4 w-4 text-emerald-600" />
             Export Excel
@@ -171,7 +171,7 @@ export default function Dashboard() {
                 Tambah Arsip
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-xl border-slate-300 bg-white p-0 overflow-hidden max-h-[90vh] flex flex-col focus:outline-none">
+            <DialogContent className="max-w-3xl border-slate-300 bg-white p-0 overflow-hidden max-h-[90vh] flex flex-col focus:outline-none shadow-none">
               <DialogHeader className="sr-only">
                 <DialogTitle>Tambah Arsip Surat</DialogTitle>
                 <DialogDescription>Formulir pengisian data surat baru untuk pengarsipan digital.</DialogDescription>
@@ -212,7 +212,7 @@ export default function Dashboard() {
         </div>
 
         <div className="border border-slate-300 bg-white rounded-lg overflow-hidden">
-          <div className="p-4 border-b border-slate-200 flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50/20">
+          <div className="p-4 border-b border-slate-300 flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50/20">
             <div className="relative w-full md:max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <Input 
