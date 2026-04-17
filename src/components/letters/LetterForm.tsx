@@ -36,7 +36,6 @@ import { format } from 'date-fns';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
-import { Item, ItemContent, ItemMedia } from '@/components/ui/item';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Separator } from '@/components/ui/separator';
@@ -94,25 +93,32 @@ export default function LetterForm({
             <p className="typography-muted text-[10px]">Lengkapi Metadata Surat Untuk Kearsipan Digital.</p>
           </div>
           
-          <div className="flex items-center gap-3">
-            <Item variant="outline" size="sm" className="bg-white border-slate-300 rounded-md py-1 px-3">
-              <ItemMedia variant="icon" className="bg-slate-50 text-slate-600 border-slate-300 size-6">
+          <div className="flex items-center border border-slate-300 rounded-md bg-white overflow-hidden h-10">
+            <div className="flex items-center gap-2 px-3 border-r border-slate-300 h-full">
+              <div className="bg-slate-50 text-slate-600 border border-slate-300 size-6 flex items-center justify-center rounded">
                 <Hash className="h-3.5 w-3.5" />
-              </ItemMedia>
-              <ItemContent className="gap-0 ml-1">
-                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">No. Agenda</p>
+              </div>
+              <div className="flex flex-col leading-none">
+                <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">No. Agenda</p>
                 <p className="text-sm font-bold text-slate-900 tabular-nums">{nextAgendaNumber}</p>
-              </ItemContent>
-            </Item>
+              </div>
+            </div>
 
             <TooltipProvider>
-              <Tooltip>
+              <Tooltip delayDuration={300}>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" className="h-8 w-8 border-slate-300 text-slate-400 hover:text-slate-600 hover:border-slate-400 transition-all rounded-md">
+                  <button 
+                    type="button" 
+                    className="h-full w-10 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all focus:outline-none"
+                  >
                     <AlertCircle className="h-4 w-4" />
-                  </Button>
+                  </button>
                 </TooltipTrigger>
-                <TooltipContent side="left" className="bg-white border border-slate-300 p-4 shadow-none w-72 rounded-md z-[100]">
+                <TooltipContent 
+                  side="bottom" 
+                  align="end" 
+                  className="bg-white border border-slate-300 p-4 shadow-none w-72 rounded-md z-[100]"
+                >
                   <div className="space-y-2">
                     <p className="text-[10px] font-bold text-slate-400 border-b border-slate-200 pb-1 tracking-widest uppercase">Arsip Terakhir</p>
                     {lastLetter ? (
@@ -214,6 +220,7 @@ export default function LetterForm({
                         <FieldLabel className="typography-p text-slate-700 font-medium text-[11px] tracking-wide">Nomor Surat</FieldLabel>
                         <FormControl>
                           <Input 
+                            autoFocus
                             placeholder="Contoh: 400/12/SK/2023" 
                             {...field} 
                             className="h-9 border-slate-300 bg-white text-xs tracking-tight placeholder:text-slate-300" 
