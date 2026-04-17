@@ -14,18 +14,18 @@ export const NeuralBackground = () => {
   if (!mounted) return null;
 
   // Generate random lines for the neural effect
-  const lines = Array.from({ length: 15 }).map((_, i) => ({
+  const lines = Array.from({ length: 18 }).map((_, i) => ({
     id: i,
     x1: Math.random() * 100 + "%",
     y1: Math.random() * 100 + "%",
     x2: Math.random() * 100 + "%",
     y2: Math.random() * 100 + "%",
-    duration: 10 + Math.random() * 20,
+    duration: 15 + Math.random() * 20,
     delay: Math.random() * 5,
   }));
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 opacity-[0.4] dark:opacity-[0.2]">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 opacity-[0.6] dark:opacity-[0.3]">
       <svg width="100%" height="100%" className="absolute inset-0">
         <defs>
           <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -42,40 +42,41 @@ export const NeuralBackground = () => {
             x2={line.x2}
             y2={line.y2}
             stroke="currentColor"
-            strokeWidth="0.5"
-            className="text-slate-200 dark:text-slate-800"
+            strokeWidth="0.8"
+            className="text-slate-300 dark:text-slate-700"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ 
-              pathLength: [0, 1, 0],
-              opacity: [0, 0.5, 0],
-              x1: [line.x1, (parseFloat(line.x1) + 5) + "%", line.x1],
-              y2: [line.y2, (parseFloat(line.y2) - 5) + "%", line.y2],
+              pathLength: [0, 1, 0.5, 1, 0],
+              opacity: [0, 0.7, 0.3, 0.7, 0],
+              x1: [line.x1, (parseFloat(line.x1) + 2) + "%", line.x1],
+              y2: [line.y2, (parseFloat(line.y2) - 2) + "%", line.y2],
             }}
             transition={{
               duration: line.duration,
               repeat: Infinity,
               delay: line.delay,
-              ease: "linear",
+              ease: "easeInOut",
             }}
           />
         ))}
       </svg>
-      {/* Neural Nodes */}
-      {Array.from({ length: 20 }).map((_, i) => (
+      {/* Neural Nodes with Glow */}
+      {Array.from({ length: 25 }).map((_, i) => (
         <motion.div
           key={`node-${i}`}
-          className="absolute w-1 h-1 bg-slate-200 dark:bg-slate-800 rounded-full"
+          className="absolute w-1.5 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full shadow-[0_0_8px_rgba(148,163,184,0.5)]"
           initial={{ 
             x: Math.random() * 100 + "vw", 
             y: Math.random() * 100 + "vh",
             opacity: 0 
           }}
           animate={{ 
-            opacity: [0, 1, 0],
-            scale: [0.5, 1.5, 0.5]
+            opacity: [0, 0.8, 0],
+            scale: [0.4, 1.2, 0.4],
+            y: [null, (Math.random() * -20) + "px"]
           }}
           transition={{
-            duration: 5 + Math.random() * 5,
+            duration: 6 + Math.random() * 6,
             repeat: Infinity,
             delay: Math.random() * 5,
           }}

@@ -89,7 +89,7 @@ export default function Dashboard() {
     <div className="flex flex-col min-h-screen bg-white dark:bg-slate-950 relative overflow-hidden">
       <NeuralBackground />
       
-      <header className="h-16 border-b border-slate-300 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm flex items-center justify-between px-6 sticky top-0 z-20">
+      <header className="h-16 border-b border-slate-300 dark:border-slate-800 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-20">
         <div className="flex items-center gap-4">
           <SidebarTrigger className="h-8 w-8 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors" />
           <div className="h-6 w-px bg-slate-200 dark:bg-slate-800 hidden md:block" />
