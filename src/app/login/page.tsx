@@ -3,24 +3,44 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Lock, LogIn, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, LogIn, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import { useAuth } from '@/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useToast } from '@/hooks/use-toast';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const auth = useAuth();
+  const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!auth) return;
+
     setIsLoading(true);
-    // Logika login akan diimplementasikan nanti
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 1500);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast({
+        title: "Selamat Datang",
+        description: "Berhasil masuk ke sistem pengarsipan.",
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Gagal Masuk",
+        description: "Email atau kata sandi salah. Silakan coba lagi.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,13 +70,16 @@ export default function LoginPage() {
             <CardContent className="space-y-5 pt-8">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-[13px] font-semibold text-slate-700 dark:text-slate-300">
-                  Email atau Username
+                  Email Admin
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input 
                     id="email" 
+                    type="email"
                     placeholder="admin@pengarsipan.app" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="pl-10 h-11 bg-white/50 dark:bg-slate-900/50 border-slate-300 dark:border-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-100 transition-all"
                     required
                   />
@@ -78,6 +101,8 @@ export default function LoginPage() {
                     id="password" 
                     type={showPassword ? "text" : "password"} 
                     placeholder="••••••••" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="pl-10 pr-10 h-11 bg-white/50 dark:bg-slate-900/50 border-slate-300 dark:border-slate-800 focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-100 transition-all"
                     required
                   />
@@ -103,12 +128,7 @@ export default function LoginPage() {
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                  >
-                    <LogIn className="h-4 w-4" />
-                  </motion.div>
+                  <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
                   <>
                     <LogIn className="mr-2 h-4 w-4" /> Masuk Sekarang

@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -16,7 +17,7 @@ import {
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 import {
   Sidebar,
@@ -40,6 +41,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Switch } from "@/components/ui/switch"
+import { useAuth, useUser } from "@/firebase"
+import { signOut } from "firebase/auth"
 
 const navItems = [
   {
@@ -77,12 +80,20 @@ const navItems = [
 export function AppSidebar() {
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
+  const router = useRouter()
+  const auth = useAuth()
+  const { user } = useUser()
   const [mounted, setMounted] = React.useState(false)
 
-  // Ensure component is mounted to avoid hydration mismatch with theme
   React.useEffect(() => {
     setMounted(true)
   }, [])
+
+  const handleLogout = async () => {
+    if (!auth) return;
+    await signOut(auth);
+    router.push('/login');
+  };
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950">
@@ -116,11 +127,6 @@ export function AppSidebar() {
                       <span className="font-medium">{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
-                  {item.badge && (
-                    <SidebarMenuBadge className="group-data-[collapsible=icon]:hidden text-[10px] font-semibold border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 px-1.5 py-0.5 min-w-[20px]">
-                      {item.badge}
-                    </SidebarMenuBadge>
-                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -169,11 +175,13 @@ export function AppSidebar() {
                   className="data-[state=open]:bg-slate-50 dark:data-[state=open]:bg-slate-900 rounded-md border border-transparent hover:border-slate-200 dark:hover:border-slate-800"
                 >
                   <Avatar className="h-8 w-8 rounded border border-slate-200 dark:border-slate-800 shadow-none">
-                    <AvatarFallback className="rounded bg-slate-50 dark:bg-slate-900 text-[10px] font-semibold text-slate-900 dark:text-slate-100">Y</AvatarFallback>
+                    <AvatarFallback className="rounded bg-slate-50 dark:bg-slate-900 text-[10px] font-semibold text-slate-900 dark:text-slate-100">
+                      {user?.email?.charAt(0).toUpperCase() || 'Y'}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                    <span className="truncate font-semibold text-slate-900 dark:text-slate-100">Yanti</span>
-                    <span className="truncate text-[11px] font-medium text-slate-400 dark:text-slate-500">yanti@pengarsipan.app</span>
+                    <span className="truncate font-semibold text-slate-900 dark:text-slate-100">Admin</span>
+                    <span className="truncate text-[11px] font-medium text-slate-400 dark:text-slate-500">{user?.email || 'admin@pengarsipan.app'}</span>
                   </div>
                   <ChevronRight className="ml-auto size-4 group-data-[collapsible=icon]:hidden text-slate-300 dark:text-slate-700" />
                 </SidebarMenuButton>
@@ -187,7 +195,10 @@ export function AppSidebar() {
                 <DropdownMenuItem className="gap-2 py-2 text-xs font-medium focus:bg-slate-50 dark:focus:bg-slate-900 cursor-pointer text-slate-900 dark:text-slate-100">
                   <User className="size-4 text-slate-400" /> Profil Saya
                 </DropdownMenuItem>
-                <DropdownMenuItem className="gap-2 py-2 text-destructive font-semibold text-xs focus:bg-destructive/5 cursor-pointer">
+                <DropdownMenuItem 
+                  onClick={handleLogout}
+                  className="gap-2 py-2 text-destructive font-semibold text-xs focus:bg-destructive/5 cursor-pointer"
+                >
                   <LogOut className="size-4" /> Keluar
                 </DropdownMenuItem>
               </DropdownMenuContent>

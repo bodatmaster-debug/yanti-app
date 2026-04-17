@@ -1,0 +1,33 @@
+
+{
+  "entities": {
+    "Letter": {
+      "title": "Letter",
+      "description": "Metadata for archived letters (incoming, outgoing, or berita acara).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "refNumber": { "type": "string" },
+        "sender": { "type": "string" },
+        "recipient": { "type": "string" },
+        "subject": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "type": { "type": "string", "enum": ["Masuk", "Keluar", "Berita acara"] },
+        "fileUrl": { "type": "string" },
+        "fileName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["refNumber", "sender", "recipient", "subject", "date", "type"]
+    }
+  },
+  "auth": {
+    "providers": ["password"]
+  },
+  "firestore": {
+    "/letters/{letterId}": {
+      "schema": "Letter",
+      "description": "Collection of all archived letters."
+    }
+  }
+}
