@@ -37,7 +37,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 const navItems = [
   {
-    title: "Dashboard",
+    title: "Dashboard Utama",
     icon: LayoutDashboard,
     url: "/",
     badge: null,
@@ -71,7 +71,7 @@ export function AppSidebar() {
         </div>
         <div className="flex flex-col gap-0.5 leading-none group-data-[collapsible=icon]:hidden">
           <span className="font-semibold text-sm tracking-tight text-slate-900">Surat Digital</span>
-          <span className="text-[10px] font-medium text-slate-400 tracking-tight">Arsip Modern</span>
+          <span className="text-[10px] font-medium text-slate-400 tracking-tight">Sistem Arsip Modern</span>
         </div>
       </SidebarHeader>
 
@@ -100,7 +100,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup className="mt-2">
-          <SidebarGroupLabel className="text-[10px] font-semibold text-slate-400 px-2 mb-2">Lainnya</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-semibold text-slate-400 px-2 mb-2">Konfigurasi</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -123,7 +123,7 @@ export function AppSidebar() {
                   size="lg"
                   className="data-[state=open]:bg-slate-50 rounded-md border border-transparent hover:border-slate-200"
                 >
-                  <Avatar className="h-8 w-8 rounded border border-slate-200">
+                  <Avatar className="h-8 w-8 rounded border border-slate-200 shadow-none">
                     <AvatarFallback className="rounded bg-slate-50 text-[10px] font-bold text-slate-900">AD</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
