@@ -1,7 +1,7 @@
+
 import ExcelJS from 'exceljs';
 import type { Letter } from '@/lib/types';
 import { format } from 'date-fns';
-import { id } from 'date-fns/locale';
 
 export const exportLettersToExcel = async (letters: Letter[], options?: { month?: string, year?: string }) => {
   const workbook = new ExcelJS.Workbook();

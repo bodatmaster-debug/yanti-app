@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useEffect } from 'react';
@@ -43,7 +44,6 @@ import { format, parseISO } from 'date-fns';
 import { id } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Field, FieldLabel } from '@/components/ui/field';
-import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
@@ -52,14 +52,14 @@ const formSchema = z.object({
   recipient: z.string().min(1, 'Penerima wajib diisi'),
   subject: z.string().min(1, 'Pilih hal'),
   date: z.string().min(1, 'Pilih tanggal surat'),
-  type: z.enum(['Masuk', 'Keluar'] as const),
+  type: z.enum(['Masuk', 'Keluar', 'Berita acara'] as const),
 });
 
 interface LetterFormProps {
   initialData?: Letter;
   lastLetter?: Letter;
   nextAgendaNumber?: string;
-  countsByType?: { Masuk: number; Keluar: number };
+  countsByType?: { Masuk: number; Keluar: number; 'Berita acara': number };
   onSubmit: (data: Partial<Letter>) => void;
   onCancel: () => void;
 }
@@ -73,7 +73,7 @@ export default function LetterForm({
   initialData, 
   lastLetter, 
   nextAgendaNumber = "001",
-  countsByType = { Masuk: 0, Keluar: 0 },
+  countsByType = { Masuk: 0, Keluar: 0, 'Berita acara': 0 },
   onSubmit, 
   onCancel 
 }: LetterFormProps) {
@@ -94,22 +94,28 @@ export default function LetterForm({
   const watchSubject = useWatch({ control: form.control, name: 'subject' });
 
   useEffect(() => {
-    if (!initialData && watchType === 'Keluar') {
+    if (!initialData) {
       const d = watchDate ? parseISO(watchDate) : new Date();
       const year = d.getFullYear();
       const monthRoman = getRomanMonth(d.getMonth());
       const hal = watchSubject || '...';
-      const seq = (countsByType.Keluar + 1).toString().padStart(3, '0');
-      
-      // New Format: nomor/hal/bulan(romawi)/tahun
-      const autoRef = `${seq}/${hal}/${monthRoman}/${year}`;
-      
-      form.setValue('refNumber', autoRef, { shouldValidate: true });
-    } else if (!initialData && watchType === 'Masuk') {
-      const currentRef = form.getValues('refNumber');
-      // If switching from Keluar, clear if it looks like an auto-generated one
-      if (currentRef.includes('/') && currentRef.split('/').length >= 4) {
-        form.setValue('refNumber', '', { shouldValidate: false });
+
+      if (watchType === 'Berita acara') {
+        const seq = (countsByType['Berita acara'] + 1).toString().padStart(3, '0');
+        // Format: Nomor/BA-ASET/PM/Bulan Romawi/Tahun
+        const autoRef = `${seq}/BA-ASET/PM/${monthRoman}/${year}`;
+        form.setValue('refNumber', autoRef, { shouldValidate: true });
+        form.setValue('subject', 'BA-ASET');
+      } else if (watchType === 'Keluar') {
+        const seq = (countsByType.Keluar + 1).toString().padStart(3, '0');
+        // Format: nomor/hal/bulan(romawi)/tahun
+        const autoRef = `${seq}/${hal}/${monthRoman}/${year}`;
+        form.setValue('refNumber', autoRef, { shouldValidate: true });
+      } else if (watchType === 'Masuk') {
+        const currentRef = form.getValues('refNumber');
+        if (currentRef.includes('/') && currentRef.split('/').length >= 4) {
+          form.setValue('refNumber', '', { shouldValidate: false });
+        }
       }
     }
   }, [watchType, watchDate, watchSubject, initialData, countsByType, form]);
@@ -120,6 +126,8 @@ export default function LetterForm({
       createdAt: initialData?.createdAt || new Date().toISOString(),
     });
   };
+
+  const isAutoNumber = watchType === 'Keluar' || watchType === 'Berita acara';
 
   return (
     <Form {...form}>
@@ -195,6 +203,7 @@ export default function LetterForm({
                           <SelectContent className="bg-white border-slate-300 shadow-none">
                             <SelectItem value="Masuk" className="text-[12px]">Surat Masuk</SelectItem>
                             <SelectItem value="Keluar" className="text-[12px]">Surat Keluar</SelectItem>
+                            <SelectItem value="Berita acara" className="text-[12px]">Berita Acara</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage className="text-[10px]" />
@@ -251,31 +260,46 @@ export default function LetterForm({
                   <FormItem className="space-y-1">
                     <Field>
                       <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5">Hal</FieldLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select 
+                        onValueChange={field.onChange} 
+                        value={field.value} 
+                        disabled={watchType === 'Berita acara'}
+                      >
                         <FormControl>
                           <SelectTrigger className="h-9 border-slate-300 bg-white text-[12px] font-medium tracking-tight shadow-none focus:ring-1 focus:ring-slate-400">
                             <SelectValue placeholder="Pilih hal" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent className="bg-white border-slate-300 shadow-none">
-                          <SelectItem value="SK" className="py-2">
-                            <div className="flex flex-col text-left">
-                              <span className="font-medium text-[12px]">SK</span>
-                              <span className="text-[10px] text-slate-400 font-normal leading-tight">Surat keterangan</span>
-                            </div>
-                          </SelectItem>
-                          <SelectItem value="BBH" className="py-2">
-                            <div className="flex flex-col text-left">
-                              <span className="font-medium text-[12px]">BBH</span>
-                              <span className="text-[10px] text-slate-400 font-normal leading-tight">Bahan baku</span>
-                            </div>
-                          </SelectItem>
-                          <SelectItem value="SU" className="py-2">
-                            <div className="flex flex-col text-left">
-                              <span className="font-medium text-[12px]">SU</span>
-                              <span className="text-[10px] text-slate-400 font-normal leading-tight">Surat undangan</span>
-                            </div>
-                          </SelectItem>
+                          {watchType === 'Berita acara' ? (
+                            <SelectItem value="BA-ASET" className="py-2">
+                              <div className="flex flex-col text-left">
+                                <span className="font-medium text-[12px]">BA-ASET</span>
+                                <span className="text-[10px] text-slate-400 font-normal leading-tight">Berita acara aset</span>
+                              </div>
+                            </SelectItem>
+                          ) : (
+                            <>
+                              <SelectItem value="SK" className="py-2">
+                                <div className="flex flex-col text-left">
+                                  <span className="font-medium text-[12px]">SK</span>
+                                  <span className="text-[10px] text-slate-400 font-normal leading-tight">Surat keterangan</span>
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="BBH" className="py-2">
+                                <div className="flex flex-col text-left">
+                                  <span className="font-medium text-[12px]">BBH</span>
+                                  <span className="text-[10px] text-slate-400 font-normal leading-tight">Bahan baku</span>
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="SU" className="py-2">
+                                <div className="flex flex-col text-left">
+                                  <span className="font-medium text-[12px]">SU</span>
+                                  <span className="text-[10px] text-slate-400 font-normal leading-tight">Surat undangan</span>
+                                </div>
+                              </SelectItem>
+                            </>
+                          )}
                         </SelectContent>
                       </Select>
                       <FormMessage className="text-[10px]" />
@@ -291,16 +315,16 @@ export default function LetterForm({
                   <FormItem className="space-y-1">
                     <Field>
                       <FieldLabel className="text-slate-900 text-[13px] font-medium leading-none mb-1.5 flex items-center gap-1.5">
-                        Nomor Surat {watchType === 'Keluar' ? <Lock className="h-3 w-3 text-slate-300" /> : <Edit2 className="h-3 w-3 text-slate-300" />}
+                        Nomor Surat {isAutoNumber ? <Lock className="h-3 w-3 text-slate-300" /> : <Edit2 className="h-3 w-3 text-slate-300" />}
                       </FieldLabel>
                       <FormControl>
                         <Input 
-                          readOnly={watchType === 'Keluar'}
-                          placeholder={watchType === 'Keluar' ? "Nomor otomatis..." : "Masukkan nomor surat..."} 
+                          readOnly={isAutoNumber}
+                          placeholder={isAutoNumber ? "Nomor otomatis..." : "Masukkan nomor surat..."} 
                           {...field} 
                           className={cn(
                             "h-9 border-slate-300 text-[12px] font-medium tracking-tight placeholder:text-slate-300 shadow-none",
-                            watchType === 'Keluar' ? "bg-slate-50/50 cursor-default focus-visible:ring-0" : "bg-white focus-visible:ring-1 focus-visible:ring-slate-400"
+                            isAutoNumber ? "bg-slate-50/50 cursor-default focus-visible:ring-0" : "bg-white focus-visible:ring-1 focus-visible:ring-slate-400"
                           )} 
                         />
                       </FormControl>

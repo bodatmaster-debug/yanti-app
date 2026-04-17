@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -10,7 +11,8 @@ import {
   ArrowUpRight, 
   ArrowDownLeft,
   Loader2,
-  LayoutGrid
+  LayoutGrid,
+  ClipboardList
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -43,7 +45,7 @@ const INITIAL_LETTERS: Letter[] = [
     refNumber: '001/In/11/2023',
     sender: 'Dinas Pendidikan',
     recipient: 'Sekretariat Utama',
-    subject: 'Permohonan bantuan dana operasional gedung',
+    subject: 'SU',
     date: '2023-11-20',
     type: 'Masuk',
     createdAt: '2023-11-21T08:00:00Z',
@@ -52,10 +54,10 @@ const INITIAL_LETTERS: Letter[] = [
   },
   {
     id: '002',
-    refNumber: '001/Out/12/2023',
+    refNumber: '001/SK/XII/2023',
     sender: 'Sekretariat Utama',
     recipient: 'Kementerian Keuangan',
-    subject: 'Laporan pertanggungjawaban tahunan anggaran 2023',
+    subject: 'SK',
     date: '2023-12-05',
     type: 'Keluar',
     createdAt: '2023-12-06T10:30:00Z',
@@ -105,6 +107,7 @@ export default function Dashboard() {
     return {
       Masuk: letters.filter(l => l.type === 'Masuk').length,
       Keluar: letters.filter(l => l.type === 'Keluar').length,
+      'Berita acara': letters.filter(l => l.type === 'Berita acara').length,
     };
   }, [letters]);
 
@@ -191,7 +194,7 @@ export default function Dashboard() {
           <p className="typography-muted text-sm font-medium">Kelola dan telusuri seluruh dokumen dinas dalam satu pintu.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <StatsCard 
             label="Total Dokumen" 
             value={letters.length} 
@@ -206,6 +209,11 @@ export default function Dashboard() {
             label="Surat Keluar" 
             value={letters.filter(l => l.type === 'Keluar').length} 
             icon={<ArrowUpRight className="h-5 w-5 text-sky-600" />} 
+          />
+          <StatsCard 
+            label="Berita Acara" 
+            value={letters.filter(l => l.type === 'Berita acara').length} 
+            icon={<ClipboardList className="h-5 w-5 text-amber-600" />} 
           />
         </div>
 
@@ -229,6 +237,7 @@ export default function Dashboard() {
                   <SelectItem value="All">Semua Kategori</SelectItem>
                   <SelectItem value="Masuk">Surat Masuk</SelectItem>
                   <SelectItem value="Keluar">Surat Keluar</SelectItem>
+                  <SelectItem value="Berita acara">Berita Acara</SelectItem>
                 </SelectContent>
               </Select>
             </div>

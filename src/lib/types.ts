@@ -1,5 +1,5 @@
 
-export type LetterType = 'Masuk' | 'Keluar';
+export type LetterType = 'Masuk' | 'Keluar' | 'Berita acara';
 
 export interface Letter {
   id: string;
