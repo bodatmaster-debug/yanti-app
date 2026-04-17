@@ -23,7 +23,7 @@
     --border: 214.3 31.8% 85%;
     --input: 214.3 31.8% 85%;
     --ring: 222 47% 11%;
-    --radius: 0.5rem;
+    --radius: 0.6rem;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 215.4 16.3% 46.9%;
@@ -60,12 +60,17 @@
     @apply bg-black/40 backdrop-blur-md transition-all duration-300;
   }
 
-  /* Typography P Style */
+  /* Typography P Style - Ramping & Profesional */
   .typography-p {
-    @apply text-sm leading-7 text-slate-900 font-normal;
+    @apply text-sm leading-7 text-slate-900 font-normal tracking-tight;
   }
 
   .typography-muted {
-    @apply text-sm leading-7 text-slate-400 font-normal;
+    @apply text-sm leading-7 text-slate-400 font-normal tracking-tight;
   }
+
+  .typography-h1 { @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl; }
+  .typography-h2 { @apply scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0; }
+  .typography-h3 { @apply scroll-m-20 text-2xl font-semibold tracking-tight; }
+  .typography-h4 { @apply scroll-m-20 text-xl font-semibold tracking-tight; }
 }
