@@ -56,8 +56,8 @@
     @apply outline-none ring-1 ring-ring ring-offset-0;
   }
 
-  /* Custom Backdrop for Modern Feel */
+  /* Custom Backdrop: Subtle dim and blur */
   [data-state=open].fixed.inset-0.z-50.bg-black\/80 {
-    @apply bg-black/40 backdrop-blur-md transition-all duration-300;
+    @apply bg-black/30 backdrop-blur-sm transition-all duration-300;
   }
 }
