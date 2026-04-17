@@ -138,11 +138,11 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <header className="h-16 border-b bg-white flex items-center justify-between px-6 sticky top-0 z-20">
+      <header className="h-16 border-b border-border bg-white flex items-center justify-between px-6 sticky top-0 z-20">
         <div className="flex items-center gap-4">
           <SidebarTrigger />
           <div className="h-6 w-px bg-border hidden md:block" />
-          <h2 className="font-semibold text-xs tracking-wide text-muted-foreground hidden md:block">Manajemen Arsip</h2>
+          <h2 className="font-bold text-xs tracking-tight text-muted-foreground hidden md:block">Manajemen Arsip</h2>
         </div>
         
         <div className="flex items-center gap-2">
@@ -150,19 +150,19 @@ export default function Dashboard() {
             variant="outline" 
             size="sm"
             onClick={handleExport}
-            className="hidden sm:flex border-border"
+            className="hidden sm:flex border-border h-9"
           >
             <FileSpreadsheet className="mr-2 h-4 w-4" />
-            Export
+            Export Data
           </Button>
           <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
             <DialogTrigger asChild>
-              <Button size="sm" className="bg-primary text-primary-foreground">
+              <Button size="sm" className="bg-primary text-primary-foreground h-9 font-bold">
                 <Plus className="mr-2 h-4 w-4" />
                 Arsip Baru
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl border-2 shadow-none">
+            <DialogContent className="max-w-2xl border border-border">
               <DialogHeader>
                 <DialogTitle>Tambah Arsip Surat</DialogTitle>
               </DialogHeader>
@@ -196,24 +196,24 @@ export default function Dashboard() {
           />
         </div>
 
-        <Card className="border border-border bg-white rounded-lg overflow-hidden shadow-none">
+        <Card className="border border-border bg-white rounded-lg overflow-hidden">
           <CardContent className="p-0">
-            <div className="p-4 border-b flex flex-col md:flex-row gap-4 items-center justify-between bg-white">
+            <div className="p-4 border-b border-border flex flex-col md:flex-row gap-4 items-center justify-between bg-white">
               <div className="relative w-full md:max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input 
                   placeholder="Cari nomor atau subjek..." 
-                  className="pl-9 bg-white border-border shadow-none"
+                  className="pl-9 bg-white border-border"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-                  <SelectTrigger className="w-full md:w-[160px] bg-white border-border shadow-none">
+                  <SelectTrigger className="w-full md:w-[160px] bg-white border-border font-medium">
                     <SelectValue placeholder="Semua Tipe" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="border border-border">
                     <SelectItem value="All">Semua Tipe</SelectItem>
                     <SelectItem value="Masuk">Surat Masuk</SelectItem>
                     <SelectItem value="Keluar">Surat Keluar</SelectItem>
@@ -254,7 +254,7 @@ export default function Dashboard() {
                     className="py-24 text-center"
                   >
                     <Mail className="h-10 w-10 text-muted-foreground/30 mx-auto mb-4" />
-                    <h3 className="text-sm font-medium">Data tidak ditemukan</h3>
+                    <h3 className="text-sm font-bold">Data tidak ditemukan</h3>
                     <p className="text-xs text-muted-foreground">Silakan periksa kembali filter atau kata kunci Anda.</p>
                   </motion.div>
                 )}
@@ -269,13 +269,13 @@ export default function Dashboard() {
 
 function StatsCard({ label, value, icon }: { label: string, value: number, icon: React.ReactNode }) {
   return (
-    <Card className="border border-border bg-white shadow-none transition-colors hover:border-primary/50">
+    <Card className="border border-border bg-white transition-all hover:border-primary/30">
       <CardContent className="p-5 flex items-center justify-between">
         <div className="space-y-1">
-          <p className="text-[11px] font-bold text-muted-foreground tracking-wide">{label}</p>
-          <h4 className="text-2xl font-bold">{value}</h4>
+          <p className="text-[10px] font-bold text-muted-foreground tracking-tight">{label}</p>
+          <h4 className="text-2xl font-bold tabular-nums">{value}</h4>
         </div>
-        <div className="h-10 w-10 rounded border border-border flex items-center justify-center text-muted-foreground bg-white">
+        <div className="h-10 w-10 rounded border border-border flex items-center justify-center text-muted-foreground bg-muted/30">
           {icon}
         </div>
       </CardContent>
